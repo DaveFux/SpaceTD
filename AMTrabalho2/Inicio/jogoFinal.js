@@ -183,7 +183,7 @@
             for (mob of osMobs) {
                 if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
                     torre.attack(mob, function () {
-                        var umaBala = new Bala(gSpriteSheets['assets//tank.png'], umSoldado.x, umSoldado.y + 5, 10, GameSounds.BALASOLDADO);
+                        var umaBala = new Bala(gSpriteSheets['assets//tank.png'], torre.x, torre.y + 5, 10, );
                         umaBala.scaleFactor = 0.3;
                         umaBala.vy = 4;
                         umaBala.id=Date.now();
