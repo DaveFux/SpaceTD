@@ -26,7 +26,7 @@
     var assetsLoadInfo;
     var assetsLoaded = 0;
     var assets = [];
-
+    var offscreenBackground;
     var GameStates = {
         RUNNING: 1,
         PAUSED: 2,
@@ -196,6 +196,12 @@
         canvasses.entities.ds = canvasses.entities.canvas.getContext("2d");
         canvas = canvasses.entities.canvas;
 
+        offscreenBackground= document.createElement("canvas");
+        offscreenBackground.width=tileBackground.getWidth();
+        offscreenBackground.height=tileBackground.getHeight();
+
+
+
         var div = document.createElement("div");
         div.setAttribute("id", "principal");
         var container = document.createElement("div");
@@ -221,16 +227,27 @@
         entities.push(mob);
         osMobs.push(mob);
         //entities.push(oBackground);   background
-        oBackground.render(canvasses.background.ds);
-        //canvasses.background.canvas.fadeIn(1000);
+        canvasses.background.ds.translate(-(offscreenBackground.width>>1),
+            -(offscreenBackground.height>>1));
+        tileBackground.draw(offscreenBackground.getContext("2d"));
+        // //canvasses.background.canvas.fadeIn(1000);
+        /*var spawns=tileBackground.getLayerByName("Spawn").objects;
+        for(spawn of spawns){
+            var spawn = new Spawn(gSpriteSheets['assets//tank.png'], spawn.x,spawn.y);
+            spawnPoints.push(spawn);
+            entities.push(spawn);
+
+        } */
+
         gameState = GameStates.RUNNING;
         canvas.addEventListener("mousedown", criarObjeto, false);
         update();
         window.addEventListener("keydown", keyDownHandler, false);
         window.addEventListener("keyup", keyUpHandler, false);
 
+        }
 
-    }
+
 
 
     function criarObjeto(e) {
@@ -350,5 +367,5 @@
 
         }
     }
-
-})(); // não apagar
+}
+)(); // não apagar
