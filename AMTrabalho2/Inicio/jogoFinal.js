@@ -69,28 +69,30 @@
         assetsLoadInfo = document.querySelector("#assetLoaded");
         gameState = GameStates.LOADING;
 
+        tileBackground= new TiledMap();
+        tileBackground.load('./mapa','mapaAM.json', loaded);
+        assets.push(tileBackground);
+
         //SpriteSheets
         var spBack = new SpriteSheet();
         spBack.load("samples//tower-defense//background.png", "samples//tower-defense//background.json", loaded);
+        assets.push(spBack);
         var spCreepsBlue1 = new SpriteSheet();
         spCreepsBlue1.load("samples//creep//creep-1-blue//sprite.png", "samples//creep//creep-1-blue//sprite.json", loaded);
+        assets.push(spCreepsBlue1);
         var spCreepsRed1 = new SpriteSheet();
         spCreepsRed1.load("samples//creep//creep-1-red//sprite.png", "samples//creep//creep-1-red//sprite.json", loaded);
+        assets.push(spCreepsRed1);
         var spCreepsGreen1 = new SpriteSheet();
         spCreepsGreen1.load("samples//creep//creep-1-green//sprite.png", "samples//creep//creep-1-green//sprite.json", loaded);
+        assets.push(spCreepsGreen1);
         var spCreepsYellow1 = new SpriteSheet();
         spCreepsYellow1.load("samples//creep//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
+        assets.push(spCreepsYellow1);
         var spTorre = new SpriteSheet();
         spTorre.load("samples//tower-defense-turrets//tower-defense-turretsjson.png", "samples//tower-defense-turrets//tower-defense-turretsjson.json", loaded);
+        assets.push(spTorre);
 
-        // var spTorre1 = new SpriteSheet();
-        // spCreepsYellow1.load("samples//tower-defense-turrents//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
-        // var spTorre2 = new SpriteSheet();
-        // spCreepsYellow1.load("samples//creep//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
-        // var spTorre3 = new SpriteSheet();
-        // spCreepsYellow1.load("samples//creep//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
-        // var spTorre4 = new SpriteSheet();
-        // spCreepsYellow1.load("samples//creep//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
 
 
     }
@@ -287,7 +289,8 @@
                         torre.attack(mob, function (mob) {
                             var umaBala = new Bala(gSpriteSheets['assets//tank.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
                             umaBala.scaleFactor = 0.3;
-                            umaBala.vy = speed;
+                            umaBala.vy = umaBala.y-mob.y;
+                            umaBala.vx = umaBala.x-mob.x;
                             umaBala.id = Date.now();
                             asBalas.push(umaBala);
                             entities.push(umaBala);
