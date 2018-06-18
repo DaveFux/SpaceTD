@@ -11,7 +11,7 @@
     var teclas = new Array(255);
     var debugMode = true;
     var animationHandler;
-    var asBarras;
+    var asBases=[];
     var asBalas=[];
     var spawnPoints = [];
     var endPoints = [];
@@ -288,6 +288,22 @@
         //Create the animation loop
 
         if (asTorres.length != 0 && osMobs != 0) {
+        for (torre of asTorres) {
+            for (mob of osMobs) {
+                if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
+                    torre.attack(mob, function () {
+                        var umaBala = new Bala(gSpriteSheets['assets//tank.png'], torre.x, torre.y + 5, 10, );
+                        umaBala.scaleFactor = 0.3;
+                        umaBala.vy = 4;
+                        umaBala.id=Date.now();
+                        asBalas.push(umaBala);
+                        entities.push(umaBala);
+                    });
+                }else{
+                    torre.rotation=0;
+                }
+            }
+        }
         for (torre of asTorres) {
             for (mob of osMobs) {
                 if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
