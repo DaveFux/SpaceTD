@@ -284,10 +284,10 @@
             for (torre of asTorres) {
                 for (mob of osMobs) {
                     if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
-                        torre.attack(mob, function () {
+                        torre.attack(mob, function (mob) {
                             var umaBala = new Bala(gSpriteSheets['assets//tank.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
                             umaBala.scaleFactor = 0.3;
-                            umaBala.vy = 4;
+                            umaBala.vy = speed;
                             umaBala.id = Date.now();
                             asBalas.push(umaBala);
                             entities.push(umaBala);
