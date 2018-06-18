@@ -199,7 +199,6 @@
         offscreenBackground.height=tileBackground.getHeight();
 
 
-
         var div = document.createElement("div");
         div.setAttribute("id", "principal");
         var container = document.createElement("div");
@@ -213,7 +212,6 @@
 
         if (Object.keys(gSpriteSheets).length < 6) return;
 
-        oBackground = new Background(gSpriteSheets['samples//tower-defense//background.png'], 0, 0);
         canvasses.entities.canvas.width = window.innerWidth;
         canvasses.entities.canvas.height = window.innerHeight;
         canvasses.background.canvas.width = window.innerWidth;
@@ -224,18 +222,19 @@
         var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
         entities.push(mob);
         osMobs.push(mob);
+        tileBackground.scale(0.3);
         //entities.push(oBackground);   background
-        canvasses.background.ds.translate(-(offscreenBackground.width>>1),
-            -(offscreenBackground.height>>1));
+        // canvasses.background.ds.translate(-(offscreenBackground.width>>1),
+        //     -(offscreenBackground.height>>1));
         tileBackground.draw(offscreenBackground.getContext("2d"));
         // //canvasses.background.canvas.fadeIn(1000);
-        /*var spawns=tileBackground.getLayerByName("Spawn").objects;
+    /*    var spawns=tileBackground.getLayerByName("Spawn").objects;
         for(spawn of spawns){
             var spawn = new Spawn(gSpriteSheets['assets//tank.png'], spawn.x,spawn.y);
             spawnPoints.push(spawn);
             entities.push(spawn);
 
-        } */
+        }*/
 
         gameState = GameStates.RUNNING;
         canvas.addEventListener("mousedown", criarObjeto, false);

@@ -1,7 +1,7 @@
 /*
-	Código original: Colt McAnlis (Google Advocate Developer): http://mainroach.blogspot.com/p/about.html 
-	Adaptação: Cláudio Barradas (2018)
-	Qualquer modificação deverá manter semrpe referência ao código original.
+	Cï¿½digo original: Colt McAnlis (Google Advocate Developer): http://mainroach.blogspot.com/p/about.html 
+	Adaptaï¿½ï¿½o: Clï¿½udio Barradas (2018)
+	Qualquer modificaï¿½ï¿½o deverï¿½ manter semrpe referï¿½ncia ao cï¿½digo original.
 	
 */
 var TiledMap = Class.extend(function () {
@@ -24,8 +24,8 @@ var TiledMap = Class.extend(function () {
     // The values 100 here are just set
     // so these fields are initialized to
     // something, rather than null.
-    this.numXTiles= 100;
-    this.numYTiles= 100;
+    this.numXTiles= 30;
+    this.numYTiles= 30;
 
     // The size of each individual map
     // tile, in pixels. This is in the
@@ -35,10 +35,11 @@ var TiledMap = Class.extend(function () {
     // so these fields are initialized to
     // something, rather than null.
     this.tileSize= {
-        "x": 64,
-        "y": 64
+        "x": 46,
+        "y": 46
     };
-	
+
+
 	this.getWidth= function(){
 		return this.numXTiles*this.tileSize.x;
 	}
@@ -54,8 +55,8 @@ var TiledMap = Class.extend(function () {
     // so these fields are initialized to
     // something, rather than null.
     this.pixelSize= {
-        "x": 64,
-        "y": 64
+        "x": 46,
+        "y": 46
     };
 
     // Counter to keep track of how many tile
@@ -181,6 +182,16 @@ var TiledMap = Class.extend(function () {
 	
     };
 
+    this.scale = function (sf) {
+        this.scaleFactor = sf;
+        this.updateSize();
+    }
+
+    this.updateSize = function () {
+        var ar = this.width / this.height;
+        this.width = this.width * this.scaleFactor;
+        this.height = this.width / ar;
+    }
     //-----------------------------------------
     // Grabs a tile from our 'layer' data and returns
     // the 'pkt' object for the layer we want to draw.
