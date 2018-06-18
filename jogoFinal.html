@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo Final</title>
+    <script src="lib/extendjs/extend.min.js"></script>
+    <script src="lib/animation/requestAnimationFramePolyfill.js"></script>
+    <script src="lib/input/keyboard.js"></script>
+    <script src="lib/net/AJAX.js"></script>
+    <script src="jogoFinal.js"></script>
+    <script src="Entity.js"></script>
+    <script src="Minion.js"></script>
+    <script src="SpriteSheet.js"></script>
+    <script src="Torre.js"></script>
+    <script src="Background.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"><!-- Framework w3schools -->
+    <link href="jogoFinal.css" type="text/css" rel="stylesheet"/>
+
+</head>
+<body>
+
+<!-- Janela Loading -->
+<div id="loadInfo"  class="visible"> 
+	<div id="overlay"></div> 
+	<img id="loader" src="ImagemLoading/loading.gif" />
+	<div id="assetLoaded"> </div>
+  </div>
+
+<!-- Main Menu do Jogo --> 
+ 
+    
+    <div id="mainMenu" class="hidden">
+      
+      <img id="title" src="ImagemMenu/Title.png">
+      
+      <button id="botaoStart" type="button">Start Game</button>
+      <button id="botaoInstrucoes" type="button">Instructions</button>
+      <button id="botaoCreditos" type="button">Credits</button>
+      
+    </div>
+
+
+<!-- Canvas do Jogo -->
+
+</body>
+
+</html>
