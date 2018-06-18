@@ -98,8 +98,6 @@
     }
 
     function loaded(assetName) {
-        // S�O CARREGADAS 4 SpriteSheetS
-
         assetsLoaded++;
         assetsLoadInfo.innerHTML = "Loading: " + assetName;
         if (assetsLoaded < assets.length) return;
@@ -358,7 +356,14 @@
             mob.update();
         }
 
+        canvasses.background.ds.clearRect(0,0,offscreenBackground.width,offscreenBackground.height,
+            0,0,offscreenBackground.width,offscreenBackground.height); //limpa o canvas
 
+        // desenhar o tiled background em offscreen optimiza o rendering, pois só se desenha uma vez o tile completo
+        canvasses.background.ds.drawImage(offscreenBackground,
+            0,0,offscreenBackground.width,offscreenBackground.height,
+            0,0,offscreenBackground.width,offscreenBackground.height
+        );
         canvasses.entities.ds.clearRect(0, 0, canvas.width, canvas.height);
 
         for (var i = 0; i < entities.length; i++) {
