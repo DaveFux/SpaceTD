@@ -222,10 +222,9 @@
         var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
         entities.push(mob);
         osMobs.push(mob);
-        tileBackground.scale(0.3);
+
         //entities.push(oBackground);   background
-        // canvasses.background.ds.translate(-(offscreenBackground.width>>1),
-        //     -(offscreenBackground.height>>1));
+        // canvasses.background.ds.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
         tileBackground.draw(offscreenBackground.getContext("2d"));
         // //canvasses.background.canvas.fadeIn(1000);
     /*    var spawns=tileBackground.getLayerByName("Spawn").objects;

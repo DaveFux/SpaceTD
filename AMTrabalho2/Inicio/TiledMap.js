@@ -182,16 +182,6 @@ var TiledMap = Class.extend(function () {
 	
     };
 
-    this.scale = function (sf) {
-        this.scaleFactor = sf;
-        this.updateSize();
-    }
-
-    this.updateSize = function () {
-        var ar = this.width / this.height;
-        this.width = this.width * this.scaleFactor;
-        this.height = this.width / ar;
-    }
     //-----------------------------------------
     // Grabs a tile from our 'layer' data and returns
     // the 'pkt' object for the layer we want to draw.
