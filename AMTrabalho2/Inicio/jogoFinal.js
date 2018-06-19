@@ -21,7 +21,7 @@
     var animationHandler;
     var asBases = [];
     var asBalas = [];
-    var quadrados=[];
+    var tiles=[];
     var spawnPoints = [];
     var endPoints = [];
     var asTorres = [];
@@ -123,7 +123,7 @@
 
         /* Remoção da janela loading */
         loadInfo.remove();
-
+        window.removeEventListener("keypress", mainMenu, false);
         /* ================  MAIN MENU ==================== */
 
         var menu = document.getElementById("mainMenu");
@@ -224,12 +224,22 @@
         canvasses.components.canvas.width = window.innerWidth;
         canvasses.components.canvas.height = window.innerHeight;
         canvas = canvasses.entities.canvas;
-        var quadrado=new Entity();
-        quadrado.x=46;
-        quadrado.y=46;
-        quadrado.width=46;
-        quadrado.height=46;
-        quadrados.push(quadrado)
+
+        for(var i =0; i<13; i++){
+            var x=0;
+            var y=0;
+            y+=46;
+            for (var j=0; j<13; j++){
+                var tile=new Entity();
+                x+=46;
+                tile.x=x;
+                tile.y=y;
+                tile.width=46;
+                tile.height=46;
+                tiles.push(tile);
+            }
+        }
+
 
         var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
         entities.push(mob);
@@ -263,11 +273,13 @@
     function mudarNivel(){
        if(Player.nivel==1) {
            console.log(tileBackground.getLayerByName("infinito"));
+           tileBackground.getLayerByName("nivel1").visible=true;
            tileBackground.getLayerByName("infinito").visible=false;
-           // tileBackground.getLayerByName("nivel1").
            tileBackground.draw(offscreenBackground.getContext("2d"));
        }else{
-
+           tileBackground.getLayerByName("nivel1").visible=false;
+           tileBackground.getLayerByName("infinito").visible=true;
+           tileBackground.draw(offscreenBackground.getContext("2d"));
        }
        }
 
@@ -289,7 +301,14 @@
         teclas[codTecla] = false;
 
         switch (codTecla) {
-
+            case 78:
+                if(Player.nivel==1) {
+                    Player.nivel = 2;
+                }else{
+                    Player.nivel = 1;
+                }
+                mudarNivel();
+                break;
         }
     }
 
@@ -299,7 +318,7 @@
         var podeCriar = true;
         for (umaTorre of asTorres) {
             if (Math.abs(point.x - umaTorre.x) < 46 && Math.abs(point.y - umaTorre.y) < 46) {
-                console.log("colisao")
+                console.log("colisao");
                 return;
             }
         }
@@ -353,8 +372,8 @@
         //  }
 
         render(); // fazer o render das entidades
-     //  quadrados[0].drawColisionBoundaries(canvasses.components.ds, true, false, "red","red");
-       if(quadrados[0].hitTestPoint(point.x,point.y)) quadrados[0].drawColisionBoundaries(canvasses.components.ds, true, false, "white","red");
+     //  tiles[0].drawColisionBoundaries(canvasses.components.ds, true, false, "red","red");
+       if(tiles[0].hitTestPoint(point.x,point.y)) tiles[0].drawColisionBoundaries(canvasses.components.ds, true, false, "white","red");
 
        checkColisions(); // Verificar se h� colis�es
 
