@@ -50,6 +50,10 @@
             canvas: null,
             ds: null
         },
+        tiles: {
+            canvas: null,
+            ds: null
+        },
         background: {
             canvas: null,
             ds: null
@@ -191,11 +195,15 @@
         canvasComp.setAttribute("id", "canvasComp");
         var canvasBack = document.createElement("canvas");
         canvasBack.setAttribute("id", "canvasBack");
+        var canvasTiles = document.createElement("canvas");
+        canvasTiles.setAttribute("id", "canvasTiles");
 
         canvasses.background.canvas = canvasBack;
         canvasses.background.ds = canvasses.background.canvas.getContext("2d");
         canvasses.components.canvas = canvasComp;
         canvasses.components.ds = canvasses.components.canvas.getContext("2d");
+        canvasses.tiles.canvas = canvasTiles;
+        canvasses.tiles.ds = canvasses.tiles.canvas.getContext("2d");
         canvasses.entities.canvas = canvasEnt;
         canvasses.entities.ds = canvasses.entities.canvas.getContext("2d");
         canvas = canvasses.entities.canvas;
@@ -210,6 +218,7 @@
         container.setAttribute("id", "container");
         container.appendChild(canvasses.background.canvas);
         container.appendChild(canvasses.entities.canvas);
+        container.appendChild(canvasses.tiles.canvas);
         container.appendChild(canvasses.components.canvas);
         div.appendChild(container);
         document.body.appendChild(div);
@@ -223,23 +232,21 @@
         canvasses.background.canvas.height = window.innerHeight;
         canvasses.components.canvas.width = window.innerWidth;
         canvasses.components.canvas.height = window.innerHeight;
+        canvasses.tiles.canvas.width=15*46;
+        canvasses.tiles.canvas.height=15*46;
         canvas = canvasses.entities.canvas;
-
-        for(var i =0; i<13; i++){
+        var y=0;
+        for(var i =0; i<15; i++){
             var x=0;
-            var y=0;
-            y+=46;
-            for (var j=0; j<13; j++){
-                var tile=new Entity();
+            for (var j=0; j<15; j++){
+                var tile=new Entity(x,y,46,46);
                 x+=46;
-                tile.x=x;
-                tile.y=y;
-                tile.width=46;
-                tile.height=46;
-                tiles.push(tile);
+                console.log(tile);
+                tiles.push(tile)
             }
+            y+=46;
         }
-
+// console.log(tiles);
 
         var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
         entities.push(mob);
@@ -373,8 +380,13 @@
 
         render(); // fazer o render das entidades
      //  tiles[0].drawColisionBoundaries(canvasses.components.ds, true, false, "red","red");
-       if(tiles[0].hitTestPoint(point.x,point.y)) tiles[0].drawColisionBoundaries(canvasses.components.ds, true, false, "white","red");
-
+       for(var i=0;i<tiles.length;i++) {
+           tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "black", "red");
+           if (tiles[i].hitTestPoint(point.x, point.y)){
+               canvasses.tiles.ds.clearRect(46,46,canvasses.tiles.canvas.width,canvasses.tiles.canvas.height)
+               tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "black", "red");
+           }
+       }
        checkColisions(); // Verificar se h� colis�es
 
         clearArrays(); // limpar os arrays

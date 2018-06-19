@@ -7,8 +7,9 @@ position: absolute;
 body{margin:0; padding:0;}
         #canvasBack{position:absolute; top:0px;left:0px; z-index: 10;}
         #canvasComp{position:absolute; top:0px;left:0px; z-index: 20;}
-        #canvasEnt{position:absolute; top:0px;left:0px; z-index: 30;}
-        
+        #canvasTiles{position:absolute; top:0px;left:0px; z-index: 30;}
+        #canvasEnt{position:absolute; top:0px;left:0px; z-index: 40;}
+
         .visible{display:inline;}
         .hidden{display:none;}
 				
