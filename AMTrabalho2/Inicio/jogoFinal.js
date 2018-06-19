@@ -374,7 +374,7 @@
            if (tiles[i].hitTestPoint(point.x, point.y)){
                canvasses.tiles.ds.clearRect(tiles[i].x,tiles[i].y,tiles[i].width,tiles[i].height);
               tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "#31FF00", "red");
-              canvas.addEventListener("onclick",criarObjeto(tiles[i]), false);
+           //   canvas.addEventListener("onclick",criarObjeto(tiles[i]), false);
            }
        }
        checkColisions(); // Verificar se h� colis�es
