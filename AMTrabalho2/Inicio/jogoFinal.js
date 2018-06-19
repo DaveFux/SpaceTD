@@ -2,8 +2,13 @@
     todo fazer o background
 */
 (function () { //não apagar
-
-    var point = {
+    var Player={
+        dinheiro:10,
+        nivel:1,
+        pontos:0,
+        vida:20
+        }
+     var point = {
         x: 0,
         y: 0
     };
@@ -197,7 +202,7 @@
         offscreenBackground= document.createElement("canvas");
         offscreenBackground.width=tileBackground.getWidth();
         offscreenBackground.height=tileBackground.getHeight();
-
+        offscreenBackground..translate(tileBackground.width,tileBackground.height)
 
         var div = document.createElement("div");
         div.setAttribute("id", "principal");
@@ -225,7 +230,8 @@
 
         //entities.push(oBackground);   background
         // canvasses.background.ds.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
-        tileBackground.draw(offscreenBackground.getContext("2d"));
+
+        mudarNivel()
         // //canvasses.background.canvas.fadeIn(1000);
     /*    var spawns=tileBackground.getLayerByName("Spawn").objects;
         for(spawn of spawns){
@@ -243,7 +249,15 @@
 
         }
 
+    function mudarNivel(){
+       if(Player.nivel==1) {
 
+           // tileBackground.getLayerByName("nivel1").
+           tileBackground.draw(offscreenBackground.getContext("2d"));
+       }else{
+
+       }
+       }
 
 
     function criarObjeto(e) {

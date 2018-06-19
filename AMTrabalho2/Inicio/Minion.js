@@ -5,6 +5,8 @@ var Minion = Entity.extend(function () {
     };
     this.speed;
     this.health;
+    this.damage=1;
+    this.drop=5;
     this.vFrame=0;
 
     this.constructor = function (spriteSheet, x, y, type, wave, mode) {
@@ -16,16 +18,19 @@ var Minion = Entity.extend(function () {
         this.isColliding = false;
         this.spriteSheet = spriteSheet;
 
-        if (mode == "hard") type = mode + type;
+        if (mode == "hard"){
+            type = mode + type;
+            this.drop=15;
+        }
 
 
         switch (type) {
             case "normal":
-                this.speed = 3;
+                this.speed = 2.5;
                 this.health = 100;
                 break;
             case "fast":
-                this.speed = 4;
+                this.speed = 3;
                 this.health = 75;
                 break;
             case "turtle":
@@ -35,6 +40,8 @@ var Minion = Entity.extend(function () {
             case "boss":
                 this.speed = 1;
                 this.health = 150;
+                this.damage=5;
+                this.drop=15;
                 break;
             case "hardnormal":
                 this.speed = 3;
@@ -51,6 +58,8 @@ var Minion = Entity.extend(function () {
             case "hardboss":
                 this.speed = 2;
                 this.health = 1000;
+                this.damage=10;
+                this.drop=30;
                 break;
         }
         this.health += Math.pow((wave / 2), Math.E);
@@ -64,7 +73,7 @@ var Minion = Entity.extend(function () {
             this.killed=true;
             this.active=false;
         }else {
-            this.x += this.speed / 4;// o /4 para teste
+            this.x += this.speed;// o /4 para teste
         }
     };
     var setup = function () {
