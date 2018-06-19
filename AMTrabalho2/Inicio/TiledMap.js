@@ -156,8 +156,7 @@ var TiledMap = Class.extend(function () {
                 "imageheight": this.currMapData.tilesets[i].imageheight,
                 "imagewidth": this.currMapData.tilesets[i].imagewidth,
                 "name": this.currMapData.tilesets[i].name,
-
-                // These next two fields are tricky. You'll
+                 // These next two fields are tricky. You'll
                 // need to calculate this data from the
                 // width and height of the overall image and
                 // the size of each individual tile.
@@ -280,33 +279,34 @@ var TiledMap = Class.extend(function () {
         for(var layerIdx = 0; layerIdx < this.currMapData.layers.length; layerIdx++) {
             // Check if the 'type' of the layer is "tilelayer". If it isn't, we don't
             // care about drawing it...
-            if(this.currMapData.layers[layerIdx].type != "tilelayer") continue;
+            if (this.currMapData.layers[layerIdx].type != "tilelayer") continue;
+            if (this.currMapData.layers[layerIdx].visible) {
 
-            // ...Grab the 'data' Array of the given layer...
-            var dat = this.currMapData.layers[layerIdx].data;
+                // ...Grab the 'data' Array of the given layer...
+                var dat = this.currMapData.layers[layerIdx].data;
 
-            // ...For each tileID in the 'data' Array...
-            for(var tileIDX = 0; tileIDX < dat.length; tileIDX++) {
-                // ...Check if that tileID is 0. Remember, we don't draw
-                // draw those, so we can skip processing them...
-                var tID = dat[tileIDX];
-                if(tID === 0) continue;
+                // ...For each tileID in the 'data' Array...
+                for (var tileIDX = 0; tileIDX < dat.length; tileIDX++) {
+                    // ...Check if that tileID is 0. Remember, we don't draw
+                    // draw those, so we can skip processing them...
+                    var tID = dat[tileIDX];
+                    if (tID === 0) continue;
 
-                // ...If the tileID is not 0, then we grab the
-                // packet data using getTilePacket.
-                var tPKT = this.getTilePacket(tID);
+                    // ...If the tileID is not 0, then we grab the
+                    // packet data using getTilePacket.
+                    var tPKT = this.getTilePacket(tID);
 
-               
-                
-                var worldX= Math.floor(tileIDX % this.numXTiles ) * this.tileSize.x;
-				var wordlY= Math.floor(tileIDX  / this.numXTiles ) * this.tileSize.y;
-				 
-              
-                ctx.drawImage(tPKT.img, tPKT.px, tPKT.py,
-							this.tileSize.x, this.tileSize.y,
-							worldX, wordlY,
-							this.tileSize.x,
-							this.tileSize.y);            
+
+                    var worldX = Math.floor(tileIDX % this.numXTiles) * this.tileSize.x;
+                    var wordlY = Math.floor(tileIDX / this.numXTiles) * this.tileSize.y;
+
+
+                    ctx.drawImage(tPKT.img, tPKT.px, tPKT.py,
+                        this.tileSize.x, this.tileSize.y,
+                        worldX, wordlY,
+                        this.tileSize.x,
+                        this.tileSize.y);
+                }
             }
         }
     };

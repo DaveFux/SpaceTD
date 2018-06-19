@@ -21,6 +21,7 @@
     var animationHandler;
     var asBases = [];
     var asBalas = [];
+    var quadrados=[];
     var spawnPoints = [];
     var endPoints = [];
     var asTorres = [];
@@ -202,7 +203,6 @@
         offscreenBackground= document.createElement("canvas");
         offscreenBackground.width=tileBackground.getWidth();
         offscreenBackground.height=tileBackground.getHeight();
-        offscreenBackground..translate(tileBackground.width,tileBackground.height)
 
         var div = document.createElement("div");
         div.setAttribute("id", "principal");
@@ -224,6 +224,13 @@
         canvasses.components.canvas.width = window.innerWidth;
         canvasses.components.canvas.height = window.innerHeight;
         canvas = canvasses.entities.canvas;
+        var quadrado=new Entity();
+        quadrado.x=46;
+        quadrado.y=46;
+        quadrado.width=46;
+        quadrado.height=46;
+        quadrados.push(quadrado)
+
         var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
         entities.push(mob);
         osMobs.push(mob);
@@ -243,6 +250,10 @@
 
         gameState = GameStates.RUNNING;
         canvas.addEventListener("mousedown", criarObjeto, false);
+        canvas.addEventListener("mousemove", function (e) {
+            point.x = e.pageX - canvas.offsetLeft;
+            point.y = e.pageY - canvas.offsetTop;
+        }, false);
         update();
         window.addEventListener("keydown", keyDownHandler, false);
         window.addEventListener("keyup", keyUpHandler, false);
@@ -251,7 +262,8 @@
 
     function mudarNivel(){
        if(Player.nivel==1) {
-
+           console.log(tileBackground.getLayerByName("infinito"));
+           tileBackground.getLayerByName("infinito").visible=false;
            // tileBackground.getLayerByName("nivel1").
            tileBackground.draw(offscreenBackground.getContext("2d"));
        }else{
@@ -308,6 +320,7 @@
 
     function update() {
         //Create the animation loop
+
         // if (asBases.length > 0 && osMobs > 0) {
         if (asTorres.length > 0) {
             for (torre of asTorres) {
@@ -340,8 +353,10 @@
         //  }
 
         render(); // fazer o render das entidades
+     //  quadrados[0].drawColisionBoundaries(canvasses.components.ds, true, false, "red","red");
+       if(quadrados[0].hitTestPoint(point.x,point.y)) quadrados[0].drawColisionBoundaries(canvasses.components.ds, true, false, "white","red");
 
-        checkColisions(); // Verificar se h� colis�es
+       checkColisions(); // Verificar se h� colis�es
 
         clearArrays(); // limpar os arrays
 
