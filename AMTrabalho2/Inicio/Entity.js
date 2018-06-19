@@ -61,7 +61,7 @@ var Entity = Class.extend(function () {
 
 		this.getCenterX = function () {
 			return this.x + (this.width * 0.5);
-		} // this.width >> 1; � mais eficiente
+		} // this.width >> 1;  mais eficiente
 
 		this.getCenterY = function () {
 			return this.y + (this.height * 0.5);

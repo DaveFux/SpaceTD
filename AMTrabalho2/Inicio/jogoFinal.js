@@ -266,7 +266,6 @@
         }*/
 
         gameState = GameStates.RUNNING;
-        canvas.addEventListener("mousedown", criarObjeto, false);
         canvas.addEventListener("mousemove", function (e) {
             point.x = e.pageX - canvas.offsetLeft;
             point.y = e.pageY - canvas.offsetTop;
@@ -291,11 +290,8 @@
        }
 
 
-    function criarObjeto(e) {
-        point.x = e.pageX - canvas.offsetLeft;
-        point.y = e.pageY - canvas.offsetTop;
-        colocarTorre(e);
-
+    function criarObjeto(tile) {
+        colocarTorre(tile);
     }
 
     function keyDownHandler(e) {
@@ -320,19 +316,12 @@
     }
 
     //	faz os testes de verifica��o de colis�es
-    function colocarTorre(e) {
-
+    function colocarTorre(tile) {
         var podeCriar = true;
-        for (umaTorre of asTorres) {
-            if (Math.abs(point.x - umaTorre.x) < 46 && Math.abs(point.y - umaTorre.y) < 46) {
-                console.log("colisao");
-                return;
-            }
-        }
+
         if (podeCriar) {
-
-            var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], point.x, point.y, towerType, 2, "")
-
+            var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.width/2+3, tile.height/2+3, towerType, 2, "")
+           console.log("lol")
             entities.push(torre);
             asTorres.push(torre);
         }
@@ -379,12 +368,13 @@
         //  }
 
         render(); // fazer o render das entidades
-     //  tiles[0].drawColisionBoundaries(canvasses.components.ds, true, false, "red","red");
+
        for(var i=0;i<tiles.length;i++) {
            tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "black", "red");
            if (tiles[i].hitTestPoint(point.x, point.y)){
-               canvasses.tiles.ds.clearRect(46,46,canvasses.tiles.canvas.width,canvasses.tiles.canvas.height)
-               tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "black", "red");
+               canvasses.tiles.ds.clearRect(tiles[i].x,tiles[i].y,tiles[i].width,tiles[i].height);
+              tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "#31FF00", "red");
+              canvas.addEventListener("onclick",criarObjeto(tiles[i]), false);
            }
        }
        checkColisions(); // Verificar se h� colis�es
