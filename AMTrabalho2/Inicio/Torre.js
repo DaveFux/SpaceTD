@@ -1,6 +1,7 @@
 var Torre = Entity.extend(function () {
         this.currState = undefined; // por equanto é inutil
         var podeDisparar = undefined;
+        var target=false;
         var callback = undefined;
         this.states = {
             turret1: 'turret1',
