@@ -288,7 +288,7 @@
             canvas.addEventListener("click", function () {
                 for (var i = 0; i < tiles.length; i++) {
                     if (tiles[i].hitTestPoint(point.x, point.y)) {
-                        criarObjeto(i);
+                        criarObjeto(i,type);
                     }
                 }
             }, false);
@@ -305,24 +305,6 @@
                 tileBackground.getLayerByName("infinito").visible = true;
                 tileBackground.draw(offscreenBackground.getContext("2d"));
             }
-        }
-
-
-        function criarObjeto(i, type) {
-            switch (type) {
-                case "torre":
-                    colocarTorre(tiles[i],false);
-                    break;
-                case "minion":
-                    criarMinion(spawnPoints[i])
-                    break;
-                case "base":
-                    colocarTorre(tiles[i],true);
-                    break;
-            }
-
-            console.log(tiles[i]);
-            colocarTorre(tiles[i]);
         }
 
         function keyDownHandler(e) {
@@ -346,9 +328,28 @@
             }
         }
 
+        function criarObjeto(i,type) {
+            switch (type) {
+                case "torre":
+                    colocarTorre(tiles[i],false);
+                    break;
+                case "minion":
+                    criarMinion(spawnPoints[i]);
+                    break;
+                case "base":
+                    colocarTorre(tiles[i],true);
+                    break;
+            }
+        }
+
+        function criarMinion(spawn){
+            var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", 2, "");
+            entities.push(mob);
+            osMobs.push(mob);
+        }
         //	faz os testes de verifica��o de colis�es
-        function colocarTorre(tile,base) {
-            if(base){
+        function colocarTorre(tile,baseB) {
+            if(baseB){
                 if (tile.temBase) {
                     return;
                 }
@@ -417,7 +418,7 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                 spawnPoints[i].render(canvases.tiles.ctx);
+                // spawnPoints[i].render(canvases.tiles.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
                     canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                     spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
