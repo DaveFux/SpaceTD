@@ -41,22 +41,22 @@
             LOADED: 4
         };
 
-        var canvasses = {
+        var canvases = {
             entities: {
                 canvas: null,
-                ds: null
+                ctx: null
             },
             components: {
                 canvas: null,
-                ds: null
+                ctx: null
             },
             tiles: {
                 canvas: null,
-                ds: null
+                ctx: null
             },
             background: {
                 canvas: null,
-                ds: null
+                ctx: null
             }
         };
 
@@ -197,15 +197,15 @@
             var canvasTiles = document.createElement("canvas");
             canvasTiles.setAttribute("id", "canvasTiles");
 
-            canvasses.background.canvas = canvasBack;
-            canvasses.background.ds = canvasses.background.canvas.getContext("2d");
-            canvasses.components.canvas = canvasComp;
-            canvasses.components.ds = canvasses.components.canvas.getContext("2d");
-            canvasses.tiles.canvas = canvasTiles;
-            canvasses.tiles.ds = canvasses.tiles.canvas.getContext("2d");
-            canvasses.entities.canvas = canvasEnt;
-            canvasses.entities.ds = canvasses.entities.canvas.getContext("2d");
-            canvas = canvasses.entities.canvas;
+            canvases.background.canvas = canvasBack;
+            canvases.background.ctx = canvases.background.canvas.getContext("2d");
+            canvases.components.canvas = canvasComp;
+            canvases.components.ctx = canvases.components.canvas.getContext("2d");
+            canvases.tiles.canvas = canvasTiles;
+            canvases.tiles.ctx = canvases.tiles.canvas.getContext("2d");
+            canvases.entities.canvas = canvasEnt;
+            canvases.entities.ctx = canvases.entities.canvas.getContext("2d");
+            canvas = canvases.entities.canvas;
 
             offscreenBackground = document.createElement("canvas");
             offscreenBackground.width = tileBackground.getWidth();
@@ -215,25 +215,25 @@
             div.setAttribute("id", "principal");
             var container = document.createElement("div");
             container.setAttribute("id", "container");
-            container.appendChild(canvasses.background.canvas);
-            container.appendChild(canvasses.entities.canvas);
-            container.appendChild(canvasses.tiles.canvas);
-            container.appendChild(canvasses.components.canvas);
+            container.appendChild(canvases.background.canvas);
+            container.appendChild(canvases.entities.canvas);
+            container.appendChild(canvases.tiles.canvas);
+            container.appendChild(canvases.components.canvas);
             div.appendChild(container);
             document.body.appendChild(div);
 
 
             if (Object.keys(gSpriteSheets).length < 6) return;
 
-            canvasses.entities.canvas.width = window.innerWidth;
-            canvasses.entities.canvas.height = window.innerHeight;
-            canvasses.background.canvas.width = window.innerWidth;
-            canvasses.background.canvas.height = window.innerHeight;
-            canvasses.components.canvas.width = window.innerWidth;
-            canvasses.components.canvas.height = window.innerHeight;
-            canvasses.tiles.canvas.width = 15 * 46;
-            canvasses.tiles.canvas.height = 15 * 46;
-            canvas = canvasses.entities.canvas;
+            canvases.entities.canvas.width = window.innerWidth;
+            canvases.entities.canvas.height = window.innerHeight;
+            canvases.background.canvas.width = window.innerWidth;
+            canvases.background.canvas.height = window.innerHeight;
+            canvases.components.canvas.width = window.innerWidth;
+            canvases.components.canvas.height = window.innerHeight;
+            canvases.tiles.canvas.width = 15 * 46;
+            canvases.tiles.canvas.height = 15 * 46;
+            canvas = canvases.entities.canvas;
             var y = 0;
             for (var i = 0; i < 15; i++) {
                 var x = 0;
@@ -251,16 +251,16 @@
             osMobs.push(mob);
 
             //entities.push(oBackground);   background
-            //canvasses.background.ds.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
+            //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
 
             mudarNivel()
-            // //canvasses.background.canvas.fadeIn(1000);
+         /*   // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
                 var spawn = new Spawn(gSpriteSheets['samples//tower-defense//background.png'], spawn.x, spawn.y);
                 console.log(spawn);
                 spawnPoints.push(spawn);
-            }
+            }*/
 
             gameState = GameStates.RUNNING;
             canvas.addEventListener("mousemove", function (e) {
@@ -373,17 +373,17 @@
             render(); // fazer o render das entidades
 
             for (var i = 0; i < tiles.length; i++) {
-                tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "black", "red");
+                tiles[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "black", "red");
                 if (tiles[i].hitTestPoint(point.x, point.y)) {
-                    canvasses.tiles.ds.clearRect(tiles[i].x, tiles[i].y, tiles[i].width, tiles[i].height);
-                    tiles[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "#31FF00", "red");
+                    canvases.tiles.ctx.clearRect(tiles[i].x, tiles[i].y, tiles[i].width, tiles[i].height);
+                    tiles[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "#31FF00", "red");
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                spawnPoints[i].render(canvasses.entities.ds);
+               // spawnPoints[i].render(canvases.entities.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
-                    canvasses.tiles.ds.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
-                    spawnPoints[i].drawColisionBoundaries(canvasses.tiles.ds, true, false, "red", "red");
+                    canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
+                    spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
                 }
             }
             checkColisions(); // Verificar se h� colis�es
@@ -413,19 +413,19 @@
                 mob.update();
             }
 
-            canvasses.background.ds.clearRect(0, 0, offscreenBackground.width, offscreenBackground.height,
+            canvases.background.ctx.clearRect(0, 0, offscreenBackground.width, offscreenBackground.height,
                 0, 0, offscreenBackground.width, offscreenBackground.height); //limpa o canvas
 
             // desenhar o tiled background em offscreen optimiza o rendering, pois só se desenha uma vez o tile completo
-            canvasses.background.ds.drawImage(offscreenBackground,
+            canvases.background.ctx.drawImage(offscreenBackground,
                 0, 0, offscreenBackground.width, offscreenBackground.height,
                 0, 0, offscreenBackground.width, offscreenBackground.height
             );
-            canvasses.entities.ds.clearRect(0, 0, canvas.width, canvas.height);
+            canvases.entities.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (var i = 0; i < entities.length; i++) {
 
-                entities[i].render(canvasses.entities.ds)
+                entities[i].render(canvases.entities.ctx)
 
             }
         }
