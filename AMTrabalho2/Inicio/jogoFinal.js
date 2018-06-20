@@ -112,7 +112,6 @@
             var spCreepsGreen2 = new SpriteSheet();
             spCreepsGreen2.load("samples//creep//creep-2-green//sprite.png", "samples//creep//creep-2-green//sprite.json", loaded);
             assets.push(spCreepsGreen2);
-
             var spTorre = new SpriteSheet();
             spTorre.load("samples//tower-defense-turrets//tower-defense-turretsjson.png", "samples//tower-defense-turrets//tower-defense-turretsjson.json", loaded);
             assets.push(spTorre);
@@ -318,14 +317,29 @@
 
             switch (codTecla) {
                 case 78:
-                    if (Player.nivel == 1) {
-                        Player.nivel = 2;
-                    } else {
-                        Player.nivel = 1;
-                    }
-                    mudarNivel();
-                    break;
+            if (Player.nivel == 1) {
+                Player.nivel = 2;
+            } else {
+                Player.nivel = 1;
             }
+            mudarNivel();
+            break;
+            case 77:
+            if (type== "base") {
+                type= "torre";
+            } else {
+                type= "base"
+            }
+            break;
+
+            case 66:
+            if (towerType== "sniperTower") {
+                towerType= "cannonTower";
+            } else {
+                towerType= "sniperTower"
+            }
+            break;
+        }
         }
 
         function criarObjeto(i,type) {
@@ -354,7 +368,7 @@
                     return;
                 }
                 tile.temBase=true;
-                var base = new Base(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
+                var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7));
                 entities.push(base);
                 asBases.push(base);
 
@@ -376,7 +390,7 @@
 
         function update() {
             //Create the animation loop
-
+            criarObjeto(1, "minion");
             // if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
                 for (torre of asTorres) {

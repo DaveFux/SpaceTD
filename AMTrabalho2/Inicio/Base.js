@@ -4,7 +4,7 @@ var Base = Entity.extend(function () {
             UNIQUE: 'UNIQUE'
         };
 
-        this.constructor = function (spriteSheet, x, y, type) {
+        this.constructor = function (spriteSheet, x, y) {
             this.super();
             this.x = x;
             this.y = y;
