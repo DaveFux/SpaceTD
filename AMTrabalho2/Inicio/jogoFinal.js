@@ -272,6 +272,7 @@
             
             btnTurret1.addEventListener("click", function(){
                 towerType = "iceTower";
+                type="tower"
                 console.log(towerType);
             }, false);
             
@@ -282,7 +283,8 @@
             sideMenu.appendChild(btnTurret2);
             
              btnTurret2.addEventListener("click", function(){
-                towerType = "sniperTower";
+                towerType = "sniperTower"
+                 type="tower"
                 console.log(towerType);
             }, false);
             
@@ -295,6 +297,7 @@
             
              btnTurret6.addEventListener("click", function(){
                 towerType = "cannonTower";
+                 type="tower"
                 console.log(towerType);
             }, false);
             
@@ -306,6 +309,7 @@
             
              btnTurret7.addEventListener("click", function(){
                 towerType = "flameTower";
+                 type="tower"
                 console.log(towerType);
             }, false);
             
