@@ -394,7 +394,7 @@
         function update() {
             //Create the animation loop
 
-            criarObjeto(1, "minion");
+            //criarObjeto(1, "minion");
             // if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
                 for (torre of asTorres) {
