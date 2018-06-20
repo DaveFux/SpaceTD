@@ -84,9 +84,9 @@
             assets.push(tileBackground);
 
             //SpriteSheets
-            var spBack = new SpriteSheet();
-            spBack.load("samples//tower-defense//background.png", "samples//tower-defense//background.json", loaded);
-            assets.push(spBack);
+            var spCasas = new SpriteSheet();
+            spCasas.load("samples//casas.png", "samples//casas.json", loaded);
+            assets.push(spCasas);
             var spCreepsBlue1 = new SpriteSheet();
             spCreepsBlue1.load("samples//creep//creep-1-blue//sprite.png", "samples//creep//creep-1-blue//sprite.json", loaded);
             assets.push(spCreepsBlue1);
@@ -96,9 +96,16 @@
             var spCreepsGreen1 = new SpriteSheet();
             spCreepsGreen1.load("samples//creep//creep-1-green//sprite.png", "samples//creep//creep-1-green//sprite.json", loaded);
             assets.push(spCreepsGreen1);
-            var spCreepsYellow1 = new SpriteSheet();
-            spCreepsYellow1.load("samples//creep//creep-1-yellow//sprite.png", "samples//creep//creep-1-yellow//sprite.json", loaded);
-            assets.push(spCreepsYellow1);
+            var spCreepsBlue2 = new SpriteSheet();
+            spCreepsBlue2.load("samples//creep//creep-2-blue//sprite.png", "samples//creep//creep-2-blue//sprite.json", loaded);
+            assets.push(spCreepsBlue2);
+            var spCreepsRed2 = new SpriteSheet();
+            spCreepsRed2.load("samples//creep//creep-2-red//sprite.png", "samples//creep//creep-2-red//sprite.json", loaded);
+            assets.push(spCreepsRed2);
+            var spCreepsGreen2= new SpriteSheet();
+            spCreepsGreen2.load("samples//creep//creep-2-green//sprite.png", "samples//creep//creep-2-green//sprite.json", loaded);
+            assets.push(spCreepsGreen2);
+
             var spTorre = new SpriteSheet();
             spTorre.load("samples//tower-defense-turrets//tower-defense-turretsjson.png", "samples//tower-defense-turrets//tower-defense-turretsjson.json", loaded);
             assets.push(spTorre);
@@ -238,7 +245,7 @@
             var x = 0;
             for (var i = 0; i < 15; i++) {
                 for (var j = 0; j < 15; j++) {
-                    var tile = new Entity(x, y, 46, 46);
+                    var tile = new Tile(x, y, 46, 46);
                     x += 46;
                     tiles.push(tile)
                 }
@@ -381,7 +388,7 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-               // spawnPoints[i].render(canvases.entities.ctx);
+                    spawnPoints[i].render(canvases.entities.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
                     canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                     spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
