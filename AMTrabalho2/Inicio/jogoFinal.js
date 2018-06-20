@@ -265,7 +265,7 @@
             // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
-                var spawn = new refTile(gSpriteSheets['samples//tower-defense//background.png'], spawn.x, spawn.y, spawn.width,spawn.height);
+                var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width,spawn.height);
                 console.log(spawn);
                 spawnPoints.push(spawn);
             }
@@ -388,7 +388,7 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                    spawnPoints[i].render(canvases.entities.ctx);
+                    spawnPoints[i].render(canvases.tiles.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
                     canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                     spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
