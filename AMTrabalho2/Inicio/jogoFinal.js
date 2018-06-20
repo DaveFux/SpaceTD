@@ -122,66 +122,72 @@
 
         }
 
-        function mainMenu() {
-
-            /* Remoção da janela loading */
-            loadInfo.remove();
-            window.removeEventListener("keypress", mainMenu, false);
-            /* ================  MAIN MENU ==================== */
-
-            var menu = document.getElementById("mainMenu");
-            var botaoStart = document.getElementById("botaoStart");
-            var botaoInstrucoes = document.getElementById("botaoInstrucoes");
-            var botaoCreditos = document.getElementById("botaoStart");
-            menu.classList.toggle("hidden");
-
-
-            //Botao Start
-            document.getElementById("botaoStart").onclick = function () {
-                menu.classList.add("class", "hidden");
-                setupGame();
-
-            };
-
-
-            botaoInstrucoes.addEventListener("click", function () {
-
-                var menuOverlay = document.createElement("div");
-                menuOverlay.setAttribute("id", "menuOverlay");
-                menu.appendChild(menuOverlay);
-                var backButton = document.createElement("button");
-                backButton.setAttribute("id", "backButton");
-                backButton.setAttribute("type", "button");
-                menuOverlay.appendChild(backButton);
-
-
-                document.getElementById("backButton").onclick = function () {
-                    menuOverlay.remove();
-                };
-
-
-            });
-
-            //Botao Creditos
-            document.getElementById("botaoCreditos").onclick = function () {
-
-                var menuOverlay = document.createElement("div");
-                menuOverlay.setAttribute("id", "menuOverlay");
-                menu.appendChild(menuOverlay);
-                var backButton = document.createElement("button");
-                backButton.setAttribute("id", "backButton");
-                backButton.setAttribute("type", "button");
-                menuOverlay.appendChild(backButton);
-
-                document.getElementById("backButton").onclick = function () {
-                    menuOverlay.remove();
-                };
-
-
-            };
-
-
+        function mainMenu(){
+        
+        /* Remoção da janela loading */
+        loadInfo.remove();
+        window.removeEventListener("keypress", mainMenu, false);
+        
+        /* ================  MAIN MENU ==================== */
+        
+        var menu = document.getElementById("mainMenu");
+        var botaoStart = document.getElementById("botaoStart");
+        var botaoInstrucoes = document.getElementById("botaoInstrucoes");
+        var botaoCreditos = document.getElementById("botaoStart");
+        menu.classList.toggle("hidden");        
+        
+        
+        //Botao Start
+        document.getElementById("botaoStart").onclick = function(){
+            menu.classList.add("class", "hidden");
+            setupGame();
+            
         }
+        
+        
+        botaoInstrucoes.addEventListener("click", function(){
+            
+            var menuOverlay = document.createElement("div");
+            menuOverlay.setAttribute("id", "menuOverlay");
+            menu.appendChild(menuOverlay);
+            var backButton = document.createElement("img");
+            backButton.setAttribute("id", "backButton");
+            backButton.setAttribute("src", "ImagemMenu/backButton.png");
+            backButton.setAttribute("type", "button");
+            menuOverlay.appendChild(backButton);
+            var backgroundIns = document.createElement("img");
+            backgroundIns.setAttribute("id", "backgroundIns");
+            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");           
+            menuOverlay.appendChild(backgroundIns);
+            
+            document.getElementById("backButton").onclick = function(){
+                menuOverlay.remove();
+            }
+            
+        });
+        
+        //Botao Creditos
+        document.getElementById("botaoCreditos").onclick = function(){
+            
+            var menuOverlay = document.createElement("div");
+            menuOverlay.setAttribute("id", "menuOverlay");
+            menu.appendChild(menuOverlay);
+            var backButton = document.createElement("img");
+            backButton.setAttribute("id", "backButton");
+            backButton.setAttribute("src", "ImagemMenu/backButton.png");
+            backButton.setAttribute("type", "button");
+            menuOverlay.appendChild(backButton);
+            
+            document.getElementById("backButton").onclick = function(){
+                menuOverlay.remove();
+            }
+            
+            
+            
+        }
+        
+        
+    }
 
 
         function setupGame() {
