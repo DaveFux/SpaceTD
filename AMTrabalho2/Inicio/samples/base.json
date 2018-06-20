@@ -1,0 +1,21 @@
+{"frames": {
+
+"turret-base.gif":
+{
+	"frame": {"x":1,"y":1,"w":26,"h":26},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":7,"w":26,"h":26},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "base.png",
+	"format": "RGBA8888",
+	"size": {"w":28,"h":28},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:25dd236ae36bc5a8089324181b40f9d4:2df36e9217881814372877ad298538ae:7232e5c4564c48ce7821741e80f218b0$"
+}
+}

@@ -28,6 +28,7 @@
         var osMobs = [];
         var barraVida;
         var waveTimer;
+        var type="base";
         var towerType = "sniperTower";
         var assetsLoadInfo;
         var assetsLoaded = 0;
@@ -87,6 +88,12 @@
             var spCasas = new SpriteSheet();
             spCasas.load("samples//casas.png", "samples//casas.json", loaded);
             assets.push(spCasas);
+            var spBase = new SpriteSheet();
+            spBase.load("samples//base.png", "samples//base.json", loaded);
+            assets.push(spBase);
+            var spBalas = new SpriteSheet();
+            spBalas.load("samples//balas//tiros.png", "samples//balas//tiros.json", loaded);
+            assets.push(spBalas);
             var spCreepsBlue1 = new SpriteSheet();
             spCreepsBlue1.load("samples//creep//creep-1-blue//sprite.png", "samples//creep//creep-1-blue//sprite.json", loaded);
             assets.push(spCreepsBlue1);
@@ -102,7 +109,7 @@
             var spCreepsRed2 = new SpriteSheet();
             spCreepsRed2.load("samples//creep//creep-2-red//sprite.png", "samples//creep//creep-2-red//sprite.json", loaded);
             assets.push(spCreepsRed2);
-            var spCreepsGreen2= new SpriteSheet();
+            var spCreepsGreen2 = new SpriteSheet();
             spCreepsGreen2.load("samples//creep//creep-2-green//sprite.png", "samples//creep//creep-2-green//sprite.json", loaded);
             assets.push(spCreepsGreen2);
 
@@ -249,7 +256,7 @@
                     x += 46;
                     tiles.push(tile)
                 }
-                x=0;
+                x = 0;
                 y += 46;
             }
 // console.log(tiles);
@@ -265,7 +272,7 @@
             // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
-                var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width,spawn.height);
+                var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height);
                 console.log(spawn);
                 spawnPoints.push(spawn);
             }
@@ -301,7 +308,19 @@
         }
 
 
-        function criarObjeto(i) {
+        function criarObjeto(i, type) {
+            switch (type) {
+                case "torre":
+                    colocarTorre(tiles[i],false);
+                    break;
+                case "minion":
+                    criarMinion(spawnPoints[i])
+                    break;
+                case "base":
+                    colocarTorre(tiles[i],true);
+                    break;
+            }
+
             console.log(tiles[i]);
             colocarTorre(tiles[i]);
         }
@@ -328,16 +347,26 @@
         }
 
         //	faz os testes de verifica��o de colis�es
-        function colocarTorre(tile) {
-            var podeCriar = true;
+        function colocarTorre(tile,base) {
+            if(base){
+                if (tile.temBase) {
+                    return;
+                }
+                tile.temBase=true;
+                var base = new Base(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
+                entities.push(base);
+                asBases.push(base);
 
-            if (podeCriar) {
+            }else {
+                if (tile.temTorre || !tile.temBase) {
+                    return;
+                }
+                tile.temTorre=true;
                 var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
                 entities.push(torre);
                 asTorres.push(torre);
+
             }
-
-
         }
 
         function checkColisions() {
@@ -353,7 +382,7 @@
                     for (mob of osMobs) {
                         if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
                             torre.attack(mob, function (mob) {
-                                var umaBala = new Bala(gSpriteSheets['assets//tank.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
                                 umaBala.scaleFactor = 0.3;
                                 umaBala.vy = umaBala.y - mob.y;
                                 umaBala.vx = umaBala.x - mob.x;
@@ -388,7 +417,7 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                    spawnPoints[i].render(canvases.tiles.ctx);
+                 spawnPoints[i].render(canvases.tiles.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
                     canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                     spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
