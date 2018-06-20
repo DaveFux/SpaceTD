@@ -5,10 +5,10 @@ position: absolute;
 
 }
 body{margin:0; padding:0;}
-        #canvasBack{position:absolute; top:0px;left:0px; z-index: 10;}
-        #canvasComp{position:absolute; top:0px;left:0px; z-index: 20;}
-        #canvasTiles{position:absolute; top:0px;left:0px; z-index: 30;}
-        #canvasEnt{position:absolute; top:0px;left:0px; z-index: 40;}
+        #canvasBack{position:absolute; top:0px;left:400px; z-index: 10;}
+        #canvasComp{position:absolute; top:0px;left:400px; z-index: 20;}
+        #canvasTiles{position:absolute; top:0px;left:400px; z-index: 30;}
+        #canvasEnt{position:absolute; top:0px;left:400px; z-index: 40;}
 
         .visible{display:inline;}
         .hidden{display:none;}
@@ -77,12 +77,40 @@ body{margin:0; padding:0;}
     margin: auto;
 }
 
+#mainMenuButtons{
+    
+display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items : center;
+  align-items: center ;
+  justify-content : center;
+  -webkit-justify-content : center;
+  -webkit-box-pack : center;
+  -moz-box-pack : center;
+  -ms-flex-pack : center;
+    margin-bottom: 0 auto;
+    margin: auto;
+   
+    /*
+    height:50px; 
+    width:150px; 
+    position:static;
+    top:50%; 
+    left:50%;*/
+}
+
+
 
 #botaoStart{
     
-    
     position: absolute;
-    display: inline-block;
+    display: block;
     top:50%;
     left:41%;    
     webkit-border-radius: 28;
@@ -95,17 +123,9 @@ body{margin:0; padding:0;}
     padding: 10px 20px 10px 20px;
     border: solid #D8C332 3px;
     text-decoration: none;
-    
+    margin: 10px;
     
 }
-
-
-.botaoStart:hover {
-  background: #ffffff;
-  text-decoration: none;
-}
-
-
 
 
 #botaoInstrucoes{
@@ -124,6 +144,7 @@ body{margin:0; padding:0;}
     padding: 10px 20px 10px 20px;
     border: solid #D8C332 3px;
     text-decoration: none;
+    margin: 20px;
     
 }
 
@@ -147,9 +168,10 @@ body{margin:0; padding:0;}
     color: #A1A93A;
     font-size: 22px;
     background: #003D60;
-    padding: 10px 24px;
+    padding: 10px 45px 10px 40px;
     border: solid #D8C332 3px;
     text-decoration: none;
+    margin: 30px;
     
     
 }
@@ -177,11 +199,59 @@ body{margin:0; padding:0;}
     padding: 10px 20px 10px 20px;
     border: solid #D8C332 3px;
     text-decoration: none;
+}
+
+
+#sideMenu{
+    
     
     
 }
 
 
+#btnTurret1 {
+    background-image: url(samples/tower-defense-turrets/turret-1-1.png);
+    display: inline-block;
+    height:46px;
+    width:46px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+
+}
+
+#btnTurret2 {
+    background-image: url(samples/tower-defense-turrets/turret-2-1.png);
+    display: inline-block;
+    height:46px;
+    width:46px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+
+}
+
+#btnTurret6 {
+    background-image: url(samples/tower-defense-turrets/turret-6-1.png);
+    display: inline-block;
+    height:46px;
+    width:46px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+
+}
+
+#btnTurret7 {
+    background-image: url(samples/tower-defense-turrets/turret-7-1.png);
+    display: inline-block;
+    height:46px;
+    width:46px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+
+}
 
 
 

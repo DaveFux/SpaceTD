@@ -138,66 +138,72 @@
 
         }
 
-        function mainMenu() {
-
-            /* Remoção da janela loading */
-            loadInfo.remove();
-            window.removeEventListener("keypress", mainMenu, false);
-            /* ================  MAIN MENU ==================== */
-
-            var menu = document.getElementById("mainMenu");
-            var botaoStart = document.getElementById("botaoStart");
-            var botaoInstrucoes = document.getElementById("botaoInstrucoes");
-            var botaoCreditos = document.getElementById("botaoStart");
-            menu.classList.toggle("hidden");
-
-
-            //Botao Start
-            document.getElementById("botaoStart").onclick = function () {
-                menu.classList.add("class", "hidden");
-                setupGame();
-
-            };
-
-
-            botaoInstrucoes.addEventListener("click", function () {
-
-                var menuOverlay = document.createElement("div");
-                menuOverlay.setAttribute("id", "menuOverlay");
-                menu.appendChild(menuOverlay);
-                var backButton = document.createElement("button");
-                backButton.setAttribute("id", "backButton");
-                backButton.setAttribute("type", "button");
-                menuOverlay.appendChild(backButton);
-
-
-                document.getElementById("backButton").onclick = function () {
-                    menuOverlay.remove();
-                };
-
-
-            });
-
-            //Botao Creditos
-            document.getElementById("botaoCreditos").onclick = function () {
-
-                var menuOverlay = document.createElement("div");
-                menuOverlay.setAttribute("id", "menuOverlay");
-                menu.appendChild(menuOverlay);
-                var backButton = document.createElement("button");
-                backButton.setAttribute("id", "backButton");
-                backButton.setAttribute("type", "button");
-                menuOverlay.appendChild(backButton);
-
-                document.getElementById("backButton").onclick = function () {
-                    menuOverlay.remove();
-                };
-
-
-            };
-
-
+        function mainMenu(){
+        
+        /* Remoção da janela loading */
+        loadInfo.remove();
+        window.removeEventListener("keypress", mainMenu, false);
+        
+        /* ================  MAIN MENU ==================== */
+        
+        var menu = document.getElementById("mainMenu");
+        var botaoStart = document.getElementById("botaoStart");
+        var botaoInstrucoes = document.getElementById("botaoInstrucoes");
+        var botaoCreditos = document.getElementById("botaoStart");
+        menu.classList.toggle("hidden");        
+        
+        
+        //Botao Start
+        document.getElementById("botaoStart").onclick = function(){
+            menu.classList.add("class", "hidden");
+            setupGame();
+            
         }
+        
+        
+        botaoInstrucoes.addEventListener("click", function(){
+            
+            var menuOverlay = document.createElement("div");
+            menuOverlay.setAttribute("id", "menuOverlay");
+            menu.appendChild(menuOverlay);
+            var backButton = document.createElement("img");
+            backButton.setAttribute("id", "backButton");
+            backButton.setAttribute("src", "ImagemMenu/backButton.png");
+            backButton.setAttribute("type", "button");
+            menuOverlay.appendChild(backButton);
+            var backgroundIns = document.createElement("img");
+            backgroundIns.setAttribute("id", "backgroundIns");
+            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");           
+            menuOverlay.appendChild(backgroundIns);
+            
+            document.getElementById("backButton").onclick = function(){
+                menuOverlay.remove();
+            }
+            
+        });
+        
+        //Botao Creditos
+        document.getElementById("botaoCreditos").onclick = function(){
+            
+            var menuOverlay = document.createElement("div");
+            menuOverlay.setAttribute("id", "menuOverlay");
+            menu.appendChild(menuOverlay);
+            var backButton = document.createElement("img");
+            backButton.setAttribute("id", "backButton");
+            backButton.setAttribute("src", "ImagemMenu/backButton.png");
+            backButton.setAttribute("type", "button");
+            menuOverlay.appendChild(backButton);
+            
+            document.getElementById("backButton").onclick = function(){
+                menuOverlay.remove();
+            }
+            
+            
+            
+        }
+        
+        
+    }
 
 
         function setupGame() {
@@ -237,6 +243,73 @@
             container.appendChild(canvases.components.canvas);
             div.appendChild(container);
             document.body.appendChild(div);
+			
+			var header = document.createElement("div");
+            header.setAttribute("id","header");
+            
+            var infoDinheiro = document.createElement("p");
+            infoDinheiro.setAttribute("id", "infoDinheiro");
+            
+            //var infoWave = document.createElement("p");
+            //infoWave.setAttribute("id", "infoWave");
+            
+            var infoVida = document.createElement("p");
+            infoVida.setAttribute("id", "infoVida");
+            
+            header.appendChild(infoDinheiro);
+            header.appendChild(infoVida);
+            div.appendChild(header);
+            
+            
+            var sideMenu = document.createElement("div");
+            sideMenu.setAttribute("id", "sideMenu");
+            
+            var btnTurret1 = document.createElement("button");
+            btnTurret1.setAttribute("id", "btnTurret1");
+            btnTurret1.setAttribute("type", "button");
+            btnTurret1.setAttribute("src", "samples/tower-defense-turrets/turret-1-1.png");
+            sideMenu.appendChild(btnTurret1);
+            
+            btnTurret1.addEventListener("click", function(){
+                towerType = "iceTower";
+                console.log(towerType);
+            }, false);
+            
+            var btnTurret2 = document.createElement("button");
+            btnTurret2.setAttribute("id", "btnTurret2");
+            btnTurret2.setAttribute("type", "button");
+            btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
+            sideMenu.appendChild(btnTurret2);
+            
+             btnTurret2.addEventListener("click", function(){
+                towerType = "sniperTower";
+                console.log(towerType);
+            }, false);
+            
+            
+            var btnTurret6 = document.createElement("button");
+            btnTurret6.setAttribute("id", "btnTurret6");
+            btnTurret6.setAttribute("type", "button");
+            btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
+            sideMenu.appendChild(btnTurret6);
+            
+             btnTurret6.addEventListener("click", function(){
+                towerType = "cannonTower";
+                console.log(towerType);
+            }, false);
+            
+            var btnTurret7 = document.createElement("button");
+            btnTurret7.setAttribute("id", "btnTurret7");
+            btnTurret7.setAttribute("type", "button");
+            btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");
+            sideMenu.appendChild(btnTurret7);
+            
+             btnTurret7.addEventListener("click", function(){
+                towerType = "flameTower";
+                console.log(towerType);
+            }, false);
+            
+            div.appendChild(sideMenu);
 
 
             if (Object.keys(gSpriteSheets).length < 6) return;
@@ -394,7 +467,7 @@
         function update() {
             //Create the animation loop
 
-            criarObjeto(1, "minion");
+            //criarObjeto(1, "minion");
             // if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
                 for (torre of asTorres) {
