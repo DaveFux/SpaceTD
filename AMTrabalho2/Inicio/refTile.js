@@ -1,4 +1,4 @@
-var Spawn =Entity.extend(function () {
+var refTile =Entity.extend(function () {
     this.currState = undefined; // estado atual;
 
 
@@ -6,7 +6,7 @@ var Spawn =Entity.extend(function () {
         UNIQUE: 'UNIQUE'
     };
 
-    this.constructor = function (spriteSheet, x, y) {
+    this.constructor = function (spriteSheet, x, y,width,height) {
         this.super();
         this.x = x;
         this.y = y;
@@ -15,7 +15,9 @@ var Spawn =Entity.extend(function () {
         this.currentFrame = 0;
         this.vx = 0;
         this.vy = 0;
-        setup();
+        this.width = width;
+        this.height = height;
+            setup();
     };
 
     this.update = function () {
@@ -33,8 +35,6 @@ var Spawn =Entity.extend(function () {
 
         this.eStates['UNIQUE'] = this.spriteSheet.getStats('UNIQUE');
         this.frames = this.eStates[this.currState];
-        this.width = this.frames[0].width; //atualizar a altura
-        this.height = this.frames[0].height; // atualizar os
 
     }.bind(this);
 

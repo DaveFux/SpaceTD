@@ -235,13 +235,14 @@
             canvases.tiles.canvas.height = 15 * 46;
             canvas = canvases.entities.canvas;
             var y = 0;
+            var x = 0;
             for (var i = 0; i < 15; i++) {
-                var x = 0;
                 for (var j = 0; j < 15; j++) {
                     var tile = new Entity(x, y, 46, 46);
                     x += 46;
                     tiles.push(tile)
                 }
+                x=0;
                 y += 46;
             }
 // console.log(tiles);
@@ -253,14 +254,14 @@
             //entities.push(oBackground);   background
             //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
 
-            mudarNivel()
-         /*   // //canvases.background.canvas.fadeIn(1000);
+            mudarNivel();
+            // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
-                var spawn = new Spawn(gSpriteSheets['samples//tower-defense//background.png'], spawn.x, spawn.y);
+                var spawn = new refTile(gSpriteSheets['samples//tower-defense//background.png'], spawn.x, spawn.y, spawn.width,spawn.height);
                 console.log(spawn);
                 spawnPoints.push(spawn);
-            }*/
+            }
 
             gameState = GameStates.RUNNING;
             canvas.addEventListener("mousemove", function (e) {
