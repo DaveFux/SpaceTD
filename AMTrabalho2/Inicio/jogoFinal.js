@@ -8,11 +8,15 @@
             pontos: 0,
             vida: 20
         }
+        var Game={
+            wave:1,
+            nMinons:(this.wave*10),
+            boss:false
+        }
         var point = {
             x: 0,
             y: 0
         };
-        var wave;
         var canvas;
         var drawingSurface;
         var entities = [];
@@ -27,7 +31,6 @@
         var asTorres = [];
         var osMobs = [];
         var barraVida;
-        var waveTimer;
         var type="base";
         var towerType = "sniperTower";
         var assetsLoadInfo;
@@ -390,6 +393,7 @@
 
         function update() {
             //Create the animation loop
+
             criarObjeto(1, "minion");
             // if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
