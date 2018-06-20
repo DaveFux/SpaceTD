@@ -1,0 +1,30 @@
+{"frames": {
+
+"ending.png":
+{
+	"frame": {"x":1,"y":1,"w":46,"h":46},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":46},
+	"sourceSize": {"w":46,"h":46},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"spawn.png":
+{
+	"frame": {"x":49,"y":1,"w":46,"h":46},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":46},
+	"sourceSize": {"w":46,"h":46},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "casas.png",
+	"format": "RGBA8888",
+	"size": {"w":96,"h":48},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e867116daa95b412e545cef08276d741:c7c052b934b8d60631a53d2998027254:130cbe2bbcaddd51e31bd5fc9e262979$"
+}
+}
