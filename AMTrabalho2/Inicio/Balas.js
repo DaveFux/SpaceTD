@@ -39,6 +39,9 @@ var Balas = Entity.extend(function () {
         setup();
 
     };
+    this.getSprite = function () {
+        return this.frames[this.currentFrame];
+    };
     this.update = function () {
         if (!this.active) return;
 

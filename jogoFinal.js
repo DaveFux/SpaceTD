@@ -33,9 +33,9 @@
     };
     
     var canvasses = {
-        entities: {canvas: null, ds: null},
-        components: {canvas: null, ds: null},
-        background: {canvas: null, ds: null}
+        entities: {canvas: null, ctx: null},
+        components: {canvas: null, ctx: null},
+        background: {canvas: null, ctx: null}
     }
     
     var GameSounds = {
@@ -179,11 +179,11 @@
         canvasBack.setAttribute("id", "canvasBack");       
         
         canvasses.background.canvas = canvasBack;
-        canvasses.background.ds = canvasses.background.canvas.getContext("2d");
+        canvasses.background.ctx = canvasses.background.canvas.getContext("2d");
         canvasses.components.canvas = canvasComp;
-        canvasses.components.ds = canvasses.components.canvas.getContext("2d");
+        canvasses.components.ctx = canvasses.components.canvas.getContext("2d");
         canvasses.entities.canvas = canvasEnt;
-        canvasses.entities.ds = canvasses.entities.canvas.getContext("2d");
+        canvasses.entities.ctx = canvasses.entities.canvas.getContext("2d");
         canvas = canvasses.entities.canvas;
         
         var div = document.createElement("div");
@@ -211,7 +211,7 @@
         entities.push(mob);
         osMobs.push(mob);
         //entities.push(oBackground);   background
-        oBackground.render(canvasses.background.ds);
+        oBackground.render(canvasses.background.ctx);
         //canvasses.background.canvas.fadeIn(1000);
         gameState = GameStates.RUNNING;
         canvas.addEventListener("mousedown", criarObjeto, false);
@@ -339,11 +339,11 @@
 
       
 
-    canvasses.entities.ds.clearRect(0, 0, canvas.width, canvas.height);
+    canvasses.entities.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (var i = 0; i < entities.length; i++) {
 
-        entities[i].render(canvasses.entities.ds)
+        entities[i].render(canvasses.entities.ctx)
 
     }
     }

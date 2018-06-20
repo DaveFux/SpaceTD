@@ -26,11 +26,8 @@ var Entity = Class.extend(function () {
 		this.isColliding = false;
 		// ----------------------------------------------------------
 
-		this.constructor = function (x,y,width,height) {
-			this.x=x;
-			this.y=y;
-			this.width=width;
-			this.height=height;
+		this.constructor = function () {
+
 		};
 
 		this.update = function () {};
