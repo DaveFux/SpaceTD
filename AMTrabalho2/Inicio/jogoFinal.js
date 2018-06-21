@@ -10,9 +10,9 @@
         }
         var Game = {
             wave: 1,
-            nMinons: 10,
+            nMinions: 10,
             boss: false,
-            spawn:true
+            spawn: true
         }
         var point = {
             x: 0,
@@ -460,19 +460,20 @@
 
         }
 
-        function gerarMinons(){
-            if(osMobs.length == 0){
-                Game.spawn = true;
-            }
-            if(Game.spawn){
-                Game.nMinons= 10 * Game.wave;
-                for(var m = 0; m < Game.nMinons; m++){
-                    setTimeout(criarObjeto(spawnPoints[0],"minion"), 1000)
-                    console.log(osMobs.length)
+        function gerarMinons() {
+            var cont = 0
+            Game.nMinions = 10 * Game.wave;
+            var interval = setInterval(function () {
+                criarObjeto(spawnPoints[0], "minion")
+                cont++;
+                console.log(cont);
+                console.log(Game.nMinions);
+                if (cont == Game.nMinions) {
+                    window.clearInterval(interval);
                 }
-                Game.spawn = false;
-            }
+            }, 1000);
         }
+
 
         function update() {
             //Create the animation loop
@@ -480,11 +481,11 @@
             switch (Player.nivel) {
                 case 1:
                     spawnPoints[0].ativo = true;
-                    endPoints[0].ativo=true
+                    endPoints[0].ativo = true
                     break;
                 case 2:
-                    endPoints[0].ativo=false
-                    endPoints[1].ativo=true
+                    endPoints[0].ativo = false
+                    endPoints[1].ativo = true
                     if (Game.wave % 10 == 0 && Game.wave <= 30) {
                         spawnPoints[Game.wave / 10].ativo = true;
                     }
@@ -493,25 +494,25 @@
 
             //criarObjeto(1, "minion");
             if (asBases.length > 0 && osMobs > 0) {
-            if (asTorres.length > 0) {
-                for (torre of asTorres) {
-                    for (mob of osMobs) {
-                        if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
-                            torre.attack(mob, function (mob) {
-                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
-                                umaBala.scaleFactor = 0.3;
-                                umaBala.vy = umaBala.y - mob.y;
-                                umaBala.vx = umaBala.x - mob.x;
-                                umaBala.id = Date.now();
-                                asBalas.push(umaBala);
-                                entities.push(umaBala);
-                            });
-                        } else {
-                            torre.rotation = 0;
+                if (asTorres.length > 0) {
+                    for (torre of asTorres) {
+                        for (mob of osMobs) {
+                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
+                                torre.attack(mob, function (mob) {
+                                    var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                    umaBala.scaleFactor = 0.3;
+                                    umaBala.vy = umaBala.y - mob.y;
+                                    umaBala.vx = umaBala.x - mob.x;
+                                    umaBala.id = Date.now();
+                                    asBalas.push(umaBala);
+                                    entities.push(umaBala);
+                                });
+                            } else {
+                                torre.rotation = 0;
+                            }
                         }
                     }
                 }
-            }
 
                 for (mob of osMobs) {
                     var existeCaminho = caminho(mob);
@@ -527,9 +528,12 @@
                     }
                 }
             }
+            if (osMobs.length == 0 && Game.spawn) {
+                Game.spawn = false;
+                gerarMinons();
+            }
 
 
-            gerarMinons();
             //  }
 
             render(); // fazer o render das entidades
@@ -574,7 +578,7 @@
             if (obj.active == true) return obj;
         }
 
-        //	efetua a limpeza dos arrays
+//	efetua a limpeza dos arrays
         function clearArrays() {
             entities = entities.filter(filtrarAtivos);
             osMobs = osMobs.filter(filtrarAtivos);
@@ -584,25 +588,25 @@
         }
 
         function caminho(minion) {
-            var queue = [];
-            var aux = [];
-            for (var i = 0; i < tiles.length; i++) {
-                for (var j = 0; j < tiles[i].length; j++) {
-                    var aux2 = '1';
-                    if (tiles[i][j].temBase) {
-                        aux2 = '0';
-                    }
-                    if (minion.x == tiles[i][j].x && minion.y == tiles[i][j].y) {
-                        aux2 = '2';
-                    }
-                    for (var h = 0; h < endPoints.length; h++)
-                        if (tiles[i][j] == endPoints[h] && endPoints[h].ativo) {
-                            aux2 = 'X';
+                    var queue = [];
+                    var aux = [];
+                    for (var i = 0; i < tiles.length; i++) {
+                        for (var j = 0; j < tiles[i].length; j++) {
+                            var aux2 = '1';
+                            if (tiles[i][j].temBase) {
+                                aux2 = '0';
+                            }
+                            if (minion.x == tiles[i][j].x && minion.y == tiles[i][j].y) {
+                                aux2 = '2';
+                            }
+                            for (var h = 0; h < endPoints.length; h++)
+                                if (tiles[i][j] == endPoints[h] && endPoints[h].ativo) {
+                                    aux2 = 'X';
+                                }
+                            aux.push(aux2);
                         }
-                    aux.push(aux2);
-                }
-                queue.push(aux);
-                aux = [];
+                        queue.push(aux);
+                        aux = [];
             }
             return pathExists(queue);
         }
@@ -614,7 +618,7 @@
             queue.add(new Tile(0, 0, 0, 0));
             var pathExists = false;
 
-            while (queue.length!=0) {
+            while (queue.length != 0) {
                 var current = queue.remove(0);
                 if (matrix[current.x][current.y] == 'X') {
                     pathExists = true;
@@ -633,7 +637,7 @@
         }
 
         function getNeighbors(matrix, node) {
-            var neighbors = []
+            var neighbors = [];
 
             if (isValidPoint(matrix, node.x - 1, node.y)) {
                 neighbors.push(new Tile(node.x - 1, node.y));
@@ -680,4 +684,5 @@
             }
         }
     }
-)(); // não apagar
+)
+(); // não apagar
