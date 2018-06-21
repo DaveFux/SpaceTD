@@ -159,7 +159,6 @@
             
         }
         
-        
         botaoInstrucoes.addEventListener("click", function(){
             
             var menuOverlay = document.createElement("div");
@@ -172,7 +171,7 @@
             menuOverlay.appendChild(backButton);
             var backgroundIns = document.createElement("img");
             backgroundIns.setAttribute("id", "backgroundIns");
-            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");           
+            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");
             menuOverlay.appendChild(backgroundIns);
             
             document.getElementById("backButton").onclick = function(){
@@ -196,8 +195,6 @@
             document.getElementById("backButton").onclick = function(){
                 menuOverlay.remove();
             }
-            
-            
             
         }
         
@@ -257,13 +254,24 @@
             
             header.appendChild(infoDinheiro);
             header.appendChild(infoVida);
-            div.appendChild(header);
-            
+            div.appendChild(header);            
             
             var sideMenu = document.createElement("div");
             sideMenu.setAttribute("id", "sideMenu");
             
-            var btnTurret1 = document.createElement("a");
+            var btnBase = document.createElement("div");
+            btnBase.setAttribute("id", "btnBase");
+            // btnTurret1.setAttribute("type", "button");
+            btnBase.setAttribute("src", "samples/base.png");
+            sideMenu.appendChild(btnBase);
+            
+            btnBase.addEventListener("click", function(){
+                towerType = "iceTower";
+                type="base"
+            }, false);
+            
+            
+            var btnTurret1 = document.createElement("div");
             btnTurret1.setAttribute("id", "btnTurret1");
             // btnTurret1.setAttribute("type", "button");
             btnTurret1.setAttribute("src", "samples/tower-defense-turrets/turret-1-1.png");
@@ -274,7 +282,7 @@
                 type="torre"
             }, false);
             
-            var btnTurret2 = document.createElement("a");
+            var btnTurret2 = document.createElement("div");
             btnTurret2.setAttribute("id", "btnTurret2");
             // btnTurret2.setAttribute("type", "button");
             btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
@@ -285,7 +293,7 @@
                  type="torre"
             }, false);
 
-            var btnTurret6 = document.createElement("a");
+            var btnTurret6 = document.createElement("div");
             btnTurret6.setAttribute("id", "btnTurret6");
             // btnTurret6.setAttribute("type", "button");
             btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
@@ -296,7 +304,7 @@
                  type="torre"
             }, false);
             
-            var btnTurret7 = document.createElement("a");
+            var btnTurret7 = document.createElement("div");
             btnTurret7.setAttribute("id", "btnTurret7");
             // btnTurret7.setAttribute("type", "button");
             btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");

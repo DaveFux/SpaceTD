@@ -212,8 +212,22 @@ display: -webkit-box;
 }
 
 
+#btnBase{
+    
+    background-image: url(samples/base.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height:46px;
+    width:46px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;    
+    
+}
+
 #btnTurret1 {
     background-image: url(samples/tower-defense-turrets/turret-1-1.png);
+    background-repeat: no-repeat;
     display: inline-block;
     height:46px;
     width:46px;
@@ -225,6 +239,7 @@ display: -webkit-box;
 
 #btnTurret2 {
     background-image: url(samples/tower-defense-turrets/turret-2-1.png);
+    background-repeat: no-repeat;
     display: inline-block;
     height:46px;
     width:46px;
@@ -236,6 +251,7 @@ display: -webkit-box;
 
 #btnTurret6 {
     background-image: url(samples/tower-defense-turrets/turret-6-1.png);
+    background-repeat: no-repeat;
     display: inline-block;
     height:46px;
     width:46px;
@@ -247,6 +263,7 @@ display: -webkit-box;
 
 #btnTurret7 {
     background-image: url(samples/tower-defense-turrets/turret-7-1.png);
+    background-repeat: no-repeat;
     display: inline-block;
     height:46px;
     width:46px;
