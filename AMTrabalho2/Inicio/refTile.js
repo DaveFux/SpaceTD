@@ -23,11 +23,9 @@ var refTile =Entity.extend(function () {
         switch (type){
             case "ending":
                 this.currState = this.states.ending;
-                console.log(this.currState)
                 break;
             case "spawn":
                 this.currState = this.states.spawn;
-                console.log(this.currState)
                 break;
         }
             setup();

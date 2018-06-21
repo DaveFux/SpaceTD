@@ -10,8 +10,9 @@
         }
         var Game = {
             wave: 1,
-            nMinons: (this.wave * 10),
-            boss: false
+            nMinons: 10,
+            boss: false,
+            spawn:true
         }
         var point = {
             x: 0,
@@ -334,11 +335,6 @@
                 x = 0;
                 y += 46;
             }
-            console.log(tiles);
-
-            var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
-            entities.push(mob);
-            osMobs.push(mob);
 
             //entities.push(oBackground);   background
             //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
@@ -349,6 +345,11 @@
             for (spawn of spawns) {
                 var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height, "spawn");
                 spawnPoints.push(spawn);
+            }
+            var ends = tileBackground.getLayerByName("Ending").objects;
+            for (end of ends) {
+                var end = new refTile(gSpriteSheets['samples//casas.png'], end.x, end.y, end.width, end.height, "ending");
+                endPoints.push(end);
             }
 
             gameState = GameStates.RUNNING;
@@ -459,21 +460,39 @@
 
         }
 
+        function gerarMinons(){
+            if(osMobs.length == 0){
+                Game.spawn = true;
+            }
+            if(Game.spawn){
+                Game.nMinons= 10 * Game.wave;
+                for(var m = 0; m < Game.nMinons; m++){
+                    setTimeout(criarObjeto(spawnPoints[0],"minion"), 1000)
+                    console.log(osMobs.length)
+                }
+                Game.spawn = false;
+            }
+        }
+
         function update() {
             //Create the animation loop
 
             switch (Player.nivel) {
                 case 1:
                     spawnPoints[0].ativo = true;
+                    endPoints[0].ativo=true
                     break;
                 case 2:
-                    if (Player.wave % 10 == 0 && Player.wave <= 30) {
-                        spawnPoints[Player.wave / 10].ativo = true;
+                    endPoints[0].ativo=false
+                    endPoints[1].ativo=true
+                    if (Game.wave % 10 == 0 && Game.wave <= 30) {
+                        spawnPoints[Game.wave / 10].ativo = true;
                     }
                     break;
             }
+
             //criarObjeto(1, "minion");
-            // if (asBases.length > 0 && osMobs > 0) {
+            if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
                 for (torre of asTorres) {
                     for (mob of osMobs) {
@@ -492,8 +511,11 @@
                         }
                     }
                 }
+            }
+
                 for (mob of osMobs) {
                     var existeCaminho = caminho(mob);
+                    console.log(existeCaminho);
                 }
                 for (torre of asTorres) {
                     for (mob of osMobs) {
@@ -505,6 +527,9 @@
                     }
                 }
             }
+
+
+            gerarMinons();
             //  }
 
             render(); // fazer o render das entidades
@@ -527,11 +552,21 @@
                     }
                 }
             }
+            for (var i = 0; i < endPoints.length; i++) {
+                if (endPoints[i].ativo) {
+                    endPoints[i].render(canvases.tiles.ctx);
+                    if (endPoints[i].hitTestPoint(point.x, point.y)) {
+                        canvases.tiles.ctx.clearRect(endPoints[i].x, endPoints[i].y, endPoints[i].width, endPoints[i].height);
+                        endPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
+                    }
+                }
+            }
             checkColisions(); // Verificar se h� colis�es
 
             clearArrays(); // limpar os arrays
 
             animationHandler = window.requestAnimationFrame(update);
+
 
         }
 
@@ -551,22 +586,76 @@
         function caminho(minion) {
             var queue = [];
             var aux = [];
-            for (var i = 0; i < 15; i++) {
-                for (var j = 0; j < 15; j++) {
-                    var aux2=0;
-                    if(tiles[i][j].temBase){
-                        aux2=1;
+            for (var i = 0; i < tiles.length; i++) {
+                for (var j = 0; j < tiles[i].length; j++) {
+                    var aux2 = '1';
+                    if (tiles[i][j].temBase) {
+                        aux2 = '0';
                     }
-                    if(minion.x==tiles[i][j].x&&minion.y==tiles[i][j].y){
-                        aux2=2
+                    if (minion.x == tiles[i][j].x && minion.y == tiles[i][j].y) {
+                        aux2 = '2';
                     }
+                    for (var h = 0; h < endPoints.length; h++)
+                        if (tiles[i][j] == endPoints[h] && endPoints[h].ativo) {
+                            aux2 = 'X';
+                        }
                     aux.push(aux2);
                 }
                 queue.push(aux);
                 aux = [];
             }
+            return pathExists(queue);
+        }
 
+        function pathExists(matrix) {
+            var N = matrix.length;
 
+            var queue = [];
+            queue.add(new Tile(0, 0, 0, 0));
+            var pathExists = false;
+
+            while (queue.length!=0) {
+                var current = queue.remove(0);
+                if (matrix[current.x][current.y] == 'X') {
+                    pathExists = true;
+                    break;
+                }
+
+                matrix[current.x][current.y] = '0'; // mark as visited
+
+                var neighbors = getNeighbors(matrix, current);
+                for (neighbor of neighbors) {
+                    queue.addAll(neighbors);
+                }
+            }
+
+            return pathExists;
+        }
+
+        function getNeighbors(matrix, node) {
+            var neighbors = []
+
+            if (isValidPoint(matrix, node.x - 1, node.y)) {
+                neighbors.push(new Tile(node.x - 1, node.y));
+            }
+
+            if (isValidPoint(matrix, node.x + 1, node.y)) {
+                neighbors.push(new Tile(node.x + 1, node.y));
+            }
+
+            if (isValidPoint(matrix, node.x, node.y - 1)) {
+                neighbors.push(new Tile(node.x, node.y - 1));
+            }
+
+            if (isValidPoint(matrix, node.x, node.y + 1)) {
+                neighbors.push(new Tile(node.x, node.y + 1));
+            }
+
+            return neighbors;
+        }
+
+        function isValidPoint(matrix, x, y) {
+            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
         }
 
         function render() {
