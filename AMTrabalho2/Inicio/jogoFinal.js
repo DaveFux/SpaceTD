@@ -8,10 +8,10 @@
             pontos: 0,
             vida: 20
         }
-        var Game={
-            wave:1,
-            nMinons:(this.wave*10),
-            boss:false
+        var Game = {
+            wave: 1,
+            nMinons: (this.wave * 10),
+            boss: false
         }
         var point = {
             x: 0,
@@ -31,7 +31,7 @@
         var asTorres = [];
         var osMobs = [];
         var barraVida;
-        var type="base";
+        var type = "base";
         var towerType = "sniperTower";
         var assetsLoadInfo;
         var assetsLoaded = 0;
@@ -137,72 +137,71 @@
 
         }
 
-        function mainMenu(){
-        
-        /* Remoção da janela loading */
-        loadInfo.remove();
-        window.removeEventListener("keypress", mainMenu, false);
-        
-        /* ================  MAIN MENU ==================== */
-        
-        var menu = document.getElementById("mainMenu");
-        var botaoStart = document.getElementById("botaoStart");
-        var botaoInstrucoes = document.getElementById("botaoInstrucoes");
-        var botaoCreditos = document.getElementById("botaoStart");
-        menu.classList.toggle("hidden");        
-        
-        
-        //Botao Start
-        document.getElementById("botaoStart").onclick = function(){
-            menu.classList.add("class", "hidden");
-            setupGame();
-            
-        }
-        
-        
-        botaoInstrucoes.addEventListener("click", function(){
-            
-            var menuOverlay = document.createElement("div");
-            menuOverlay.setAttribute("id", "menuOverlay");
-            menu.appendChild(menuOverlay);
-            var backButton = document.createElement("img");
-            backButton.setAttribute("id", "backButton");
-            backButton.setAttribute("src", "ImagemMenu/backButton.png");
-            backButton.setAttribute("type", "button");
-            menuOverlay.appendChild(backButton);
-            var backgroundIns = document.createElement("img");
-            backgroundIns.setAttribute("id", "backgroundIns");
-            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");           
-            menuOverlay.appendChild(backgroundIns);
-            
-            document.getElementById("backButton").onclick = function(){
-                menuOverlay.remove();
+        function mainMenu() {
+
+            /* Remoção da janela loading */
+            loadInfo.remove();
+            window.removeEventListener("keypress", mainMenu, false);
+
+            /* ================  MAIN MENU ==================== */
+
+            var menu = document.getElementById("mainMenu");
+            var botaoStart = document.getElementById("botaoStart");
+            var botaoInstrucoes = document.getElementById("botaoInstrucoes");
+            var botaoCreditos = document.getElementById("botaoStart");
+            menu.classList.toggle("hidden");
+
+
+            //Botao Start
+            document.getElementById("botaoStart").onclick = function () {
+                menu.classList.add("class", "hidden");
+                setupGame();
+
             }
-            
-        });
-        
-        //Botao Creditos
-        document.getElementById("botaoCreditos").onclick = function(){
-            
-            var menuOverlay = document.createElement("div");
-            menuOverlay.setAttribute("id", "menuOverlay");
-            menu.appendChild(menuOverlay);
-            var backButton = document.createElement("img");
-            backButton.setAttribute("id", "backButton");
-            backButton.setAttribute("src", "ImagemMenu/backButton.png");
-            backButton.setAttribute("type", "button");
-            menuOverlay.appendChild(backButton);
-            
-            document.getElementById("backButton").onclick = function(){
-                menuOverlay.remove();
+
+
+            botaoInstrucoes.addEventListener("click", function () {
+
+                var menuOverlay = document.createElement("div");
+                menuOverlay.setAttribute("id", "menuOverlay");
+                menu.appendChild(menuOverlay);
+                var backButton = document.createElement("img");
+                backButton.setAttribute("id", "backButton");
+                backButton.setAttribute("src", "ImagemMenu/backButton.png");
+                backButton.setAttribute("type", "button");
+                menuOverlay.appendChild(backButton);
+                var backgroundIns = document.createElement("img");
+                backgroundIns.setAttribute("id", "backgroundIns");
+                backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");
+                menuOverlay.appendChild(backgroundIns);
+
+                document.getElementById("backButton").onclick = function () {
+                    menuOverlay.remove();
+                }
+
+            });
+
+            //Botao Creditos
+            document.getElementById("botaoCreditos").onclick = function () {
+
+                var menuOverlay = document.createElement("div");
+                menuOverlay.setAttribute("id", "menuOverlay");
+                menu.appendChild(menuOverlay);
+                var backButton = document.createElement("img");
+                backButton.setAttribute("id", "backButton");
+                backButton.setAttribute("src", "ImagemMenu/backButton.png");
+                backButton.setAttribute("type", "button");
+                menuOverlay.appendChild(backButton);
+
+                document.getElementById("backButton").onclick = function () {
+                    menuOverlay.remove();
+                }
+
+
             }
-            
-            
-            
+
+
         }
-        
-        
-    }
 
 
         function setupGame() {
@@ -242,47 +241,47 @@
             container.appendChild(canvases.components.canvas);
             div.appendChild(container);
             document.body.appendChild(div);
-			
-			var header = document.createElement("div");
-            header.setAttribute("id","header");
-            
+
+            var header = document.createElement("div");
+            header.setAttribute("id", "header");
+
             var infoDinheiro = document.createElement("p");
             infoDinheiro.setAttribute("id", "infoDinheiro");
-            
+
             //var infoWave = document.createElement("p");
             //infoWave.setAttribute("id", "infoWave");
-            
+
             var infoVida = document.createElement("p");
             infoVida.setAttribute("id", "infoVida");
-            
+
             header.appendChild(infoDinheiro);
             header.appendChild(infoVida);
             div.appendChild(header);
-            
-            
+
+
             var sideMenu = document.createElement("div");
             sideMenu.setAttribute("id", "sideMenu");
-            
+
             var btnTurret1 = document.createElement("a");
             btnTurret1.setAttribute("id", "btnTurret1");
             // btnTurret1.setAttribute("type", "button");
             btnTurret1.setAttribute("src", "samples/tower-defense-turrets/turret-1-1.png");
             sideMenu.appendChild(btnTurret1);
-            
-            btnTurret1.addEventListener("click", function(){
+
+            btnTurret1.addEventListener("click", function () {
                 towerType = "iceTower";
-                type="torre"
+                type = "torre"
             }, false);
-            
+
             var btnTurret2 = document.createElement("a");
             btnTurret2.setAttribute("id", "btnTurret2");
             // btnTurret2.setAttribute("type", "button");
             btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
             sideMenu.appendChild(btnTurret2);
-            
-             btnTurret2.addEventListener("click", function(){
+
+            btnTurret2.addEventListener("click", function () {
                 towerType = "sniperTower"
-                 type="torre"
+                type = "torre"
             }, false);
 
             var btnTurret6 = document.createElement("a");
@@ -290,23 +289,23 @@
             // btnTurret6.setAttribute("type", "button");
             btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
             sideMenu.appendChild(btnTurret6);
-            
-             btnTurret6.addEventListener("click", function(){
+
+            btnTurret6.addEventListener("click", function () {
                 towerType = "cannonTower";
-                 type="torre"
+                type = "torre"
             }, false);
-            
+
             var btnTurret7 = document.createElement("a");
             btnTurret7.setAttribute("id", "btnTurret7");
             // btnTurret7.setAttribute("type", "button");
             btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");
             sideMenu.appendChild(btnTurret7);
-            
-             btnTurret7.addEventListener("click", function(){
+
+            btnTurret7.addEventListener("click", function () {
                 towerType = "flameTower";
-                 type="torre"
+                type = "torre"
             }, false);
-            
+
             div.appendChild(sideMenu);
 
 
@@ -323,16 +322,19 @@
             canvas = canvases.entities.canvas;
             var y = 0;
             var x = 0;
+            var aux = []
             for (var i = 0; i < 15; i++) {
                 for (var j = 0; j < 15; j++) {
                     var tile = new Tile(x, y, 46, 46);
                     x += 46;
-                    tiles.push(tile)
+                    aux.push(tile);
                 }
+                tiles.push(aux);
+                aux = [];
                 x = 0;
                 y += 46;
             }
-// console.log(tiles);
+            console.log(tiles);
 
             var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], 0, canvas.height / 2, "normal", 2, "");
             entities.push(mob);
@@ -359,8 +361,10 @@
             window.addEventListener("keyup", keyUpHandler, false);
             canvas.addEventListener("click", function () {
                 for (var i = 0; i < tiles.length; i++) {
-                    if (tiles[i].hitTestPoint(point.x, point.y)) {
-                        criarObjeto(i,type);
+                    for (var j = 0; j < tiles[i].length; j++) {
+                        if (tiles[i][j].hitTestPoint(point.x, point.y)) {
+                            criarObjeto(tiles[i][j], type);
+                        }
                     }
                 }
             }, false);
@@ -390,59 +394,60 @@
 
             switch (codTecla) {
                 case 78: //N
-            if (Player.nivel == 1) {
-                Player.nivel = 2;
-            } else {
-                Player.nivel = 1;
-            }
-            mudarNivel();
-            break;
-            case 77: //M
-            if (type== "base") {
-                type= "torre";
-            } else {
-                type= "base"
-            }
-            break;
+                    if (Player.nivel == 1) {
+                        Player.nivel = 2;
+                    } else {
+                        Player.nivel = 1;
+                    }
+                    mudarNivel();
+                    break;
+                case 77: //M
+                    if (type == "base") {
+                        type = "torre";
+                    } else {
+                        type = "base"
+                    }
+                    break;
 
-        }
+            }
         }
 
-        function criarObjeto(tile,type) {
+        function criarObjeto(tile, type) {
             switch (type) {
                 case "torre":
-                    colocarTorre(tile,false);
+                    colocarTorre(tile, false);
                     break;
                 case "minion":
                     criarMinion(tile);
                     break;
                 case "base":
-                    colocarTorre(tile,true);
+                    colocarTorre(tile, true);
                     break;
             }
         }
 
-        function criarMinion(spawn){
+        function criarMinion(spawn) {
             var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", 2, "");
             entities.push(mob);
             osMobs.push(mob);
         }
+
         //	faz os testes de verifica��o de colis�es
-        function colocarTorre(tile,baseB) {
-            if(baseB){
+        function colocarTorre(tile, baseB) {
+            if (baseB) {
                 if (tile.temBase) {
                     return;
                 }
-                tile.temBase=true;
+                tile.temBase = true;
                 var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7));
                 entities.push(base);
                 asBases.push(base);
 
-            }else {
+            } else {
                 if (tile.temTorre || !tile.temBase) {
                     return;
                 }
-                tile.temTorre=true;
+                tile.temTorre = true;
                 var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
                 entities.push(torre);
                 asTorres.push(torre);
@@ -457,6 +462,16 @@
         function update() {
             //Create the animation loop
 
+            switch (Player.nivel) {
+                case 1:
+                    spawnPoints[0].ativo = true;
+                    break;
+                case 2:
+                    if (Player.wave % 10 == 0 && Player.wave <= 30) {
+                        spawnPoints[Player.wave / 10].ativo = true;
+                    }
+                    break;
+            }
             //criarObjeto(1, "minion");
             // if (asBases.length > 0 && osMobs > 0) {
             if (asTorres.length > 0) {
@@ -477,6 +492,9 @@
                         }
                     }
                 }
+                for (mob of osMobs) {
+                    var existeCaminho = caminho(mob);
+                }
                 for (torre of asTorres) {
                     for (mob of osMobs) {
                         if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
@@ -492,17 +510,21 @@
             render(); // fazer o render das entidades
 
             for (var i = 0; i < tiles.length; i++) {
-                tiles[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "black", "red");
-                if (tiles[i].hitTestPoint(point.x, point.y)) {
-                    canvases.tiles.ctx.clearRect(tiles[i].x, tiles[i].y, tiles[i].width, tiles[i].height);
-                    tiles[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "#31FF00", "red");
+                for (var j = 0; j < tiles[i].length; j++) {
+                    tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "black", "red");
+                    if (tiles[i][j].hitTestPoint(point.x, point.y)) {
+                        canvases.tiles.ctx.clearRect(tiles[i][j].x, tiles[i][j].y, tiles[i][j].width, tiles[i][j].height);
+                        tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "#31FF00", "red");
+                    }
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                spawnPoints[i].render(canvases.tiles.ctx);
-                if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
-                    canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
-                    spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
+                if (spawnPoints[i].ativo) {
+                    spawnPoints[i].render(canvases.tiles.ctx);
+                    if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
+                        canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
+                        spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
+                    }
                 }
             }
             checkColisions(); // Verificar se h� colis�es
@@ -526,6 +548,26 @@
             asBases = asBases.filter(filtrarAtivos)
         }
 
+        function caminho(minion) {
+            var queue = [];
+            var aux = [];
+            for (var i = 0; i < 15; i++) {
+                for (var j = 0; j < 15; j++) {
+                    var aux2=0;
+                    if(tiles[i][j].temBase){
+                        aux2=1;
+                    }
+                    if(minion.x==tiles[i][j].x&&minion.y==tiles[i][j].y){
+                        aux2=2
+                    }
+                    aux.push(aux2);
+                }
+                queue.push(aux);
+                aux = [];
+            }
+
+
+        }
 
         function render() {
             for (mob of osMobs) {
@@ -547,5 +589,6 @@
                 entities[i].render(canvases.entities.ctx)
 
             }
+        }
     }
 )(); // não apagar
