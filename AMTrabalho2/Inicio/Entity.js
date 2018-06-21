@@ -125,7 +125,7 @@ var Entity = Class.extend(function () {
 
 			if (boundingRect) {
 				ctx.beginPath();
-				ctx.rect(this.x, this.y, this.width, this.height);
+				ctx.rect(this.x, this.y, Math.floor(this.width),Math.floor( this.height));
 				ctx.lineWidth = 1;
 				ctx.strokeStyle = colorR != undefined ? colorR : "yellow";
 				ctx.stroke();

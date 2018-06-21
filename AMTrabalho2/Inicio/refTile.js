@@ -1,7 +1,7 @@
 var refTile =Entity.extend(function () {
     this.currState = undefined; // estado atual;
     this.type=undefined;
-    this.ativo0false
+    this.ativo=false
     this.states = {
         ending: 'ending',
         spawn: 'spawn'
@@ -18,17 +18,20 @@ var refTile =Entity.extend(function () {
         this.vy = 0;
         this.width = width;
         this.height = height;
+
+
         switch (type){
             case "ending":
                 this.currState = this.states.ending;
+                console.log(this.currState)
                 break;
             case "spawn":
                 this.currState = this.states.spawn;
+                console.log(this.currState)
                 break;
         }
-        setTimeout(function () {
             setup();
-        },50000);
+
         };
 
     this.update = function () {
@@ -44,7 +47,7 @@ var refTile =Entity.extend(function () {
 
     var setup = function () {
 
-        this.eStates[currState] = this.spriteSheet.getStats(currState);
+        this.eStates[this.currState] = this.spriteSheet.getStats(this.currState);
         this.frames = this.eStates[this.currState];
 
     }.bind(this);

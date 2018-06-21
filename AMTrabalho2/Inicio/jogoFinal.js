@@ -135,7 +135,6 @@
             assetsLoadInfo.innerHTML = "Game Loaded! Press any key to continue...";
             window.addEventListener("keypress", mainMenu, false); // espera por uma tecla pressionada para começar
 
-
         }
 
         function mainMenu(){
@@ -273,7 +272,6 @@
             btnTurret1.addEventListener("click", function(){
                 towerType = "iceTower";
                 type="torre"
-                console.log(towerType);
             }, false);
             
             var btnTurret2 = document.createElement("a");
@@ -285,10 +283,8 @@
              btnTurret2.addEventListener("click", function(){
                 towerType = "sniperTower"
                  type="torre"
-                console.log(towerType);
             }, false);
-            
-            
+
             var btnTurret6 = document.createElement("a");
             btnTurret6.setAttribute("id", "btnTurret6");
             // btnTurret6.setAttribute("type", "button");
@@ -298,7 +294,6 @@
              btnTurret6.addEventListener("click", function(){
                 towerType = "cannonTower";
                  type="torre"
-                console.log(towerType);
             }, false);
             
             var btnTurret7 = document.createElement("a");
@@ -310,7 +305,6 @@
              btnTurret7.addEventListener("click", function(){
                 towerType = "flameTower";
                  type="torre"
-                console.log(towerType);
             }, false);
             
             div.appendChild(sideMenu);
@@ -351,7 +345,7 @@
             // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
-                var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height);
+                var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height, "spawn");
                 console.log(spawn);
                 spawnPoints.push(spawn);
             }
@@ -513,7 +507,7 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
-                // spawnPoints[i].render(canvases.tiles.ctx);
+                spawnPoints[i].render(canvases.tiles.ctx);
                 if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
                     canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                     spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
