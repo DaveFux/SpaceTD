@@ -346,7 +346,6 @@
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
                 var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height, "spawn");
-                console.log(spawn);
                 spawnPoints.push(spawn);
             }
 
@@ -390,7 +389,7 @@
             teclas[codTecla] = false;
 
             switch (codTecla) {
-                case 78:
+                case 78: //N
             if (Player.nivel == 1) {
                 Player.nivel = 2;
             } else {
@@ -398,7 +397,7 @@
             }
             mudarNivel();
             break;
-            case 77:
+            case 77: //M
             if (type== "base") {
                 type= "torre";
             } else {
@@ -406,26 +405,19 @@
             }
             break;
 
-            case 66:
-            if (towerType== "sniperTower") {
-                towerType= "cannonTower";
-            } else {
-                towerType= "sniperTower"
-            }
-            break;
         }
         }
 
-        function criarObjeto(i,type) {
+        function criarObjeto(tile,type) {
             switch (type) {
                 case "torre":
-                    colocarTorre(tiles[i],false);
+                    colocarTorre(tile,false);
                     break;
                 case "minion":
-                    criarMinion(spawnPoints[i]);
+                    criarMinion(tile);
                     break;
                 case "base":
-                    colocarTorre(tiles[i],true);
+                    colocarTorre(tile,true);
                     break;
             }
         }
@@ -555,6 +547,5 @@
                 entities[i].render(canvases.entities.ctx)
 
             }
-        }
     }
 )(); // não apagar

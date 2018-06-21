@@ -1,5 +1,5 @@
 var Torre = Entity.extend(function () {
-        this.currState = undefined; // por equanto é inutil
+        this.currState = undefined;
         var podeDisparar = undefined;
         var target=false;
         var callback = undefined;
@@ -8,7 +8,7 @@ var Torre = Entity.extend(function () {
             turret2: 'turret2',
             turret6: 'turret6',
             turret7: 'turret7'
-        }; // por equanto é inutil
+        };
         this.speed = undefined; //velocidade da bala
         this.damage = undefined;
         this.range = undefined;
@@ -70,7 +70,7 @@ var Torre = Entity.extend(function () {
 
             podeDisparar = false;
             mob.health-=this.damage;
-            console.log("Vida depois do damage:" + mob.health)
+            console.log("Vida depois do damage:" + mob.health);
             callback = criarBala;
         };
         this.getSprite = function () {
