@@ -1,7 +1,7 @@
 var refTile =Entity.extend(function () {
     this.currState = undefined; // estado atual;
     this.type=undefined;
-
+    this.ativo0false
     this.states = {
         ending: 'ending',
         spawn: 'spawn'

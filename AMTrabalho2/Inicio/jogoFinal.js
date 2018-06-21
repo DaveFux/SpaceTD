@@ -264,52 +264,52 @@
             var sideMenu = document.createElement("div");
             sideMenu.setAttribute("id", "sideMenu");
             
-            var btnTurret1 = document.createElement("button");
+            var btnTurret1 = document.createElement("a");
             btnTurret1.setAttribute("id", "btnTurret1");
-            btnTurret1.setAttribute("type", "button");
+            // btnTurret1.setAttribute("type", "button");
             btnTurret1.setAttribute("src", "samples/tower-defense-turrets/turret-1-1.png");
             sideMenu.appendChild(btnTurret1);
             
             btnTurret1.addEventListener("click", function(){
                 towerType = "iceTower";
-                type="tower"
+                type="torre"
                 console.log(towerType);
             }, false);
             
-            var btnTurret2 = document.createElement("button");
+            var btnTurret2 = document.createElement("a");
             btnTurret2.setAttribute("id", "btnTurret2");
-            btnTurret2.setAttribute("type", "button");
+            // btnTurret2.setAttribute("type", "button");
             btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
             sideMenu.appendChild(btnTurret2);
             
              btnTurret2.addEventListener("click", function(){
                 towerType = "sniperTower"
-                 type="tower"
+                 type="torre"
                 console.log(towerType);
             }, false);
             
             
-            var btnTurret6 = document.createElement("button");
+            var btnTurret6 = document.createElement("a");
             btnTurret6.setAttribute("id", "btnTurret6");
-            btnTurret6.setAttribute("type", "button");
+            // btnTurret6.setAttribute("type", "button");
             btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
             sideMenu.appendChild(btnTurret6);
             
              btnTurret6.addEventListener("click", function(){
                 towerType = "cannonTower";
-                 type="tower"
+                 type="torre"
                 console.log(towerType);
             }, false);
             
-            var btnTurret7 = document.createElement("button");
+            var btnTurret7 = document.createElement("a");
             btnTurret7.setAttribute("id", "btnTurret7");
-            btnTurret7.setAttribute("type", "button");
+            // btnTurret7.setAttribute("type", "button");
             btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");
             sideMenu.appendChild(btnTurret7);
             
              btnTurret7.addEventListener("click", function(){
                 towerType = "flameTower";
-                 type="tower"
+                 type="torre"
                 console.log(towerType);
             }, false);
             
