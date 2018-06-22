@@ -382,7 +382,6 @@
                 path.push(aux);
                 aux = [];
             }
-            console.log(path);
         }
 
         function atualizarCaminho(tile, podeConstruir) {
@@ -403,7 +402,6 @@
             entities = [];
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
-                    console.log("Tem Base: " + tiles[i][j].temBase + " Tem torre: " + tiles[i][j].temTorre);
                     tiles[i][j].temBase = false;
                     tiles[i][j].temTorre = false
                 }
@@ -439,11 +437,11 @@
                     criarMinion(tile);
                     break;
                 case "base":
-                    var cont=0;
-                    var cont2=0;
+                    var cont = 0;
+                    var cont2 = 0;
                     var ms;
-                    for(var spawn of spawnPoints) {
-                        if(spawn.ativo) {
+                    for (var spawn of spawnPoints) {
+                        if (spawn.ativo) {
                             iniciarCaminho();
                             atualizarCaminho(tile, true);
                             ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
@@ -454,7 +452,7 @@
                             cont2++;
                         }
                     }
-                    if (cont==cont2) {
+                    if (cont == cont2) {
                         colocarTorre(tile, true);
                     } else {
                         atualizarCaminho(tile, false);
@@ -504,11 +502,23 @@
         }
 
         function checkColisions() {
-            for(var mob of osMobs){
-                for()
+            for (var bala of asBalas) {
+                for (var mob of osMobs) {
+                    if (bala.hitTestRectangle(mob)) {
+                        mob.health -= bala.damage;
+                        if (bala.special != undefined) {
+                            if (bala.special = "burn") {
+                                mob.debuff = "burn";
+                            } else {
+                                mob.debuff = "slow"
+                            }
+                        }
+                        bala.active = false;
+                        console.log("Vida depois do damage:" + mob.health);
+                    }
+                    break;
+                }
             }
-            mob.health-=this.damage;
-            console.log("Vida depois do damage:" + mob.health);
         }
 
         //Update
@@ -523,41 +533,50 @@
             }
 
 
-                if (asTorres.length > 0 && osMobs.length > 0) {
-                    for (var torre of asTorres) {
-                        for (var mob of osMobs) {
-                            if (!(Math.abs(torre.x - target.x) < (torre.range * 46) && !Math.abs(torre.y - target.y) < (torre.range * 46))){
-                                    torre.target=undefined;
-                            }
-                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)&& torre.target!=undefined) {
-                                torre.attack(mob, function () {
-                                    var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
-                                    umaBala.scaleFactor = 0.3;
-                                    umaBala.vy = umaBala.y - mob.y;
-                                    umaBala.vx = umaBala.x - mob.x;
-                                    umaBala.id = Date.now();
-                                    asBalas.push(umaBala);
-                                    entities.push(umaBala);
-                                });
-
-                            } else {
+            if (asTorres.length > 0 && osMobs.length > 0) {
+                for (var torre of asTorres) {
+                    for (var mob of osMobs) {
+                        if (torre.target != undefined) {
+                            if (!(Math.abs(torre.x - torre.target.x) < (torre.range * 46) && Math.abs(torre.y - torre.target.y) < (torre.range * 46))) {
+                                torre.target = undefined;
                                 torre.rotation = 0;
+                            } else {
+                                torre.rotate();
+                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                umaBala.scaleFactor = 0.3;
+                                var dx=mob.x-torre.x;
+                                var dy=mob.y-torre.y;
+                                var mag = Math.sqrt(dx*dx+dy*dy);
+                                umaBala.vx = dx/mag*2;
+                                umaBala.vy = dy/mag*2;
+                                console.log("X:" + umaBala.x);
+                                console.log("Y:" + umaBala.y);
+                                console.log("Vx:" + umaBala.vx)
+                                console.log("Vy:" + umaBala.vy)
+                                asBalas.push(umaBala);
+                                entities.push(umaBala);
+                                break;
+                            }
+                        } else {
+                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
+                                torre.target = mob;
+                                torre.rotate();
+                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                umaBala.scaleFactor = 0.3;
+                                umaBala.vy = 1;
+                                umaBala.vx = 1;
+                                asBalas.push(umaBala);
+                                entities.push(umaBala);
+                                break;
                             }
                         }
-
+                    }
                 }
             }
             if (osMobs.length == 0 && Game.spawn) {
                 Game.spawn = false;
                 gerarMinons();
             }
-            for (var mob of osMobs) {
-
-            }
-
-
-            render();
-
             // fazer o render dos tiles
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
@@ -594,6 +613,7 @@
 
             clearArrays(); // limpar os arrays
 
+            render();
             animationHandler = window.requestAnimationFrame(update);
         }
 
@@ -613,9 +633,7 @@
 
 //Render
         function render() {
-            for (mob of osMobs) {
-                mob.update();
-            }
+
 
             canvases.background.ctx.clearRect(0, 0, offscreenBackground.width, offscreenBackground.height,
                 0, 0, offscreenBackground.width, offscreenBackground.height); //limpa o canvas
@@ -628,7 +646,7 @@
             canvases.entities.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (var i = 0; i < entities.length; i++) {
-
+                entities[i].update();
                 entities[i].render(canvases.entities.ctx)
 
             }
@@ -648,7 +666,7 @@
                 case 78: //N
                     if (Player.nivel == 1) {
                         Player.nivel = 2;
-                        spawnPoints[1].ativo=true;
+                        spawnPoints[1].ativo = true;
                     } else {
                         Player.nivel = 1;
                     }

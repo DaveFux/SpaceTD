@@ -65,25 +65,14 @@ var Torre = Entity.extend(function () {
             this.height = this.frames[0].height;
         }.bind(this);
 
-        this.disparar = function (mob,criarBala) {
-            if (!podeDisparar) return;
 
-            podeDisparar = false;
-            callback = criarBala;
-
-            if(target.health<=0){
-                target=undefined
-            }
-
-        };
         this.getSprite = function () {
             return this.frames[this.currentFrame];
         };
 
-        this.attack = function (mob,criarBala ) {
-                target=mob;
-                var difX = this.x - mob.x;
-                var difY = this.y - mob.y;
+        this.rotate = function ( ) {
+                var difX = this.x - this.target.x;
+                var difY = this.y -  this.target.y;
 
                 var alpha = Math.atan(difY / difX);
 
@@ -92,7 +81,6 @@ var Torre = Entity.extend(function () {
                 }else{
                     this.rotation = alpha + Math.PI*(-2/4);
                 }
-                this.disparar(mob, criarBala)
         }
     }
 );

@@ -1,5 +1,5 @@
 //TODO acabar
-var Balas = Entity.extend(function () {
+var Bala = Entity.extend(function () {
     this.currState;// estado atual;
     this.states = {
         bala:"bala",
@@ -45,8 +45,8 @@ var Balas = Entity.extend(function () {
     this.update = function () {
         if (!this.active) return;
 
-        this.x -= this.vx;
-        this.y -= this.vy;
+        this.x += this.vx;
+        this.y += this.vy;
 
         this.width = this.frames[this.currentFrame].width;
         this.height = this.frames[this.currentFrame].height;
@@ -55,7 +55,8 @@ var Balas = Entity.extend(function () {
     };
 
     var setup = function () {
-        this.frames = this.eStates[0];
+        this.eStates[this.currState] = this.spriteSheet.getStats(this.currState);
+        this.frames = this.eStates[this.currState];
         this.width = this.frames[0].width;
         this.height = this.frames[0].height;
     }.bind(this);
