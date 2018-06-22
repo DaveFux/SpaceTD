@@ -167,12 +167,15 @@
             menu.appendChild(menuOverlay);
 
             var textoInstrucoes = document.createElement("p");
-            var textoInst = document.createTextNode("O jogo chama-se Space Tower Defense e o utilizador pode construir quatro tipos de torres(gelo,chama,canhão e sniper)." +
-                " Estas tem que ser colocadas em cima de uma base.\n" +
-                "O objetivo do jogo é não deixar os monstros atravessarem o mapa.");
+            textoInstrucoes.setAttribute("id","textoInstrucoes");
+            textoInstrucoes.classList.add("class","textoInstrucoes");
+
+            menuOverlay.appendChild(textoInstrucoes);
+            textoInstrucoes.innerHTML="<br/>O jogo chama-se Space Tower Defense e o utilizador pode construir quatro tipos de torres(gelo,chama,canhão e sniper)." +
+                "<br/>Estas tem que ser colocadas em cima de uma base." +
+                "<br/>O objetivo do jogo é não deixar os monstros atravessarem o mapa.";
 
 
-            textoInstrucoes.appendChild(textoInst);
             menuOverlay.appendChild(textoInstrucoes);
 
             var backButton = document.createElement("img");
@@ -197,12 +200,15 @@
             menu.appendChild(menuOverlay);
 
             var textoCreditos = document.createElement("p");
-            var textoCre = document.createTextNode("-David Silva, nº160118004" +
-                "-Duarte Santos, nº160118020" +
-                "-Paulo Pimenta, nº160118017");
+            textoCreditos.setAttribute("id","textoCreditos");
+            textoCreditos.classList.add("class","textoCreditos");
+
+            menuOverlay.appendChild(textoCreditos);
+            textoCreditos.innerHTML="<br/>-David Silva, nº 1601108004" +
+                                    "<br/>-Duarte Santos, nº160118020" +
+                                    "<br/>-Paulo Pimenta, nº160118017";
 
 
-            textoCreditos.appendChild(textoCre);
             menuOverlay.appendChild(textoCreditos);
 
             var backButton = document.createElement("img");
