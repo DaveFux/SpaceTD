@@ -462,7 +462,7 @@
                     return;
                 }
                 tile.temBase=true;
-                var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7));
+                var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 4.5), tile.y + (tile.height / 4.5));
                 entities.push(base);
                 asBases.push(base);
 
