@@ -1,0 +1,67 @@
+<html>
+ 
+	<head>	
+		<script>
+/*
+	https://www.thepolyglotdeveloper.com/2015/02/solve-2d-array-maze-using-recursion-javascript/
+*/
+		var myMaze = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 1, 0, 0, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 0, 1, 0, 0, 1],
+    [0, 0, 0, 0, 1, 1, 1, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];	
+	 
+		 var MazeSolver = function(maze) {
+		    this.found=false; 
+			this.path=[];
+			 
+			this.maze = maze;
+		
+			this.traverse = function(column, row) {
+
+			if(this.maze[column][row] == 2) {
+				//console.log("We solved the maze at (" + column + ", " + row + ")");
+				this.found=true;
+				/*this.paths.push(this.path);
+				this.path= new Array();*/
+			} else if(this.maze[column][row] == 1) {
+			//	console.log("At valid position (" + column + ", " + row + ")");
+				
+				var cc={'r':row,'c':column};
+				if(!this.found) this.path.push(cc);  
+				
+				this.maze[column][row] = 9;
+				if(column < this.maze.length - 1) {
+					this.traverse(column + 1, row);
+				}
+				if(row < this.maze[column].length - 1) {
+					this.traverse(column, row + 1);
+				}
+				if(column > 0) {
+					this.traverse(column - 1, row);
+				}
+				if(row > 0) {
+					this.traverse(column, row - 1);
+				}
+			}
+			
+			return this.path;
+    };
+
+};
+	var ms= new MazeSolver(myMaze);
+	var p=ms.traverse(3,0);
+	console.log(p);	
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas" style="width:500px;height=400px;border:1px solid red;"></canvas>
+	</body>
+</html>

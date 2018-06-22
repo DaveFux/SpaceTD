@@ -31,7 +31,7 @@
         var endPoints = [];
         var asTorres = [];
         var osMobs = [];
-        var barraVida;
+        var path=[];
         var type = "base";
         var towerType = "sniperTower";
         var assetsLoadInfo;
@@ -422,6 +422,10 @@
                     criarMinion(tile);
                     break;
                 case "base":
+                    caminho();
+                    var ms= new MazeSolver(myMaze);
+                    var p=ms.traverse(3,0);
+                    console.log(p);
                     colocarTorre(tile, true);
                     break;
             }
@@ -466,8 +470,6 @@
             var interval = setInterval(function () {
                 criarObjeto(spawnPoints[0], "minion")
                 cont++;
-                console.log(cont);
-                console.log(Game.nMinions);
                 if (cont == Game.nMinions) {
                     window.clearInterval(interval);
                 }
@@ -493,10 +495,11 @@
             }
 
             //criarObjeto(1, "minion");
+
             if (asBases.length > 0 && osMobs > 0) {
                 if (asTorres.length > 0) {
-                    for (torre of asTorres) {
-                        for (mob of osMobs) {
+                    for (var torre of asTorres) {
+                        for (var mob of osMobs) {
                             if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
                                 torre.attack(mob, function (mob) {
                                     var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
@@ -514,10 +517,6 @@
                     }
                 }
 
-                for (mob of osMobs) {
-                    var existeCaminho = caminho(mob);
-                    console.log(existeCaminho);
-                }
                 for (torre of asTorres) {
                     for (mob of osMobs) {
                         if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
@@ -541,9 +540,12 @@
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
                     tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "black", "red");
-                    if (tiles[i][j].hitTestPoint(point.x, point.y)) {
+                    if (tiles[i][j].hitTestPoint(point.x, point.y) && (tiles[i][j].temBase && type == "base" || tiles[i][j].temTorre && type == "torre" || !tiles[i][j].temBase && type == "torre")) {
                         canvases.tiles.ctx.clearRect(tiles[i][j].x, tiles[i][j].y, tiles[i][j].width, tiles[i][j].height);
-                        tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "#31FF00", "red");
+                        tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
+                    } else if (tiles[i][j].hitTestPoint(point.x, point.y)) {
+                        canvases.tiles.ctx.clearRect(tiles[i][j].x, tiles[i][j].y, tiles[i][j].width, tiles[i][j].height);
+                        tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "#00aa03", "red");
                     }
                 }
             }
@@ -556,12 +558,12 @@
                     }
                 }
             }
-            for (var i = 0; i < endPoints.length; i++) {
-                if (endPoints[i].ativo) {
-                    endPoints[i].render(canvases.tiles.ctx);
-                    if (endPoints[i].hitTestPoint(point.x, point.y)) {
-                        canvases.tiles.ctx.clearRect(endPoints[i].x, endPoints[i].y, endPoints[i].width, endPoints[i].height);
-                        endPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
+            for (var end of endPoints) {
+                if (end.ativo) {
+                    end.render(canvases.tiles.ctx);
+                    if (end.hitTestPoint(point.x, point.y)) {
+                        canvases.tiles.ctx.clearRect(end.x, end.y, end.width, end.height);
+                        end.drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
                     }
                 }
             }
@@ -587,80 +589,29 @@
             asBases = asBases.filter(filtrarAtivos)
         }
 
-        function caminho(minion) {
-                    var queue = [];
-                    var aux = [];
-                    for (var i = 0; i < tiles.length; i++) {
-                        for (var j = 0; j < tiles[i].length; j++) {
-                            var aux2 = '1';
-                            if (tiles[i][j].temBase) {
-                                aux2 = '0';
-                            }
-                            if (minion.x == tiles[i][j].x && minion.y == tiles[i][j].y) {
-                                aux2 = '2';
-                            }
-                            for (var h = 0; h < endPoints.length; h++)
-                                if (tiles[i][j] == endPoints[h] && endPoints[h].ativo) {
-                                    aux2 = 'X';
-                                }
-                            aux.push(aux2);
+        function caminho() {
+            path = [];
+            var aux = [];
+            for (var i = 0; i < tiles.length; i++) {
+                for (var j = 0; j < tiles[i].length; j++) {
+                    var aux2 = 1;
+                    if (tiles[i][j].temBase) {
+                        aux2 = 0;
+                    }
+                    for (var end of endPoints) {
+                        if (tiles[i][j].x == end.x && tiles[i][j].y == end.y && end.ativo) {
+                            aux2 = 2;
                         }
-                        queue.push(aux);
-                        aux = [];
-            }
-            return pathExists(queue);
-        }
-
-        function pathExists(matrix) {
-            var N = matrix.length;
-
-            var queue = [];
-            queue.add(new Tile(0, 0, 0, 0));
-            var pathExists = false;
-
-            while (queue.length != 0) {
-                var current = queue.remove(0);
-                if (matrix[current.x][current.y] == 'X') {
-                    pathExists = true;
-                    break;
+                    }
+                    aux.push(aux2);
                 }
-
-                matrix[current.x][current.y] = '0'; // mark as visited
-
-                var neighbors = getNeighbors(matrix, current);
-                for (neighbor of neighbors) {
-                    queue.addAll(neighbors);
-                }
+                path.push(aux);
+                aux = [];
             }
+            console.log(path);
 
-            return pathExists;
         }
 
-        function getNeighbors(matrix, node) {
-            var neighbors = [];
-
-            if (isValidPoint(matrix, node.x - 1, node.y)) {
-                neighbors.push(new Tile(node.x - 1, node.y));
-            }
-
-            if (isValidPoint(matrix, node.x + 1, node.y)) {
-                neighbors.push(new Tile(node.x + 1, node.y));
-            }
-
-            if (isValidPoint(matrix, node.x, node.y - 1)) {
-                neighbors.push(new Tile(node.x, node.y - 1));
-            }
-
-            if (isValidPoint(matrix, node.x, node.y + 1)) {
-                neighbors.push(new Tile(node.x, node.y + 1));
-            }
-
-            return neighbors;
-        }
-
-        function isValidPoint(matrix, x, y) {
-            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
-        }
 
         function render() {
             for (mob of osMobs) {

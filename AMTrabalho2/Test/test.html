@@ -4,8 +4,86 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-        for(var i =1; i<=20; i++) {
-            console.log(Math.pow(i/2, Math.E));
+        function () {
+        var node={
+            x:0,
+            y:0
+        }
+
+
+        /*var queue = [];
+                    var aux = [];
+                    for (var i = 0; i < tiles.length; i++) {
+                        for (var j = 0; j < tiles[i].length; j++) {
+                            var aux2 = '1';
+                            if (tiles[i][j].temBase) {
+                                aux2 = '0';
+                            }
+                            for (var end of endPoints) {
+                                if (tiles[i][j].x == end.x && tiles[i][j].y == end.y && end.ativo) {
+                                    aux2 = 'X';
+                                }
+                            }
+                            aux.push(aux2);
+                        }
+                        queue.push(aux);
+                        aux = [];
+            }
+            console.log(queue);*/
+
+
+
+    console.log(pathExists(matrix))
+        function pathExists(matrix) {
+            var n = matrix.length;
+
+            var queue = [];
+            queue.push();
+            var pathExists = false;
+
+            while (queue.length != 0) {
+                var current = queue.shift();
+                if (matrix[current.x][current.y] == 'X') {
+                    pathExists = true;
+                    break;
+                }
+
+                matrix[current.x][current.y] = '0'; // mark as visited
+
+                var neighbors = getNeighbors(matrix, current);
+                for (var neighbor of neighbors) {
+                    queue.push(neighbor);
+                }
+            }
+
+            return pathExists;
+        }
+
+        function getNeighbors(matrix, node) {
+            var neighbors = [];
+
+            if (isValidPoint(matrix, node.x - 1, node.y)) {
+                neighbors.push(new Tile(node.x - 1, node.y));
+            }
+
+            if (isValidPoint(matrix, node.x + 1, node.y)) {
+                neighbors.push(new Tile(node.x + 1, node.y));
+            }
+
+            if (isValidPoint(matrix, node.x, node.y - 1)) {
+                neighbors.push(new Tile(node.x, node.y - 1));
+            }
+
+            if (isValidPoint(matrix, node.x, node.y + 1)) {
+                neighbors.push(new Tile(node.x, node.y + 1));
+            }
+
+            return neighbors;
+        }
+
+        function isValidPoint(matrix, x, y) {
+            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
+        }
         }
     </script>
 </head>
