@@ -31,7 +31,7 @@
         var endPoints = [];
         var asTorres = [];
         var osMobs = [];
-        var path=[];
+        var path = [];
         var type = "base";
         var towerType = "sniperTower";
         var assetsLoadInfo;
@@ -318,7 +318,7 @@
             canvas = canvases.entities.canvas;
             var y = 0;
             var x = 0;
-            var aux = []
+            var aux = [];
             for (var i = 0; i < 15; i++) {
                 for (var j = 0; j < 15; j++) {
                     var tile = new Tile(x, y, 46, 46);
@@ -330,11 +330,7 @@
                 x = 0;
                 y += 46;
             }
-
-            //entities.push(oBackground);   background
             //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
-
-            mudarNivel();
             // //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
@@ -346,7 +342,6 @@
                 var end = new refTile(gSpriteSheets['samples//casas.png'], end.x, end.y, end.width, end.height, "ending");
                 endPoints.push(end);
             }
-
             gameState = GameStates.RUNNING;
             canvas.addEventListener("mousemove", function (e) {
                 point.x = e.pageX - canvas.offsetLeft;
@@ -364,50 +359,77 @@
                     }
                 }
             }, false);
+            mudarNivel();
+        }
+
+        //Manipulaçao do caminho e do mapa
+        function iniciarCaminho() {
+            path = [];
+            var aux = [];
+            for (var i = 0; i < tiles.length; i++) {
+                for (var j = 0; j < tiles[i].length; j++) {
+                    var aux2 = 1;
+                    if (tiles[i][j].temBase) {
+                        aux2 = 0;
+                    }
+                    for (var end of endPoints) {
+                        if (tiles[i][j].x == end.x && tiles[i][j].y == end.y && end.ativo) {
+                            aux2 = 2;
+                        }
+                    }
+                    aux.push(aux2);
+                }
+                path.push(aux);
+                aux = [];
+            }
+            console.log(path);
+        }
+
+        function atualizarCaminho(tile, podeConstruir) {
+            var i = tile.x / 46;
+            var j = tile.y / 46;
+            if (tiles[i][j].temBase && podeConstruir) {
+                path[i][j] = 0
+            } else if (!podeConstruir) {
+                path[i][j] = 1
+            }
+            console.log(path);
+        }
+
+        function resetMapa() {
+            osMobs = [];
+            asBases = [];
+            asTorres = [];
+            entities = [];
+            for (var i = 0; i < tiles.length; i++) {
+                for (var j = 0; j < tiles[i].length; j++) {
+                    console.log("Tem Base: "+ tiles[i][j].temBase+" Tem torre: "+tiles[i][j].temTorre);
+                    tiles[i][j].temBase=false;
+                    tiles[i][j].temTorre=false
+                }
+            }
         }
 
         function mudarNivel() {
             if (Player.nivel == 1) {
-
                 tileBackground.getLayerByName("nivel1").visible = true;
                 tileBackground.getLayerByName("infinito").visible = false;
                 tileBackground.draw(offscreenBackground.getContext("2d"));
+                spawnPoints[0].ativo = true;
+                endPoints[0].ativo = true;
             } else {
                 tileBackground.getLayerByName("nivel1").visible = false;
                 tileBackground.getLayerByName("infinito").visible = true;
                 tileBackground.draw(offscreenBackground.getContext("2d"));
+                resetMapa();
+                Player.dinheiro += 10;
+                endPoints[0].ativo = false
+                endPoints[1].ativo = true
             }
+            iniciarCaminho();
         }
 
-        function keyDownHandler(e) {
-            var codTecla = e.keyCode;
-            teclas[codTecla] = true;
-        }
-
-        function keyUpHandler(e) {
-            var codTecla = e.keyCode;
-            teclas[codTecla] = false;
-
-            switch (codTecla) {
-                case 78: //N
-                    if (Player.nivel == 1) {
-                        Player.nivel = 2;
-                    } else {
-                        Player.nivel = 1;
-                    }
-                    mudarNivel();
-                    break;
-                case 77: //M
-                    if (type == "base") {
-                        type = "torre";
-                    } else {
-                        type = "base"
-                    }
-                    break;
-
-            }
-        }
-
+        //Criação de objectos
         function criarObjeto(tile, type) {
             switch (type) {
                 case "torre":
@@ -417,13 +439,16 @@
                     criarMinion(tile);
                     break;
                 case "base":
-                    caminho();
-                    var ms= new Pathfinder(path,(tile.x /46),(tile.y /46));
+                    iniciarCaminho();
+                    atualizarCaminho(tile, true);
+                    var ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
                     console.log(tile.y)
-                    var p=ms.traverse(0,0);
+                    var p = ms.traverse(0, 0);
                     console.log(p);
-                    if(ms.found) {
+                    if (ms.found) {
                         colocarTorre(tile, true);
+                    } else {
+                        atualizarCaminho(tile, false);
                     }
                     break;
             }
@@ -435,7 +460,6 @@
             osMobs.push(mob);
         }
 
-        //	faz os testes de verifica��o de colis�es
         function colocarTorre(tile, baseB) {
             if (baseB) {
                 if (tile.temBase) {
@@ -458,10 +482,6 @@
             }
         }
 
-        function checkColisions() {
-
-        }
-
         function gerarMinons() {
             var cont = 0
             Game.nMinions = 10 * Game.wave;
@@ -474,25 +494,21 @@
             }, 1000);
         }
 
+        function checkColisions() {
 
+        }
+
+        //Update
         function update() {
-            //Create the animation loop
-
-            switch (Player.nivel) {
-                case 1:
-                    spawnPoints[0].ativo = true;
-                    endPoints[0].ativo = true
-                    break;
-                case 2:
-                    endPoints[0].ativo = false
-                    endPoints[1].ativo = true
-                    if (Game.wave % 10 == 0 && Game.wave <= 30) {
-                        spawnPoints[Game.wave / 10].ativo = true;
-                    }
-                    break;
+            //Mudança de nivel
+            if (Game.wave == 11) {
+                Player.nivel = 2;
+                mudarNivel();
+            }
+            if (Game.wave % 10 == 0 && Game.wave <= 30) {
+                spawnPoints[Game.wave / 10].ativo = true;
             }
 
-            //criarObjeto(1, "minion");
 
             if (asBases.length > 0 && osMobs > 0) {
                 if (asTorres.length > 0) {
@@ -533,8 +549,9 @@
 
             //  }
 
-            render(); // fazer o render das entidades
+            render();
 
+            // fazer o render dos tiles
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
                     tiles[i][j].drawColisionBoundaries(canvases.tiles.ctx, true, false, "black", "red");
@@ -548,30 +565,29 @@
                 }
             }
             for (var i = 0; i < spawnPoints.length; i++) {
+                canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                 if (spawnPoints[i].ativo) {
                     spawnPoints[i].render(canvases.tiles.ctx);
                     if (spawnPoints[i].hitTestPoint(point.x, point.y)) {
-                        canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
                         spawnPoints[i].drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
                     }
                 }
             }
             for (var end of endPoints) {
+                canvases.tiles.ctx.clearRect(end.x, end.y, end.width, end.height);
                 if (end.ativo) {
                     end.render(canvases.tiles.ctx);
                     if (end.hitTestPoint(point.x, point.y)) {
-                        canvases.tiles.ctx.clearRect(end.x, end.y, end.width, end.height);
                         end.drawColisionBoundaries(canvases.tiles.ctx, true, false, "red", "red");
                     }
+
                 }
             }
-            checkColisions(); // Verificar se h� colis�es
+            checkColisions();
 
             clearArrays(); // limpar os arrays
 
             animationHandler = window.requestAnimationFrame(update);
-
-
         }
 
         function filtrarAtivos(obj) {
@@ -587,30 +603,8 @@
             asBases = asBases.filter(filtrarAtivos)
         }
 
-        function caminho() {
-            path = [];
-            var aux = [];
-            for (var i = 0; i < tiles.length; i++) {
-                for (var j = 0; j < tiles[i].length; j++) {
-                    var aux2 = 1;
-                    if (tiles[i][j].temBase) {
-                        aux2 = 0;
-                    }
-                    for (var end of endPoints) {
-                        if (tiles[i][j].x == end.x && tiles[i][j].y == end.y && end.ativo) {
-                            aux2 = 2;
-                        }
-                    }
-                    aux.push(aux2);
-                }
-                path.push(aux);
-                aux = [];
-            }
-            console.log(path);
 
-        }
-
-
+//Render
         function render() {
             for (mob of osMobs) {
                 mob.update();
@@ -632,6 +626,37 @@
 
             }
         }
+
+//KeyHandlers
+        function keyDownHandler(e) {
+            var codTecla = e.keyCode;
+            teclas[codTecla] = true;
+        }
+
+        function keyUpHandler(e) {
+            var codTecla = e.keyCode;
+            teclas[codTecla] = false;
+
+            switch (codTecla) {
+                case 78: //N
+                    if (Player.nivel == 1) {
+                        Player.nivel = 2;
+                    } else {
+                        Player.nivel = 1;
+                    }
+                    mudarNivel();
+                    break;
+                case 77: //M
+                    if (type == "base") {
+                        type = "torre";
+                    } else {
+                        type = "base"
+                    }
+                    break;
+
+            }
+        }
+
     }
 )
 (); // não apagar
