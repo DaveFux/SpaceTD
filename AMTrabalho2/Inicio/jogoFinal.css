@@ -7,6 +7,19 @@ position: absolute;
 a{
     background-repeat: no-repeat !important;;
 }
+
+    p{
+        //margin:auto;
+        //font-size: 24px;
+        //text-align: justify;
+        //letter-spacing: 3px;
+        //color:white;
+        //width:800px;
+        //margin-top:150px;
+        //font-family:arial;
+    }
+
+
 body{margin:0; padding:0;}
         #canvasBack{position:absolute; top:0px;left:400px; z-index: 10;}
         #canvasComp{position:absolute; top:0px;left:400px; z-index: 20;}
@@ -27,6 +40,8 @@ body{margin:0; padding:0;}
 					cursor: pointer;
 					opacity:0.5;
 				}
+
+
         
 				#loader {
 						z-index:800;
@@ -70,7 +85,6 @@ body{margin:0; padding:0;}
     /*width: 1349px;
     height: 690px; */
 }
-
 
 #title{
     display: block;
@@ -247,6 +261,11 @@ body{margin:0; padding:0;}
 
 }
 
+
+.selected{
+    background-color: rgba(192, 192, 192);
+    color: white;
+}
 
 #btnTurret1 {
     background-image: url(samples/tower-defense-turrets/turret-1-1.png);

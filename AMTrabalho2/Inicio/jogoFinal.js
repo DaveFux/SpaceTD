@@ -18,6 +18,7 @@
             y: 0
         };
         var canvas;
+        var btns = new Array();
         var drawingSurface;
         var entities = [];
         var teclas = new Array(255);
@@ -164,16 +165,24 @@
             var menuOverlay = document.createElement("div");
             menuOverlay.setAttribute("id", "menuOverlay");
             menu.appendChild(menuOverlay);
+
+            var textoInstrucoes = document.createElement("p");
+            var textoInst = document.createTextNode("O jogo chama-se Space Tower Defense e o utilizador pode construir quatro tipos de torres(gelo,chama,canhão e sniper)." +
+                " Estas tem que ser colocadas em cima de uma base.\n" +
+                "O objetivo do jogo é não deixar os monstros atravessarem o mapa.");
+
+
+            textoInstrucoes.appendChild(textoInst);
+            menuOverlay.appendChild(textoInstrucoes);
+
             var backButton = document.createElement("img");
             backButton.setAttribute("id", "backButton");
             backButton.setAttribute("src", "ImagemMenu/backButton.png");
             backButton.setAttribute("type", "button");
             menuOverlay.appendChild(backButton);
-            var backgroundIns = document.createElement("img");
-            backgroundIns.setAttribute("id", "backgroundIns");
-            backgroundIns.setAttribute("src", "ImagemMenu/Instructions.png");
-            menuOverlay.appendChild(backgroundIns);
-            
+
+
+
             document.getElementById("backButton").onclick = function(){
                 menuOverlay.remove();
             }
@@ -186,12 +195,26 @@
             var menuOverlay = document.createElement("div");
             menuOverlay.setAttribute("id", "menuOverlay");
             menu.appendChild(menuOverlay);
+
+            var textoCreditos = document.createElement("p");
+            var textoCre = document.createTextNode("-David Silva, nº160118004" +
+                "-Duarte Santos, nº160118020" +
+                "-Paulo Pimenta, nº160118017");
+
+
+            textoCreditos.appendChild(textoCre);
+            menuOverlay.appendChild(textoCreditos);
+
             var backButton = document.createElement("img");
             backButton.setAttribute("id", "backButton");
             backButton.setAttribute("src", "ImagemMenu/backButton.png");
             backButton.setAttribute("type", "button");
             menuOverlay.appendChild(backButton);
-            
+
+
+
+
+
             document.getElementById("backButton").onclick = function(){
                 menuOverlay.remove();
             }
@@ -277,9 +300,14 @@
             btnBase.setAttribute("src", "samples/base.png");
             sideMenu.appendChild(btnBase);
             
-            btnBase.addEventListener("click", function(){
+            btnBase.addEventListener("click", function(e){
                 towerType = "iceTower";
-                type="base"
+                type="base";
+
+                for(var btn of btns){
+                    btn.classList.remove("selected");
+                }
+                e.target.classList.add("selected");
             }, false);
             
             
@@ -289,9 +317,14 @@
             btnTurret1.setAttribute("src", "samples/tower-defense-turrets/turret-1-1.png");
             sideMenu.appendChild(btnTurret1);
             
-            btnTurret1.addEventListener("click", function(){
+            btnTurret1.addEventListener("click", function(e){
                 towerType = "iceTower";
-                type="torre"
+                type="torre";
+
+                for(var btn of btns){
+                    btn.classList.remove("selected");
+                }
+                e.target.classList.add("selected");
             }, false);
             
             var btnTurret2 = document.createElement("div");
@@ -300,9 +333,14 @@
             btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
             sideMenu.appendChild(btnTurret2);
             
-             btnTurret2.addEventListener("click", function(){
-                towerType = "sniperTower"
-                 type="torre"
+             btnTurret2.addEventListener("click", function(e){
+                towerType = "sniperTower";
+                 type="torre";
+
+                 for(var btn of btns){
+                     btn.classList.remove("selected");
+                 }
+                 e.target.classList.add("selected");
             }, false);
 
             var btnTurret6 = document.createElement("div");
@@ -311,9 +349,14 @@
             btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
             sideMenu.appendChild(btnTurret6);
             
-             btnTurret6.addEventListener("click", function(){
+             btnTurret6.addEventListener("click", function(e){
                 towerType = "cannonTower";
-                 type="torre"
+                 type="torre";
+                 for(var btn of btns){
+                     btn.classList.remove("selected");
+                 }
+
+                 e.target.classList.add("selected");
             }, false);
             
             var btnTurret7 = document.createElement("div");
@@ -322,11 +365,23 @@
             btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");
             sideMenu.appendChild(btnTurret7);
             
-             btnTurret7.addEventListener("click", function(){
+             btnTurret7.addEventListener("click", function(e){
                 towerType = "flameTower";
-                 type="torre"
+                 type="torre";
+                 for(var btn of btns){
+                     btn.classList.remove("selected");
+                 }
+                 e.target.classList.add("selected");
+
+
             }, false);
-            
+
+             btns.push(btnBase);
+             btns.push(btnTurret1);
+             btns.push(btnTurret2);
+             btns.push(btnTurret6);
+             btns.push(btnTurret7);
+
             div.appendChild(sideMenu);
 
 
