@@ -6,12 +6,12 @@ var Pathfinder = function (maze,tileX,tileY) {
         this.traverse = function (x, y) {
             maze[tileX][tileY]=0;
             if (this.maze[x][y] == 2) {
-                console.log("We solved the maze at (" + x + ", " + y + ")");
+              //  console.log("We solved the maze at (" + x + ", " + y + ")");
                 this.found = true;
                 /*this.paths.push(this.path);
                 this.path= new Array();*/
             } else if (this.maze[x][y] == 1) {
-                console.log("At valid position (" + x + ", " + y + ")");
+              //  console.log("At valid position (" + x + ", " + y + ")");
 
                 var cc = {'x': x, 'y': y};
                 if (!this.found) this.path.push(cc);

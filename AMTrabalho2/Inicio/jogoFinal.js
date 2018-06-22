@@ -403,9 +403,9 @@
             entities = [];
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
-                    console.log("Tem Base: "+ tiles[i][j].temBase+" Tem torre: "+tiles[i][j].temTorre);
-                    tiles[i][j].temBase=false;
-                    tiles[i][j].temTorre=false
+                    console.log("Tem Base: " + tiles[i][j].temBase + " Tem torre: " + tiles[i][j].temTorre);
+                    tiles[i][j].temBase = false;
+                    tiles[i][j].temTorre = false
                 }
             }
         }
@@ -439,13 +439,22 @@
                     criarMinion(tile);
                     break;
                 case "base":
-                    iniciarCaminho();
-                    atualizarCaminho(tile, true);
-                    var ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
-                    console.log(tile.y)
-                    var p = ms.traverse(0, 0);
-                    console.log(p);
-                    if (ms.found) {
+                    var cont=0;
+                    var cont2=0;
+                    var ms;
+                    for(var spawn of spawnPoints) {
+                        if(spawn.ativo) {
+                            iniciarCaminho();
+                            atualizarCaminho(tile, true);
+                            ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
+                            path = ms.traverse(spawn.y / 46, spawn.x / 46);
+                            if (ms.found) {
+                                cont++;
+                            }
+                            cont2++;
+                        }
+                    }
+                    if (cont==cont2) {
                         colocarTorre(tile, true);
                     } else {
                         atualizarCaminho(tile, false);
@@ -495,7 +504,11 @@
         }
 
         function checkColisions() {
-
+            for(var mob of osMobs){
+                for()
+            }
+            mob.health-=this.damage;
+            console.log("Vida depois do damage:" + mob.health);
         }
 
         //Update
@@ -510,12 +523,14 @@
             }
 
 
-            if (asBases.length > 0 && osMobs > 0) {
-                if (asTorres.length > 0) {
+                if (asTorres.length > 0 && osMobs.length > 0) {
                     for (var torre of asTorres) {
                         for (var mob of osMobs) {
-                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
-                                torre.attack(mob, function (mob) {
+                            if (!(Math.abs(torre.x - target.x) < (torre.range * 46) && !Math.abs(torre.y - target.y) < (torre.range * 46))){
+                                    torre.target=undefined;
+                            }
+                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)&& torre.target!=undefined) {
+                                torre.attack(mob, function () {
                                     var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y + 5, torre.type, torre.damage, torre.speed, torre.range, torre.special);
                                     umaBala.scaleFactor = 0.3;
                                     umaBala.vy = umaBala.y - mob.y;
@@ -524,30 +539,22 @@
                                     asBalas.push(umaBala);
                                     entities.push(umaBala);
                                 });
+
                             } else {
                                 torre.rotation = 0;
                             }
                         }
-                    }
-                }
 
-                for (torre of asTorres) {
-                    for (mob of osMobs) {
-                        if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
-                            torre.attack(mob);
-                        } else {
-                            torre.rotation = 0;
-                        }
-                    }
                 }
             }
             if (osMobs.length == 0 && Game.spawn) {
                 Game.spawn = false;
                 gerarMinons();
             }
+            for (var mob of osMobs) {
 
+            }
 
-            //  }
 
             render();
 
@@ -641,6 +648,7 @@
                 case 78: //N
                     if (Player.nivel == 1) {
                         Player.nivel = 2;
+                        spawnPoints[1].ativo=true;
                     } else {
                         Player.nivel = 1;
                     }
