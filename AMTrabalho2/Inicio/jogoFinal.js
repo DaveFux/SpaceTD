@@ -240,25 +240,37 @@
             div.appendChild(container);
             document.body.appendChild(div);
 			
-			var header = document.createElement("div");
-            header.setAttribute("id","header");
+			var sideMenu = document.createElement("div");
+            sideMenu.setAttribute("id", "sideMenu");
             
-            var infoDinheiro = document.createElement("p");
+            var infoDinheiro = document.createElement("div");
             infoDinheiro.setAttribute("id", "infoDinheiro");
-            
+            infoDinheiro.setAttribute("src","samples/dinheiro.png");
+            var p1 = document.createElement("p");
+            p1.setAttribute("id", "outputDinheiro");
+            infoDinheiro.appendChild(p1);
+            p1.innerHTML = Player.dinheiro;
+
+
             //var infoWave = document.createElement("p");
             //infoWave.setAttribute("id", "infoWave");
             
-            var infoVida = document.createElement("p");
+            var infoVida = document.createElement("div");
             infoVida.setAttribute("id", "infoVida");
+            infoVida.setAttribute("src","samples/vida.png");
+            var p2 = document.createElement("p");
+            p2.setAttribute("id", "outputVida");
+            infoVida.appendChild(p2);
+            p2.innerHTML = Player.vida;
+
+
+
+            sideMenu.appendChild(infoDinheiro);
+            sideMenu.appendChild(infoVida);
+            //div.appendChild(header);
             
-            header.appendChild(infoDinheiro);
-            header.appendChild(infoVida);
-            div.appendChild(header);            
-            
-            var sideMenu = document.createElement("div");
-            sideMenu.setAttribute("id", "sideMenu");
-            
+
+
             var btnBase = document.createElement("div");
             btnBase.setAttribute("id", "btnBase");
             // btnTurret1.setAttribute("type", "button");
