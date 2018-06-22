@@ -1,5 +1,5 @@
 /*
-    todo fazer o background
+    todo ver o pathfinder que nao esta a bloquear a nova base
 */
 (function () { //não apagar
         var Player = {
@@ -193,15 +193,10 @@
                 backButton.setAttribute("src", "ImagemMenu/backButton.png");
                 backButton.setAttribute("type", "button");
                 menuOverlay.appendChild(backButton);
-
                 document.getElementById("backButton").onclick = function () {
                     menuOverlay.remove();
                 }
-
-
             }
-
-
         }
 
 
@@ -423,10 +418,13 @@
                     break;
                 case "base":
                     caminho();
-                    var ms= new MazeSolver(myMaze);
-                    var p=ms.traverse(3,0);
+                    var ms= new Pathfinder(path,(tile.x /46),(tile.y /46));
+                    console.log(tile.y)
+                    var p=ms.traverse(0,0);
                     console.log(p);
-                    colocarTorre(tile, true);
+                    if(ms.found) {
+                        colocarTorre(tile, true);
+                    }
                     break;
             }
         }
