@@ -1,7 +1,7 @@
 var Torre = Entity.extend(function () {
         this.currState = undefined;
         var podeDisparar = undefined;
-        var target=false;
+        var target=undefined;
         var callback = undefined;
         this.states = {
             turret1: 'turret1',
@@ -69,16 +69,19 @@ var Torre = Entity.extend(function () {
             if (!podeDisparar) return;
 
             podeDisparar = false;
-            mob.health-=this.damage;
-            console.log("Vida depois do damage:" + mob.health);
             callback = criarBala;
+
+            if(target.health<=0){
+                target=undefined
+            }
+
         };
         this.getSprite = function () {
             return this.frames[this.currentFrame];
         };
 
         this.attack = function (mob,criarBala ) {
-
+                target=mob;
                 var difX = this.x - mob.x;
                 var difY = this.y - mob.y;
 
