@@ -10,7 +10,7 @@
         }
         var Game = {
             wave: 1,
-            nMinions: 10000,
+            nMinions: 10,
             boss: false,
             spawn: true
         }
@@ -300,7 +300,7 @@
 
             btnTurret7.addEventListener("click", function () {
                 towerType = "flameTower";
-                type = "torre"
+                type = "torre";
             }, false);
 
             div.appendChild(sideMenu);
@@ -332,7 +332,7 @@
                 y += 46;
             }
             //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
-            // //canvases.background.canvas.fadeIn(1000);
+            //canvases.background.canvas.fadeIn(1000);
             var spawns = tileBackground.getLayerByName("Spawn").objects;
             for (spawn of spawns) {
                 var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height, "spawn");
@@ -521,20 +521,39 @@
                 for (var mob of osMobs) {
                     if (bala.hitTestRectangle(mob)) {
                         mob.health -= bala.damage;
-                        if (bala.special != undefined) {
-                            mob.debuff = "burn";
+                        if (bala.special != undefined && !mob.debuff.includes("burn")) {
+                            mob.debuff.push("burn");
                         }
                         bala.active = false;
                         console.log("Vida depois do damage:" + mob.health);
                         break;
+                    } else {
+                        if (mob.debuff.includes("burn")) {
+                            mob.debuff.replace("burn", "");
+                        }
                     }
                 }
             }
             for (var aura of asAuras) {
                 for (var mob of osMobs) {
-                    if (aura.hitTestCircle(mob)) {
+                    if (aura.hitTestCircle(mob)){
                         mob.health -= aura.damage;
-                        mob.debuff = "slow"
+                        if (!mob.debuff.includes("slow")) {
+                            mob.debuff.push("slow");
+                        }
+                    } else {
+                                       
+                        console.log("Antes: " + mob.debuff);
+                        if (mob.slowApplied) {
+                            for(var i=0; i<mob.debuff.length; i++){
+                                if(mob.debuff[i].includes("slow")){
+                                    mob.debuff.splice(i,1);
+                                    mob.speed = mob.speed * 3;
+                                    mob.slowApplied = false;
+                                }
+                            }
+                        }
+                        console.log("Depois: " + mob.debuff);
                     }
                 }
             }
@@ -649,7 +668,7 @@
                 for (var end of endPoints) {
                     if (mob.x >= end.x && mob.y >= end.y && end.ativo) {
                         mob.active = false;
-                        Player.vida-=mob.damage
+                        Player.vida -= mob.damage
                     }
                 }
             }
@@ -664,7 +683,7 @@
             if (obj.active == true) return obj;
         }
 
-//	efetua a limpeza dos arrays
+        //	efetua a limpeza dos arrays
         function clearArrays() {
             entities = entities.filter(filtrarAtivos);
             osMobs = osMobs.filter(filtrarAtivos);
@@ -674,7 +693,7 @@
         }
 
 
-//Render
+        //Render
         function render() {
 
 
@@ -697,7 +716,7 @@
             }
         }
 
-//KeyHandlers
+        //KeyHandlers
         function keyDownHandler(e) {
             var codTecla = e.keyCode;
             teclas[codTecla] = true;
@@ -721,19 +740,19 @@
                     if (type == "base") {
                         type = "torre";
                     } else {
-                        type = "base"
+                        type = "base";
                     }
                     break;
                 case 80:
                     for (var entitie of entities) {
                         if (entitie.vx != undefined) {
-                            entitie.vx = 0
+                            entitie.vx = 0;
                         }
                         if (entitie.vy != undefined) {
-                            entitie.vy = 0
+                            entitie.vy = 0;
                         }
                     }
-                    break
+                    break;
             }
         }
 
