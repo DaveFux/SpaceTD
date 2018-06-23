@@ -10,7 +10,7 @@
         }
         var Game = {
             wave: 1,
-            nMinions: 10,
+            nMinions: 10000,
             boss: false,
             spawn: true
         }
@@ -31,6 +31,7 @@
         var endPoints = [];
         var asTorres = [];
         var osMobs = [];
+        var asAuras = [];
         var path = [];
         var type = "base";
         var towerType = "sniperTower";
@@ -473,7 +474,7 @@
                     return;
                 }
                 tile.temBase = true;
-                var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7));
+                var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 4.5), tile.y + (tile.height / 4.5));
                 entities.push(base);
                 asBases.push(base);
 
@@ -483,6 +484,20 @@
                 }
                 tile.temTorre = true;
                 var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
+                if (towerType == "iceTower") {
+                    var aura = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                    aura.alpha = 0.3;
+                    aura.scale(torre.range);
+                    aura.x = aura.x - aura.getHalfWidth() + 18;
+                    aura.y = aura.y - aura.getHalfHeight() + 17;
+                    aura.vx = 0;
+                    aura.vy = 0;
+
+                    console.log(aura.width);
+                    console.log(aura.height);
+                    entities.push(aura);
+                    asAuras.push(aura);
+                }
                 entities.push(torre);
                 asTorres.push(torre);
 
@@ -491,14 +506,14 @@
 
         function gerarMinons() {
             var cont = 0;
-            Game.nMinions = 10 * Game.wave;
+            // Game.nMinions = 10 * Game.wave;
             var interval = setInterval(function () {
                 criarObjeto(spawnPoints[0], "minion")
                 cont++;
                 if (cont == Game.nMinions) {
                     window.clearInterval(interval);
                 }
-            }, 1000);
+            }, 1000 / Player.nivel);
         }
 
         function checkColisions() {
@@ -507,16 +522,20 @@
                     if (bala.hitTestRectangle(mob)) {
                         mob.health -= bala.damage;
                         if (bala.special != undefined) {
-                            if (bala.special = "burn") {
-                                mob.debuff = "burn";
-                            } else {
-                                mob.debuff = "slow"
-                            }
+                            mob.debuff = "burn";
                         }
                         bala.active = false;
                         console.log("Vida depois do damage:" + mob.health);
+                        break;
                     }
-                    break;
+                }
+            }
+            for (var aura of asAuras) {
+                for (var mob of osMobs) {
+                    if (aura.hitTestCircle(mob)) {
+                        mob.health -= aura.damage;
+                        mob.debuff = "slow"
+                    }
                 }
             }
         }
@@ -536,43 +555,53 @@
             if (asTorres.length > 0 && osMobs.length > 0) {
                 for (var torre of asTorres) {
                     for (var mob of osMobs) {
-                        if (torre.target != undefined) {
-                            if (!(Math.abs(torre.x - torre.target.x) < (torre.range * 46) && Math.abs(torre.y - torre.target.y) < (torre.range * 46))) {
-                                torre.target = undefined;
-                                torre.rotation = 0;
+                        if (torre.type != "iceTower") {
+                            if (torre.target != undefined) {
+                                if (!(Math.abs(torre.x - torre.target.x) < (torre.range * 46) && Math.abs(torre.y - torre.target.y) < (torre.range * 46))) {
+                                    torre.target = undefined;
+                                    torre.rotation = 0;
+                                } else {
+                                    torre.rotate();
+                                    if (torre.interval == 0) {
+                                        var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                        umaBala.scaleFactor = 1;
+                                        umaBala.rotation = 90 + torre.rotation;
+                                        var dx = mob.x - torre.x;
+                                        var dy = mob.y - torre.y;
+                                        var mag = Math.sqrt(dx * dx + dy * dy);
+                                        umaBala.vx = dx / mag * 10;
+                                        umaBala.vy = dy / mag * 10;
+                                        asBalas.push(umaBala);
+                                        entities.push(umaBala);
+                                        torre.interval = torre.speed;
+                                        break;
+                                    }
+                                }
                             } else {
-                                torre.rotate();
-                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
-                                umaBala.scaleFactor = 0.3;
-                                var dx=mob.x-torre.x;
-                                var dy=mob.y-torre.y;
-                                var mag = Math.sqrt(dx*dx+dy*dy);
-                                umaBala.vx = dx/mag*2;
-                                umaBala.vy = dy/mag*2;
-                                console.log("X:" + umaBala.x);
-                                console.log("Y:" + umaBala.y);
-                                console.log("Vx:" + umaBala.vx)
-                                console.log("Vy:" + umaBala.vy)
-                                asBalas.push(umaBala);
-                                entities.push(umaBala);
-                                break;
-                            }
-                        } else {
-                            if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
-                                torre.target = mob;
-                                torre.rotate();
-                                var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
-                                umaBala.scaleFactor = 0.3;
-                                umaBala.vy = 1;
-                                umaBala.vx = 1;
-                                asBalas.push(umaBala);
-                                entities.push(umaBala);
-                                break;
+                                if (Math.abs(torre.x - mob.x) < (torre.range * 46) && Math.abs(torre.y - mob.y) < (torre.range * 46)) {
+                                    torre.target = mob;
+                                    torre.rotate();
+                                    if (torre.interval == 0) {
+                                        var umaBala = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x + torre.width / 2, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
+                                        umaBala.scaleFactor = 1;
+                                        var dx = mob.x - torre.x;
+                                        var dy = mob.y - torre.y;
+                                        var mag = Math.sqrt(dx * dx + dy * dy);
+                                        umaBala.vx = dx / mag * 10;
+                                        umaBala.vy = dy / mag * 10;
+                                        asBalas.push(umaBala);
+                                        entities.push(umaBala);
+                                        torre.interval = torre.speed;
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+
+
             if (osMobs.length == 0 && Game.spawn) {
                 Game.spawn = false;
                 gerarMinons();
@@ -609,15 +638,25 @@
 
                 }
             }
+            console.log("N Balas:" + asBalas.length)
             checkColisions();
-            for(var entitie of entities){
-                if(entitie.x<0||entitie.y<0||entitie.x>canvas.width||entitie.y>canvas.height){
-                    entitie.active=false;
+            for (var bala of asBalas) {
+                if (bala.x < 0 || bala.y < 0 || bala.x > canvas.width || bala.y > canvas.height) {
+                    bala.active = false;
+                }
+            }
+            for (var mob of osMobs) {
+                for (var end of endPoints) {
+                    if (mob.x >= end.x && mob.y >= end.y && end.ativo) {
+                        mob.active = false;
+                        Player.vida-=mob.damage
+                    }
                 }
             }
             clearArrays(); // limpar os arrays
 
             render();
+
             animationHandler = window.requestAnimationFrame(update);
         }
 
@@ -652,6 +691,8 @@
             for (var i = 0; i < entities.length; i++) {
                 entities[i].update();
                 entities[i].render(canvases.entities.ctx)
+                entities[i].drawColisionBoundaries(canvases.entities.ctx, true, false, "pink", "red");
+
 
             }
         }
@@ -684,12 +725,12 @@
                     }
                     break;
                 case 80:
-                    for(var entitie of entities){
-                        if(entitie.vx!=undefined){
-                            entitie.vx=0
+                    for (var entitie of entities) {
+                        if (entitie.vx != undefined) {
+                            entitie.vx = 0
                         }
-                        if(entitie.vy!=undefined){
-                            entitie.vy=0
+                        if (entitie.vy != undefined) {
+                            entitie.vy = 0
                         }
                     }
                     break
@@ -697,5 +738,6 @@
         }
 
     }
+
 )
 (); // não apagar

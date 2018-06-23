@@ -1,19 +1,19 @@
 var Torre = Entity.extend(function () {
         this.currState = undefined;
-        var podeDisparar = undefined;
-        var target=undefined;
-        var callback = undefined;
+        this.target = undefined;
         this.states = {
             turret1: 'turret1',
             turret2: 'turret2',
             turret6: 'turret6',
             turret7: 'turret7'
         };
-        this.speed = undefined; //velocidade da bala
+        this.speed = undefined; //velocidade do disparo
         this.damage = undefined;
         this.range = undefined;
         this.special = undefined;
         this.nearbyMinion = false;
+        this.interval = 0;
+        this.type;
         //  this.accuracy;  Para ver
         this.constructor = function (spriteSheet, x, y, type) {
             this.super();
@@ -23,15 +23,15 @@ var Torre = Entity.extend(function () {
 
             switch (type) {
                 case "cannonTower":
-                    this.speed = 5;
+                    this.speed = 90;
                     this.damage = 50;
                     this.range = 2;
                     this.currState = this.states.turret6;
                     break;
                 case "iceTower":
                     this.speed = 0;
-                    this.damage = 10;
-                    this.range = 1;
+                    this.damage = 0;
+                    this.range = 2;
                     this.special = "slow";
                     this.currState = this.states.turret1;
                     break;
@@ -43,19 +43,25 @@ var Torre = Entity.extend(function () {
                     this.currState = this.states.turret7;
                     break;
                 case "sniperTower":
-                    this.speed = 9;
+                    this.speed = 200;
                     this.damage = 100;
                     this.range = 3;
                     this.currState = this.states.turret2;
                     break;
             }
+            this.type=type;
             this.currentFrame = 0;
             setup();
         };
         this.update = function () {
             if (!this.active) return;
-            if (this.nearbyMinion) {
-                this.podeDisparar = true;
+            if (this.target != undefined) {
+                if (this.target.health <= 0) {
+                    this.target = undefined;
+                }
+            }
+            if(this.interval>0) {
+                this.interval--
             }
         };
         var setup = function () {
@@ -70,17 +76,17 @@ var Torre = Entity.extend(function () {
             return this.frames[this.currentFrame];
         };
 
-        this.rotate = function ( ) {
-                var difX = this.x - this.target.x;
-                var difY = this.y -  this.target.y;
+        this.rotate = function () {
+            var difX = this.x - this.target.x;
+            var difY = this.y - this.target.y;
 
-                var alpha = Math.atan(difY / difX);
+            var alpha = Math.atan(difY / difX);
 
-                if(difX<0){
-                    this.rotation = alpha + Math.PI*(2/4);
-                }else{
-                    this.rotation = alpha + Math.PI*(-2/4);
-                }
+            if (difX < 0) {
+                this.rotation = alpha + Math.PI * (2 / 4);
+            } else {
+                this.rotation = alpha + Math.PI * (-2 / 4);
+            }
         }
     }
 );

@@ -2,7 +2,7 @@
 var Bala = Entity.extend(function () {
     this.currState;// estado atual;
     this.states = {
-        bala:"bala",
+        gelo2:"gelo2",
         canhao:"canhao",
         chama:"chama",
         gelo:"gelo"
@@ -10,16 +10,14 @@ var Bala = Entity.extend(function () {
 
     this.damage;
     this.special;
-    this.speed;
     this.range;
     this.type;
-    this.constructor = function (spriteSheet, x, y, type, damage, speed, range, special) {
+    this.constructor = function (spriteSheet, x, y, type, damage, range, special) {
         this.super();
         this.x = x;
         this.y = y;
         this.spriteSheet = spriteSheet;
         this.damage = damage;
-        this.speed = speed;
         this.range = range;
         this.special = special;
         switch (type) {
@@ -27,13 +25,13 @@ var Bala = Entity.extend(function () {
                 this.currState = this.states.canhao;
                 break;
             case "iceTower":
-                this.currState = this.states.gelo;
+                this.currState = this.states.gelo2;
                 break;
             case "flameTower":
                 this.currState = this.states.chama;
                 break;
             case "sniperTower":
-                this.currState = this.states.bala;
+                this.currState = this.states.gelo;
                 break;
         }
         setup();
@@ -47,11 +45,10 @@ var Bala = Entity.extend(function () {
 
         this.x += this.vx;
         this.y += this.vy;
-
         this.width = this.frames[this.currentFrame].width;
         this.height = this.frames[this.currentFrame].height;
         this.updateSize();
-        this.currentFrame = (++this.currentFrame) % this.frames.length;
+        // this.currentFrame = (++this.currentFrame) % this.frames.length;
     };
 
     var setup = function () {

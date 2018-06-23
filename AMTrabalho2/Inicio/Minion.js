@@ -8,7 +8,7 @@ var Minion = Entity.extend(function () {
     this.damage=1;
     this.drop=5;
     this.vFrame=0;
-    this.debuff=undefined
+    this.debuff=[];
 
     this.constructor = function (spriteSheet, x, y, type, wave, mode) {
         this.super();
@@ -69,9 +69,9 @@ var Minion = Entity.extend(function () {
     this.update = function () {
         this.vFrame = this.vFrame < this.frames.length - 1 ?this. vFrame + 0.1 : 0;
         this.currentFrame = Math.floor(this.vFrame);
-        if(this.debuff=="burn"){
+        if(this.debuff.contains("burn")){
             this.health-=1;
-        }else if(this.debuff=="slow"){
+        }else if(this.debuff.contains("slow")){
             this.speed=this.speed/3;
         }
         if(this.health<=0){
