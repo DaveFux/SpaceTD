@@ -490,7 +490,7 @@
         }
 
         function gerarMinons() {
-            var cont = 0
+            var cont = 0;
             Game.nMinions = 10 * Game.wave;
             var interval = setInterval(function () {
                 criarObjeto(spawnPoints[0], "minion")
@@ -610,7 +610,11 @@
                 }
             }
             checkColisions();
-
+            for(var entitie of entities){
+                if(entitie.x<0||entitie.y<0||entitie.x>canvas.width||entitie.y>canvas.height){
+                    entitie.active=false;
+                }
+            }
             clearArrays(); // limpar os arrays
 
             render();
@@ -679,7 +683,16 @@
                         type = "base"
                     }
                     break;
-
+                case 80:
+                    for(var entitie of entities){
+                        if(entitie.vx!=undefined){
+                            entitie.vx=0
+                        }
+                        if(entitie.vy!=undefined){
+                            entitie.vy=0
+                        }
+                    }
+                    break
             }
         }
 
