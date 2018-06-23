@@ -66,7 +66,7 @@ var Minion = Entity.extend(function () {
         this.health += Math.pow((wave / 2), Math.E);
         setup();
     };
-    
+
     this.update = function () {
         this.vFrame = this.vFrame < this.frames.length - 1 ? this.vFrame + 0.1 : 0;
         this.currentFrame = Math.floor(this.vFrame);

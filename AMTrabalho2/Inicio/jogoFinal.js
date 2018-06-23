@@ -7,19 +7,19 @@
             nivel: 1,
             pontos: 0,
             vida: 20
-        }
+        };
         var Game = {
             wave: 1,
             nMinions: 10,
             boss: false,
             spawn: true
-        }
+        };
         var point = {
             x: 0,
             y: 0
         };
         var canvas;
-        var drawingSurface;
+        var radius;
         var entities = [];
         var teclas = new Array(255);
         var debugMode = true;
@@ -46,7 +46,6 @@
             LOADING: 4,
             LOADED: 4
         };
-
         var canvases = {
             entities: {
                 canvas: null,
@@ -65,7 +64,6 @@
                 ctx: null
             }
         };
-
         var GameSounds = {
             BALA: {},
             MOBS: {},
@@ -73,11 +71,7 @@
         };
         var tileBackground;
         var gameState;
-        window.addEventListener("load", init, false);
-
-        function init() {
-            load();
-        }
+        window.addEventListener("load", load, false);
 
         function load() {
 
@@ -158,8 +152,7 @@
             document.getElementById("botaoStart").onclick = function () {
                 menu.classList.add("class", "hidden");
                 setupGame();
-
-            }
+            };
 
 
             botaoInstrucoes.addEventListener("click", function () {
@@ -179,8 +172,7 @@
 
                 document.getElementById("backButton").onclick = function () {
                     menuOverlay.remove();
-                }
-
+                };
             });
 
             //Botao Creditos
@@ -267,7 +259,7 @@
 
             btnTurret1.addEventListener("click", function () {
                 towerType = "iceTower";
-                type = "torre"
+                type = "torre";
             }, false);
 
             var btnTurret2 = document.createElement("a");
@@ -277,8 +269,8 @@
             sideMenu.appendChild(btnTurret2);
 
             btnTurret2.addEventListener("click", function () {
-                towerType = "sniperTower"
-                type = "torre"
+                towerType = "sniperTower";
+                type = "torre";
             }, false);
 
             var btnTurret6 = document.createElement("a");
@@ -289,7 +281,7 @@
 
             btnTurret6.addEventListener("click", function () {
                 towerType = "cannonTower";
-                type = "torre"
+                type = "torre";
             }, false);
 
             var btnTurret7 = document.createElement("a");
@@ -352,10 +344,15 @@
             window.addEventListener("keydown", keyDownHandler, false);
             window.addEventListener("keyup", keyUpHandler, false);
             canvas.addEventListener("click", function () {
+                radius = undefined;
                 for (var i = 0; i < tiles.length; i++) {
                     for (var j = 0; j < tiles[i].length; j++) {
                         if (tiles[i][j].hitTestPoint(point.x, point.y)) {
-                            criarObjeto(tiles[i][j], type);
+                            if (tiles[i][j].torre !== undefined) {                              
+                                radius = tiles[i][j].torre;
+                            }else{
+                                criarObjeto(tiles[i][j], type);
+                            }
                         }
                     }
                 }
@@ -389,11 +386,10 @@
             var i = tile.x / 46;
             var j = tile.y / 46;
             if (tiles[i][j].temBase && podeConstruir) {
-                path[i][j] = 0
+                path[i][j] = 0;
             } else if (!podeConstruir) {
-                path[i][j] = 1
+                path[i][j] = 1;
             }
-            console.log(path);
         }
 
         function resetMapa() {
@@ -404,7 +400,7 @@
             for (var i = 0; i < tiles.length; i++) {
                 for (var j = 0; j < tiles[i].length; j++) {
                     tiles[i][j].temBase = false;
-                    tiles[i][j].temTorre = false
+                    tiles[i][j].temTorre = false;
                 }
             }
         }
@@ -422,8 +418,8 @@
                 tileBackground.draw(offscreenBackground.getContext("2d"));
                 resetMapa();
                 Player.dinheiro += 10;
-                endPoints[0].ativo = false
-                endPoints[1].ativo = true
+                endPoints[0].ativo = false;
+                endPoints[1].ativo = true;
             }
             iniciarCaminho();
         }
@@ -438,8 +434,8 @@
                     criarMinion(tile);
                     break;
                 case "base":
-                    var cont = 0;
-                    var cont2 = 0;
+                    var caminhosValidos = 0;
+                    var caminhosTotais = 0;
                     var ms;
                     for (var spawn of spawnPoints) {
                         if (spawn.ativo) {
@@ -448,16 +444,17 @@
                             ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
                             path = ms.traverse(spawn.y / 46, spawn.x / 46);
                             if (ms.found) {
-                                cont++;
+                                caminhosValidos++;
                             }
-                            cont2++;
+                            caminhosTotais++;
                         }
                     }
-                    if (cont == cont2) {
+                    caminhosValidos === caminhosTotais ? colocarTorre(tile, true) : atualizarCaminho(tile, false);
+                    /*if (caminhosValidos == caminhosTotais) {
                         colocarTorre(tile, true);
                     } else {
                         atualizarCaminho(tile, false);
-                    }
+                    }*/
                     break;
             }
         }
@@ -475,6 +472,7 @@
                 }
                 tile.temBase = true;
                 var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 4.5), tile.y + (tile.height / 4.5));
+                tile.base = base;
                 entities.push(base);
                 asBases.push(base);
 
@@ -492,12 +490,10 @@
                     aura.y = aura.y - aura.getHalfHeight() + 17;
                     aura.vx = 0;
                     aura.vy = 0;
-
-                    console.log(aura.width);
-                    console.log(aura.height);
                     entities.push(aura);
                     asAuras.push(aura);
                 }
+                tile.torre = torre;
                 entities.push(torre);
                 asTorres.push(torre);
 
@@ -516,7 +512,60 @@
             }, 1000 / Player.nivel);
         }
 
+
+        function moverMob() {
+
+            mob.x += mob.vx;
+            mob.y += mob.vy;
+
+            //Para verificar se o mob ta numa celula 
+
+            if (Math.floor(mob.x) % 46 === 0 && Math.floor(mob.y) % 46 === 0) {
+                //If it is at a corner, change its direction
+                changeDirection(mob);
+            }
+
+        //Verificar se o mob atinge os limites do Tile 
+        
+        if(mob.x < tileBackground.x){
+            mob.x = tileBackground.x;
+            changeDirection(mob);
+        }
+        
+        if(mob.y < tileBackground.y){
+            mob.y = tileBackground.y;
+            changeDirection(mob);
+        }
+        
+        if(mob.x + mob.width > tileBackground.width){
+            mob.x = tileBackground.width - mob.width;
+            changeDirection(mob);
+        }
+        
+        if(mob.y + mob.height > tileBackground.height){
+            mob.y = tileBackground.height - mob.height;
+            changeDirection(mob);
+        }   
+    }
+
+        function changeDirection(mob){
+
+          var direction;
+          var x;
+          var y;
+
+          mob.x +=  path[0]
+          
+
+                
+
+
+
+        }
+
         function checkColisions() {
+
+            // colisão bala com mob
             for (var bala of asBalas) {
                 for (var mob of osMobs) {
                     if (bala.hitTestRectangle(mob)) {
@@ -528,32 +577,33 @@
                         console.log("Vida depois do damage:" + mob.health);
                         break;
                     } else {
-                        if (mob.debuff.includes("burn")) {
-                            mob.debuff.replace("burn", "");
+                        for (var i = 0; i < mob.debuff.length; i++) {
+                            if (mob.debuff[i].includes("burn")) {
+                                mob.debuff.splice(i, 1);
+                            }
                         }
                     }
                 }
             }
+
+            // colisão aura com mob
             for (var aura of asAuras) {
                 for (var mob of osMobs) {
-                    if (aura.hitTestCircle(mob)){
+                    if (aura.hitTestCircle(mob)) {
                         mob.health -= aura.damage;
                         if (!mob.debuff.includes("slow")) {
                             mob.debuff.push("slow");
                         }
                     } else {
-                                       
-                        console.log("Antes: " + mob.debuff);
                         if (mob.slowApplied) {
-                            for(var i=0; i<mob.debuff.length; i++){
-                                if(mob.debuff[i].includes("slow")){
-                                    mob.debuff.splice(i,1);
+                            for (var i = 0; i < mob.debuff.length; i++) {
+                                if (mob.debuff[i].includes("slow")) {
+                                    mob.debuff.splice(i, 1);
                                     mob.speed = mob.speed * 3;
                                     mob.slowApplied = false;
                                 }
                             }
                         }
-                        console.log("Depois: " + mob.debuff);
                     }
                 }
             }
@@ -657,21 +707,24 @@
 
                 }
             }
-            console.log("N Balas:" + asBalas.length)
-            checkColisions();
+
             for (var bala of asBalas) {
                 if (bala.x < 0 || bala.y < 0 || bala.x > canvas.width || bala.y > canvas.height) {
                     bala.active = false;
                 }
             }
+
             for (var mob of osMobs) {
                 for (var end of endPoints) {
                     if (mob.x >= end.x && mob.y >= end.y && end.ativo) {
                         mob.active = false;
-                        Player.vida -= mob.damage
+                        Player.vida -= mob.damage;
                     }
                 }
             }
+
+            checkColisions();
+
             clearArrays(); // limpar os arrays
 
             render();
@@ -692,11 +745,8 @@
             asBases = asBases.filter(filtrarAtivos)
         }
 
-
         //Render
         function render() {
-
-
             canvases.background.ctx.clearRect(0, 0, offscreenBackground.width, offscreenBackground.height,
                 0, 0, offscreenBackground.width, offscreenBackground.height); //limpa o canvas
 
@@ -709,10 +759,17 @@
 
             for (var i = 0; i < entities.length; i++) {
                 entities[i].update();
-                entities[i].render(canvases.entities.ctx)
+                entities[i].render(canvases.entities.ctx);
                 entities[i].drawColisionBoundaries(canvases.entities.ctx, true, false, "pink", "red");
+            }
 
-
+            if (radius !== undefined) {                                   
+                var ctx = canvases.entities.ctx;
+                ctx.beginPath();
+                ctx.arc(radius.getCenterX(), radius.getCenterY(), radius.width * radius.range, 0, 2 * Math.PI, false);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = "#00ffff";
+                ctx.stroke();
             }
         }
 
@@ -743,7 +800,7 @@
                         type = "base";
                     }
                     break;
-                case 80:
+                case 80: //P
                     for (var entitie of entities) {
                         if (entitie.vx != undefined) {
                             entitie.vx = 0;
@@ -759,4 +816,4 @@
     }
 
 )
-(); // não apagar
+(); // não apagar   MUITO IMPORTANTE
