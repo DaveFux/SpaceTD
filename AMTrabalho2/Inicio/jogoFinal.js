@@ -449,6 +449,7 @@
                             caminhosTotais++;
                         }
                     }
+                    console.log(path)
                     caminhosValidos === caminhosTotais ? colocarTorre(tile, true) : atualizarCaminho(tile, false);
                     /*if (caminhosValidos == caminhosTotais) {
                         colocarTorre(tile, true);
@@ -554,7 +555,7 @@
           var x;
           var y;
 
-          mob.x +=  path[0]
+          mob.x += path[0] //quem esta nesta linha e gay 
           
 
                 
