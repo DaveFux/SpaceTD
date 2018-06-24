@@ -7,6 +7,7 @@ var Bala = Entity.extend(function () {
         chama:"chama",
         gelo:"gelo"
     };
+
     this.damage;
     this.special;
     this.range;
@@ -47,7 +48,6 @@ var Bala = Entity.extend(function () {
         this.width = this.frames[this.currentFrame].width;
         this.height = this.frames[this.currentFrame].height;
         this.updateSize();
-        // this.currentFrame = (++this.currentFrame) % this.frames.length;
     };
 
     var setup = function () {
@@ -56,4 +56,5 @@ var Bala = Entity.extend(function () {
         this.width = this.frames[0].width;
         this.height = this.frames[0].height;
     }.bind(this);
-});
+
+})

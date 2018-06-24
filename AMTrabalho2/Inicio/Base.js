@@ -1,6 +1,5 @@
 var Base = Entity.extend(function () {
         this.currState = undefined;
-        this.preco=5;
         this.states = {
             UNIQUE: 'UNIQUE'
         };

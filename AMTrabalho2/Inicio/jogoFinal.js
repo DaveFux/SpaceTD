@@ -3,30 +3,31 @@
 */
 (function () { //não apagar
     var Player = {
-        dinheiro: 1000, //TODO teste
+        dinheiro: 50, //TODO teste
         nivel: 1,
         pontos: 0,
         vida: 25
     };
     var preco;
     var Game = {
-        wave: 1,
-        nMinions: 10,
+        wave: 0,
+        nMinions: 0,
         boss: false,
-        spawn: true
+        spawn: true,
+        spawnWait: true,
+        spawnsAtivos: 1
     };
     var point = {
         x: 0,
         y: 0
     };
+    var ms;
     var playerDinheiro;
     var canvas;
     var radius;
     var btns = new Array();
-    var drawingSurface;
     var entities = [];
     var teclas = new Array(255);
-    var debugMode = true;
     var animationHandler;
     var asBases = [];
     var asBalas = [];
@@ -37,7 +38,6 @@
     var osMobs = [];
     var asAuras = [];
     var path = [];
-    var barraVida;
     var type = "base";
     var towerType = "sniperTower";
     var assetsLoadInfo;
@@ -94,6 +94,9 @@
         var spCasas = new SpriteSheet();
         spCasas.load("samples//casas.png", "samples//casas.json", loaded);
         assets.push(spCasas);
+        var spNumeros = new SpriteSheet();
+        spNumeros.load("samples//numeros//numeros.png", "samples//numeros//numeros.json", loaded);
+        assets.push(spNumeros);
         var spBase = new SpriteSheet();
         spBase.load("samples//base.png", "samples//base.json", loaded);
         assets.push(spBase);
@@ -294,13 +297,8 @@
         infoVida.appendChild(p2);
         p2.innerHTML = Player.vida;
 
-
-
         sideMenu.appendChild(infoDinheiro);
         sideMenu.appendChild(infoVida);
-        //div.appendChild(header);
-
-
 
         var btnBase = document.createElement("div");
         btnBase.setAttribute("id", "btnBase");
@@ -315,6 +313,9 @@
 
             for (var btn of btns) {
                 btn.classList.remove("selected");
+                if (btn.getAttribute("id") == "btnUpgrade") {
+                    btn.classList.add("hidden");
+                }
             }
             e.target.classList.add("selected");
         }, false);
@@ -332,14 +333,15 @@
             preco = 10;
             for (var btn of btns) {
                 btn.classList.remove("selected");
+                if (btn.getAttribute("id") == "btnUpgrade") {
+                    btn.classList.add("hidden");
+                }
             }
             e.target.classList.add("selected");
         }, false);
 
         var btnTurret2 = document.createElement("div");
         btnTurret2.setAttribute("id", "btnTurret2");
-        // btnTurret2.setAttribute("type", "button");
-        btnTurret2.setAttribute("src", "samples/tower-defense-turrets/turret-2-1.png");
         sideMenu.appendChild(btnTurret2);
 
         btnTurret2.addEventListener("click", function (e) {
@@ -348,14 +350,15 @@
             preco = 995;
             for (var btn of btns) {
                 btn.classList.remove("selected");
+                if (btn.getAttribute("id") == "btnUpgrade") {
+                    btn.classList.add("hidden");
+                }
             }
             e.target.classList.add("selected");
         }, false);
 
         var btnTurret6 = document.createElement("div");
         btnTurret6.setAttribute("id", "btnTurret6");
-        // btnTurret6.setAttribute("type", "button");
-        btnTurret6.setAttribute("src", "samples/tower-defense-turrets/turret-6-1.png");
         sideMenu.appendChild(btnTurret6);
 
         btnTurret6.addEventListener("click", function (e) {
@@ -364,6 +367,9 @@
             preco = 10;
             for (var btn of btns) {
                 btn.classList.remove("selected");
+                if (btn.getAttribute("id") == "btnUpgrade") {
+                    btn.classList.add("hidden");
+                }
             }
 
             e.target.classList.add("selected");
@@ -371,19 +377,58 @@
 
         var btnTurret7 = document.createElement("div");
         btnTurret7.setAttribute("id", "btnTurret7");
-        // btnTurret7.setAttribute("type", "button");
-        btnTurret7.setAttribute("src", "samples/tower-defense-turrets/turret-7-1.png");
         sideMenu.appendChild(btnTurret7);
 
         btnTurret7.addEventListener("click", function (e) {
             towerType = "flameTower";
             type = "torre";
+            preco = 10;
             for (var btn of btns) {
                 btn.classList.remove("selected");
+                if (btn.getAttribute("id") == "btnUpgrade") {
+                    btn.classList.add("hidden");
+                }
             }
             e.target.classList.add("selected");
 
 
+        }, false);
+
+        var btnUpgrade = document.createElement("div");
+        btnUpgrade.classList.add("hidden");
+        btnUpgrade.setAttribute("id", "btnUpgrade");
+        sideMenu.appendChild(btnUpgrade);
+        btnUpgrade.addEventListener("click", function (e) {
+            if (radius != undefined) {
+                if (radius.upgrade >= 3) {
+                    e.target.classList.add("selected");
+                } else {
+                    radius.upgradeTorre();
+                    var up = new Upgrade(gSpriteSheets['samples//numeros//numeros.png'], 0, 0, radius.upgrade);
+                    up.x = radius.x - (46 / 7);
+                    up.y = radius.y - (46 / 7);
+                    canvases.components.ctx.clearRect(up.x, up.y, up.width, up.height);
+                    up.render(canvases.components.ctx);
+                    up.drawColisionBoundaries(canvases.components.ctx, true, false, "white", "red");
+                    if (radius.type == "iceTower") {
+                        console.log("Antes")
+                        console.log("Width" + radius.aura.width)
+                        console.log("Height" + radius.aura.height)
+                        console.log("X" + radius.aura.x)
+                        console.log("Y" + radius.aura.y)
+
+                        radius.aura.scale(radius.range);
+                        radius.aura.x = radius.x - radius.range * 46;
+                        radius.aura.y = radius.y - radius.range * 46;
+                        console.log("Depois")
+                        console.log("Width" + radius.aura.width)
+                        console.log("Height" + radius.aura.height)
+                        console.log("X" + radius.aura.x)
+                        console.log("Y" + radius.aura.y)
+
+                    }
+                }
+            }
         }, false);
 
         btns.push(btnBase);
@@ -391,8 +436,52 @@
         btns.push(btnTurret2);
         btns.push(btnTurret6);
         btns.push(btnTurret7);
-
+        btns.push(btnUpgrade);
         div.appendChild(sideMenu);
+
+        var infoPreco = document.createElement("div");
+        infoPreco.setAttribute("id", "infoPreco");
+
+        var precoBase = document.createElement("p");
+        precoBase.setAttribute("id", "precoBase");
+        precoBase.innerHTML = 5;
+
+        var precoIceTower = document.createElement("p");
+        precoIceTower.setAttribute("id", "precoIceTower");
+        precoIceTower.innerHTML = 10;
+
+        var precoSniperTower = document.createElement("p");
+        precoSniperTower.setAttribute("id", "precoSniperTower");
+        precoSniperTower.innerHTML = 995;
+
+        var precoCannonTower = document.createElement("p");
+        precoCannonTower.setAttribute("id", "precoCannonTower");
+        precoCannonTower.innerHTML = 10;
+
+        var precoFlameTower = document.createElement("p");
+        precoFlameTower.setAttribute("id", "precoFlameTower");
+        precoFlameTower.innerHTML = 10;
+
+        infoPreco.appendChild(precoBase);
+        infoPreco.appendChild(precoIceTower);
+        infoPreco.appendChild(precoSniperTower);
+        infoPreco.appendChild(precoCannonTower);
+        infoPreco.appendChild(precoFlameTower);
+
+        div.appendChild(infoPreco);
+
+        var comecarJogo = document.createElement("button");
+        comecarJogo.setAttribute("id", "comecarJogo");
+        comecarJogo.innerHTML = "Iniciar Wave";
+        div.appendChild(comecarJogo);
+
+        comecarJogo.addEventListener("click", function (e) {
+            comecarJogo.classList.add("hidden");
+            gerarMinions(spawnPoints[0]);
+
+
+        }, false);
+
 
 
         if (Object.keys(gSpriteSheets).length < 6) return;
@@ -421,10 +510,6 @@
             y += 46;
         }
 
-        //entities.push(oBackground);   background
-        //canvases.background.ctx.translate(-(offscreenBackground.width>>1),-(offscreenBackground.height>>1));
-
-        // //canvases.background.canvas.fadeIn(1000);
         var spawns = tileBackground.getLayerByName("Spawn").objects;
         for (spawn of spawns) {
             var spawn = new refTile(gSpriteSheets['samples//casas.png'], spawn.x, spawn.y, spawn.width, spawn.height, "spawn");
@@ -441,6 +526,7 @@
             point.x = e.pageX - canvas.offsetLeft;
             point.y = e.pageY - canvas.offsetTop;
         }, false);
+        mudarNivel();
         update();
         window.addEventListener("keydown", keyDownHandler, false);
         window.addEventListener("keyup", keyUpHandler, false);
@@ -451,14 +537,15 @@
                     if (tiles[i][j].hitTestPoint(point.x, point.y)) {
                         if (tiles[i][j].torre !== undefined) {
                             radius = tiles[i][j].torre;
+                            btns[btns.length - 1].classList.remove("hidden");
                         } else {
                             criarObjeto(tiles[i][j], type);
+                            btns[btns.length - 1].classList.add("hidden");
                         }
                     }
                 }
             }
         }, false);
-        mudarNivel();
     }
 
     //Manipulaçao do caminho e do mapa
@@ -481,7 +568,6 @@
             path.push(aux);
             aux = [];
         }
-        console.log(path)
     }
 
     function atualizarCaminho(tile, podeConstruir) {
@@ -493,7 +579,7 @@
             path[i][j] = 1;
         }
     }
-
+    //TODO
     function resetMapa() {
         osMobs = [];
         asBases = [];
@@ -501,8 +587,16 @@
         entities = [];
         for (var i = 0; i < tiles.length; i++) {
             for (var j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].temBase = false;
-                tiles[i][j].temTorre = false;
+                if (tiles[i][j].base != undefined) {
+                    if (tiles[i][j].torre != undefined) {
+                        Player.dinheiro += tiles[i][j].torre.preco;
+                        tiles[i][j].temTorre = false;
+                        tiles[i][j].torre = undefined;
+                    }
+                    Player.dinheiro += 5;
+                    tiles[i][j].temBase = false;
+                    tiles[i][j].base = undefined;
+                }
             }
         }
     }
@@ -519,15 +613,12 @@
             tileBackground.getLayerByName("infinito").visible = true;
             tileBackground.draw(offscreenBackground.getContext("2d"));
             resetMapa();
-            Player.dinheiro += 10;
             playerDinheiro.innerHTML = Player.dinheiro;
             for (var spawn of spawnPoints) {
                 spawn.ativo = true;
-                console.log("AQui")
             }
             endPoints[0].ativo = false;
             endPoints[1].ativo = true;
-
             end.render(canvases.tiles.ctx);
         }
         iniciarCaminho();
@@ -545,12 +636,11 @@
             case "base":
                 var caminhosValidos = 0;
                 var caminhosTotais = 0;
-                var ms;
                 for (var spawn of spawnPoints) {
                     if (spawn.ativo) {
                         iniciarCaminho();
                         atualizarCaminho(tile, true);
-                        ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46));
+                        ms = new Pathfinder(path, (tile.y / 46), (tile.x / 46), true);
                         path = ms.traverse(spawn.y / 46, spawn.x / 46);
                         if (ms.found) {
                             caminhosValidos++;
@@ -559,27 +649,27 @@
                     }
                 }
                 caminhosValidos === caminhosTotais ? colocarTorre(tile, true) : atualizarCaminho(tile, false);
-                /*if (caminhosValidos == caminhosTotais) {
-                    colocarTorre(tile, true);
-                } else {
-                    atualizarCaminho(tile, false);
-                }*/
                 break;
         }
     }
 
+    function criarMinion(spawn) {
+        var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", Game.wave, Player.nivel == 2 ? "hard" : "", path);
+        entities.push(mob);
+        osMobs.push(mob);
+    }
+
     function colocarTorre(tile, baseB) {
+
         if (Player.dinheiro - preco >= 0) {
             if (baseB) {
                 if (tile.temBase) {
                     return;
                 }
                 var base = new Base(gSpriteSheets['samples//base.png'], tile.x + (tile.width / 4.5), tile.y + (tile.height / 4.5));
-
-                console.log("aqui")
                 tile.base = base;
                 tile.temBase = true;
-                Player.dinheiro -= base.preco;
+                Player.dinheiro -= preco;
                 entities.push(base);
                 asBases.push(base);
             } else {
@@ -587,7 +677,7 @@
                     return;
                 }
 
-                var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, 2, "")
+                var torre = new Torre(gSpriteSheets['samples//tower-defense-turrets//tower-defense-turretsjson.png'], tile.x + (tile.width / 7), tile.y + (tile.height / 7), towerType, preco)
                 if (towerType == "iceTower") {
                     var aura = new Bala(gSpriteSheets['samples//balas//tiros.png'], torre.x, torre.y, torre.type, torre.damage, torre.speed, torre.range, torre.special);
                     aura.alpha = 0.3;
@@ -596,6 +686,7 @@
                     aura.y = aura.y - aura.getHalfHeight() + 17;
                     aura.vx = 0;
                     aura.vy = 0;
+                    torre.aura = aura;
                     entities.push(aura);
                     asAuras.push(aura);
                 }
@@ -605,21 +696,30 @@
                 entities.push(torre);
                 asTorres.push(torre);
             }
+
             playerDinheiro.innerHTML = Player.dinheiro;
+
+
+
         }
     }
 
-    function gerarMinons() {
-        var cont = 0;
-        // Game.nMinions = 10 * Game.wave;
+    function gerarMinions(spawn) {
+        iniciarCaminho();
+        ms = new Pathfinder(path, 0, 0, false);
+        path = ms.traverse(spawn.y / 46, spawn.x / 46);
         var interval = setInterval(function () {
             criarObjeto(spawnPoints[0], "minion")
-            cont++;
-            if (cont == Game.nMinions) {
+            Game.nMinions--;
+            if (Game.nMinions == 0) {
                 window.clearInterval(interval);
+                Game.spawnWait = true;
             }
         }, 1000 / Player.nivel);
+        console.log(Game.nMinions);
     }
+
+
 
     //KeyHandlers
     function keyDownHandler(e) {
@@ -642,11 +742,8 @@
                 mudarNivel();
                 break;
             case 77: //M
-                if (type == "base") {
-                    type = "torre";
-                } else {
-                    type = "base";
-                }
+                Player.dinheiro += 5000000;
+                playerDinheiro.innerHTML = Player.dinheiro;
                 break;
             case 80: //P
                 for (var entitie of entities) {
@@ -661,12 +758,22 @@
         }
     }
 
+    function endGame() {
 
-    function criarMinion(spawn) {
-        var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", 2, "");
-        entities.push(mob);
-        osMobs.push(mob);
+        gameState = GameStates.STOPED;
+
+        var menuOverlay = document.createElement("div");
+        menuOverlay.setAttribute("id", "menuOverlay");
+        var imgGameOver = document.createElement("img");
+        imgGameOver.setAttribute("id", "imgGameOver");
+        imgGameOver.setAttribute("src", "samples/GameOver.png");
+        menuOverlay.appendChild(imgGameOver);
+
+        //Acrescentar informação dos stats finais do Player
+        document.getElementById("principal").appendChild(menuOverlay);
+
     }
+
 
     function checkColisions() {
 
@@ -719,6 +826,16 @@
             mudarNivel();
         }
 
+        if (osMobs.length == 0 && Game.nMinions == 0 && Game.spawnWait) {
+            document.getElementById("comecarJogo").classList.remove("hidden");
+            Game.spawnWait = false;
+            Game.wave += 1;
+            Game.nMinions = 5 * (Game.wave);
+            console.log(Game.nMinions);
+            console.log(Game.wave);
+
+        }
+
         if (asTorres.length > 0 && osMobs.length > 0) {
             for (var torre of asTorres) {
                 for (var mob of osMobs) {
@@ -768,10 +885,7 @@
             }
         }
 
-        if (osMobs.length == 0 && Game.spawn) {
-            Game.spawn = false;
-            gerarMinons();
-        }
+
 
         // fazer o render dos tiles
         for (var i = 0; i < tiles.length; i++) {
@@ -786,9 +900,7 @@
                     }
                 }
             }
-
         }
-
         for (var i = 0; i < spawnPoints.length; i++) {
             canvases.tiles.ctx.clearRect(spawnPoints[i].x, spawnPoints[i].y, spawnPoints[i].width, spawnPoints[i].height);
             if (spawnPoints[i].ativo) {
@@ -818,9 +930,14 @@
                 if (mob.x >= end.x && mob.y >= end.y && end.ativo) {
                     mob.active = false;
                     Player.vida -= mob.damage;
+                    if (Player.vida <= 0) {
+                        Player.vida = 0;
+                        endGame();
+                    }
                 }
             }
         }
+
 
         checkColisions();
 
@@ -842,8 +959,8 @@
         asTorres = asTorres.filter(filtrarAtivos);
         asBalas = asBalas.filter(filtrarAtivos);
         asBases = asBases.filter(filtrarAtivos);
+        asAuras = asAuras.filter(filtrarAtivos);
     }
-
 
     //Render
     function render() {
@@ -860,7 +977,7 @@
         for (var i = 0; i < entities.length; i++) {
             entities[i].update();
             entities[i].render(canvases.entities.ctx);
-            entities[i].drawColisionBoundaries(canvases.entities.ctx, true, false, "pink", "red");
+            /*entities[i].drawColisionBoundaries(canvases.entities.ctx, true, false, "pink", "red");*/
         }
 
         if (radius !== undefined) {

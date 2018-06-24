@@ -51,9 +51,8 @@ var Entity = Class.extend(function () {
 		}
 
 		this.updateSize = function () {
-			var ar = this.width / this.height;
 			this.width = this.width * this.scaleFactor;
-			this.height = this.width / ar;
+			this.height = this.height *this.scaleFactor;
 		}
 
 		this.getCenterX = function () {

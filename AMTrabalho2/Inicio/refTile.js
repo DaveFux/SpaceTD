@@ -1,7 +1,7 @@
 var refTile =Entity.extend(function () {
     this.currState = undefined; // estado atual;
     this.type=undefined;
-    this.ativo=false;
+    this.ativo=false
     this.states = {
         ending: 'ending',
         spawn: 'spawn'
@@ -22,7 +22,7 @@ var refTile =Entity.extend(function () {
 
         switch (type){
             case "ending":
-                this.currState = this.states.ending;      
+                this.currState = this.states.ending;
                 break;
             case "spawn":
                 this.currState = this.states.spawn;

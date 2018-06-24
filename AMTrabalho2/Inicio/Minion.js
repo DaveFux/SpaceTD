@@ -10,11 +10,14 @@ var Minion = Entity.extend(function () {
     this.drop = 5;
     this.vFrame = 0;
     this.debuff = [];
+    this.currentPath = 0;
+    this.path;
 
-    this.constructor = function (spriteSheet, x, y, type, wave, mode) {
+    this.constructor = function (spriteSheet, x, y, type, wave, mode, path) {
         this.super();
         this.x = x;
         this.y = y;
+        this.path = path;
         this.currentFrame = 0;
         this.currState = this.states.WALK;
         this.isColliding = false;
@@ -82,7 +85,54 @@ var Minion = Entity.extend(function () {
             this.killed = true;
             this.active = false;
         } else {
-            this.x += this.speed; // o /4 para teste
+            for (var i = 0; i < this.path.length; i++) {
+                if (this.currentPath === i) {
+                    if (this.x < (this.path[i].x) * 46) {
+                        if (this.x + this.speed > (this.path[i].x) * 46) {
+                            this.x += (this.path[i].x * 46) - this.x;
+                        } else {
+                            this.x += this.speed;
+                        }
+                    } else if (this.x < (this.path[i + 1].x) * 46) {
+                        this.currentPath = i + 1;
+                        if (this.x + this.speed > (this.path[i + 1].x) * 46) {
+                            this.x += (this.path[i + 1].x * 46) - this.x;
+                        } else {
+                            this.x += this.speed;
+                        }
+                    } else if (this.x > (this.path[i + 1].x) * 46) {
+                        this.currentPath = i + 1;
+                        if (this.x - this.speed < (this.path[i + 1].x) * 46) {
+                            this.x -= this.x - (this.path[i + 1].x) * 46;
+                        } else {
+                            this.x -= this.speed;
+                        }
+                    } else if (this.y < (this.path[i].y) * 46) {
+                        if (this.y + this.speed > (this.path[i].y) * 46) {
+                            this.y += (this.path[i].y * 46) - this.y;
+                        } else {
+                            this.y += this.speed;
+                        }
+                    } else if (this.y > (this.path[i + 1].y) * 46) {
+                        this.currentPath = i + 1;
+                        if (this.y - this.speed < (this.path[i + 1].y) * 46) {
+                            this.y -= this.y - (this.path[i + 1].y) * 46;
+                        } else {
+                            this.y -= this.speed;
+                        }
+                    } else if (this.y < (this.path[i + 1].y) * 46) {
+                        this.currentPath = i + 1;
+                        if (this.y + this.speed > (this.path[i + 1].y) * 46) {
+                            this.y += (this.path[i + 1].y * 46) - this.y;
+                        } else {
+                            this.y += this.speed;
+                        }
+                        this.y += this.speed;
+                    }
+                    break;
+                }
+            }
+            //this.x += this.speed; // o /4 para teste
         }
     };
 
@@ -96,5 +146,4 @@ var Minion = Entity.extend(function () {
     this.getSprite = function () {
         return this.frames[this.currentFrame];
     };
-
 });
