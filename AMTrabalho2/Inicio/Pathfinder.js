@@ -1,36 +1,39 @@
-var Pathfinder = function (maze, tileX, tileY) {
+var Pathfinder = function (maze, tileX, tileY, base) {
     this.found = false;
     this.path = [];
     this.maze = maze;
-
-    this.traverse = function (x, y) {
+    
+    this.traverse = function (y, x) {
+        if(base){
         maze[tileX][tileY] = 0;
-        if (this.maze[x][y] == 2) {
-            //  console.log("We solved the maze at (" + x + ", " + y + ")");
+        }   
+        var cc = {
+                'x': y,
+                'y': x
+            };
+        if (this.maze[y][x] == 2) {
+              //console.log("We solved the maze at (" + x + ", " + y + ")");
             this.found = true;
             /*this.paths.push(this.path);
             this.path= new Array();*/
-        } else if (this.maze[x][y] == 1) {
-            //  console.log("At valid position (" + x + ", " + y + ")");
+            this.path.push(cc);
+        } else if (this.maze[y][x] == 1) {
+            //console.log("At valid position (" + x + ", " + y + ")");
 
-            var cc = {
-                'x': x,
-                'y': y
-            };
             if (!this.found) this.path.push(cc);
 
-            this.maze[x][y] = 9;
-            if (x < this.maze.length - 1) {
-                this.traverse(x + 1, y);
+            this.maze[y][x] = 9;
+            if (y < this.maze.length - 1) {
+                this.traverse(y + 1, x);
             }
-            if (y < this.maze[x].length - 1) {
-                this.traverse(x, y + 1);
-            }
-            if (x > 0) {
-                this.traverse(x - 1, y);
+            if (x < this.maze[y].length - 1) {
+                this.traverse(y, x + 1);
             }
             if (y > 0) {
-                this.traverse(x, y - 1);
+                this.traverse(y - 1, x);
+            }
+            if (x > 0) {
+                this.traverse(y, x - 1);
             }
         }
         return this.path;

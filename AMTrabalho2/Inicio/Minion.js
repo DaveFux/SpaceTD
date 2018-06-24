@@ -10,8 +10,11 @@ var Minion = Entity.extend(function () {
     this.drop = 5;
     this.vFrame = 0;
     this.debuff = [];
+    this.currentPath = 0;
+    this.path = [];
+    
 
-    this.constructor = function (spriteSheet, x, y, type, wave, mode) {
+    this.constructor = function (spriteSheet, x, y, type, wave, mode, path) {
         this.super();
         this.x = x;
         this.y = y;
@@ -19,7 +22,8 @@ var Minion = Entity.extend(function () {
         this.currState = this.states.WALK;
         this.isColliding = false;
         this.spriteSheet = spriteSheet;
-
+        this.path = path;
+        
         if (mode == "hard") {
             type = mode + type;
             this.drop = 15;
@@ -67,7 +71,7 @@ var Minion = Entity.extend(function () {
         setup();
     };
 
-    this.update = function () {
+    this.update = function (path) {
         this.vFrame = this.vFrame < this.frames.length - 1 ? this.vFrame + 0.1 : 0;
         this.currentFrame = Math.floor(this.vFrame);
         for (var i = 0; i < this.debuff.length; i++) {
@@ -82,6 +86,16 @@ var Minion = Entity.extend(function () {
             this.killed = true;
             this.active = false;
         } else {
+            for(var i=0; i < this.path.length; i++){
+                if(this.currentPath === i){
+                    if(this.x === (this.path[i].x + 1)*46){
+                        this.x += this.speed;
+                    }
+                    if(this.y === (this.path[i].y + 1)*46){
+                        this.y += this.speed;
+                    } 
+                }
+            }
             this.x += this.speed; // o /4 para teste
         }
     };
@@ -96,5 +110,6 @@ var Minion = Entity.extend(function () {
     this.getSprite = function () {
         return this.frames[this.currentFrame];
     };
+
 
 });
