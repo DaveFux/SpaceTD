@@ -3,10 +3,10 @@
 */
 (function () { //não apagar
     var Player = {
-        dinheiro: 10,
+        dinheiro: 50,
         nivel: 1,
         pontos: 0,
-        vida: 20
+        vida: 25
     };
     var Game = {
         wave: 1,
