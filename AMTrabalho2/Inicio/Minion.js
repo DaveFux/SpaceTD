@@ -11,11 +11,13 @@ var Minion = Entity.extend(function () {
     this.vFrame = 0;
     this.debuff = [];
     this.currentPath = 0;
+    this.path;
 
-    this.constructor = function (spriteSheet, x, y, type, wave, mode) {
+    this.constructor = function (spriteSheet, x, y, type, wave, mode, path) {
         this.super();
         this.x = x;
         this.y = y;
+        this.path = path;
         this.currentFrame = 0;
         this.currState = this.states.WALK;
         this.isColliding = false;
@@ -68,7 +70,7 @@ var Minion = Entity.extend(function () {
         setup();
     };
 
-    this.update = function (path) {
+    this.update = function () {
         this.vFrame = this.vFrame < this.frames.length - 1 ? this.vFrame + 0.1 : 0;
         this.currentFrame = Math.floor(this.vFrame);
         for (var i = 0; i < this.debuff.length; i++) {
@@ -84,36 +86,49 @@ var Minion = Entity.extend(function () {
             this.active = false;
         } else {
             console.log("Caminho do mob: ")
-            console.log(path);
-            for (var i = 0; i < path.length; i++) {
+            console.log(this.path);
+            for (var i = 0; i < this.path.length; i++) {
                 if (this.currentPath === i) {
-                    if (this.x < (path[i].x) * 46) {
-                        console.log("x");
-                        if (this.x + this.speed > (path[i].x) * 46) {
-                            this.x += (path[i].x * 46) - this.x;
+                    if (this.x < (this.path[i].x) * 46) {
+                        if (this.x + this.speed > (this.path[i].x) * 46) {
+                            this.x += (this.path[i].x * 46) - this.x;
                         } else {
                             this.x += this.speed;
                         }
-                    } else if (this.x < (path[i + 1].x) * 46) {
-                        console.log("x+1");
+                    } else if (this.x < (this.path[i + 1].x) * 46) {
                         this.currentPath = i + 1;
-                        if (this.x + this.speed > (path[i + 1].x) * 46) {
-                            this.x += (path[i+1].x * 46) - this.x;
+                        if (this.x + this.speed > (this.path[i + 1].x) * 46) {
+                            this.x += (this.path[i + 1].x * 46) - this.x;
                         } else {
                             this.x += this.speed;
                         }
-                        this.x += this.speed;
-                    } else if (path[currentPath].x > (path[i + 1].x) * 46) {
+                    } else if (this.x > (this.path[i + 1].x) * 46) {
                         this.currentPath = i + 1;
-                        if (this.x - this.speed < (path[i + 1].x) * 46)
+                        if (this.x - this.speed < (this.path[i + 1].x) * 46) {
+                            this.x -= this.x - (this.path[i + 1].x) * 46;
+                        } else {
                             this.x -= this.speed;
-                    } else if (this.y < (path[i].y) * 46) {
-                        this.y += this.speed;
-                    } else if (this.y > (path[i + 1].y) * 46) {
+                        }
+                    } else if (this.y < (this.path[i].y) * 46) {
+                        if (this.y + this.speed > (this.path[i].y) * 46) {
+                            this.y += (this.path[i].y * 46) - this.y;
+                        } else {
+                            this.y += this.speed;
+                        }
+                    } else if (this.y > (this.path[i + 1].y) * 46) {
                         this.currentPath = i + 1;
-                        this.y -= this.speed;
-                    } else if (this.y < (path[i + 1].y) * 46) {
+                        if (this.y - this.speed < (this.path[i + 1].y) * 46) {
+                            this.y -= this.y - (this.path[i + 1].y) * 46;
+                        } else {
+                            this.y -= this.speed;
+                        }
+                    } else if (this.y < (this.path[i + 1].y) * 46) {
                         this.currentPath = i + 1;
+                        if (this.y + this.speed > (this.path[i + 1].y) * 46) {
+                            this.y += (this.path[i + 1].y * 46) - this.y;
+                        } else {
+                            this.y += this.speed;
+                        }
                         this.y += this.speed;
                     }
                     break;
@@ -133,6 +148,4 @@ var Minion = Entity.extend(function () {
     this.getSprite = function () {
         return this.frames[this.currentFrame];
     };
-
-
 });

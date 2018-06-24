@@ -459,8 +459,8 @@
     }
 
     function criarMinion(spawn) {
-        var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", 2, "");
-        entities.push(mob);
+        var mob = new Minion(gSpriteSheets['samples//creep//creep-1-blue//sprite.png'], spawn.x, spawn.y, "normal", Game.wave, Player.nivel==2?"hard":"",path);
+      entities.push(mob);
         osMobs.push(mob);
 
     }
