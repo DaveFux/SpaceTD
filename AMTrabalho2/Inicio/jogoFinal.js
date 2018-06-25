@@ -10,7 +10,7 @@
         }
         var Game = {
             wave: 1,
-            nMinions: 10,
+            nMinions: 0,
             boss: false,
             spawn: true
         }
@@ -360,6 +360,7 @@
                 }
             }, false);
             mudarNivel();
+            update()
         }
 
         //Manipulaçao do caminho e do mapa
@@ -461,6 +462,7 @@
                     }
                     break;
             }
+            console.log(path)
         }
 
         function criarMinion(spawn) {
@@ -505,11 +507,10 @@
 
         function checkColisions() {
             for(var mob of osMobs){
-                for()
-            }
+              
             mob.health-=this.damage;
             console.log("Vida depois do damage:" + mob.health);
-        }
+        }}
 
         //Update
         function update() {
@@ -549,7 +550,7 @@
             }
             if (osMobs.length == 0 && Game.spawn) {
                 Game.spawn = false;
-                gerarMinons();
+                //gerarMinons();
             }
             for (var mob of osMobs) {
 
