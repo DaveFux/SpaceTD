@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="46" tileheight="46" infinite="0" nextobjectid="9">
+ <tileset firstgid="1" name="tile-1-corner-right-top" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-corner-right-top.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="2" name="tile-1-corner-left-bottom" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-corner-left-bottom.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="3" name="tile-1-corner-left-top" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-corner-left-top.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="4" name="tile-1-corner-right-bottom" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-corner-right-bottom.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="5" name="tile-1-horizontal" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-horizontal.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="6" name="tile-1-vertical" tilewidth="46" tileheight="46" tilecount="1" columns="1">
+  <image source="tile-1-vertical.gif" width="46" height="46"/>
+ </tileset>
+ <tileset firstgid="7" name="img1" tilewidth="46" tileheight="46" tilecount="196" columns="14">
+  <image source="img1.png" width="644" height="644"/>
+ </tileset>
+ <tileset firstgid="203" name="img2" tilewidth="46" tileheight="46" tilecount="196" columns="14">
+  <image source="img2.png" width="644" height="644"/>
+ </tileset>
+ <layer name="Border" width="15" height="15" locked="1">
+  <data encoding="csv">
+3,5,5,5,5,5,5,5,5,5,5,5,5,5,1,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+2,5,5,5,5,5,5,5,5,5,5,5,5,5,4
+</data>
+ </layer>
+ <objectgroup name="Spawn">
+  <object id="2" name="Spawn1" x="0" y="0" width="45.3333" height="45.3333">
+   <properties>
+    <property name="ativo" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="3" name="Spawn2" x="0" y="644" width="46" height="46"/>
+  <object id="4" name="Spawn3" x="644" y="0" width="46" height="46"/>
+  <object id="5" name="Spawn4" x="644" y="644" width="46" height="46"/>
+ </objectgroup>
+ <objectgroup name="Ending">
+  <object id="1" name="Ending1" x="644" y="644" width="46" height="46">
+   <properties>
+    <property name="ativo" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="8" name="Ending2" x="322" y="322" width="46" height="46"/>
+ </objectgroup>
+ <layer name="nivel1" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,7,8,9,10,11,12,13,14,15,16,17,18,19,6,
+0,21,22,23,24,25,26,27,28,29,30,31,32,33,6,
+0,35,36,37,38,39,40,41,42,43,44,45,46,47,6,
+0,49,50,51,52,53,54,55,56,57,58,59,60,61,6,
+0,63,64,65,66,67,68,69,70,71,72,73,74,75,6,
+0,77,78,79,80,81,82,83,84,85,86,87,88,89,6,
+0,91,92,93,94,95,96,97,98,99,100,101,102,103,6,
+0,105,106,107,108,109,110,111,112,113,114,115,116,117,6,
+0,119,120,121,122,123,124,125,126,127,128,129,130,131,6,
+0,133,134,135,136,137,138,139,140,141,142,143,144,145,6,
+0,147,148,149,150,151,152,153,154,155,156,157,158,159,6,
+0,161,162,163,164,165,166,167,168,169,170,171,172,173,6,
+0,175,176,177,178,179,180,181,182,183,184,185,186,187,6,
+0,5,5,5,5,5,5,5,5,5,5,5,5,5,4
+</data>
+ </layer>
+ <layer name="infinito" width="15" height="15">
+  <data encoding="csv">
+3,5,5,5,5,5,5,5,5,5,5,5,5,5,1,
+6,204,205,206,207,208,209,210,211,212,213,214,215,216,6,
+6,218,219,220,221,222,223,224,225,226,227,228,229,230,6,
+6,232,233,234,235,236,237,238,239,240,241,242,243,244,6,
+6,246,247,248,249,250,251,252,253,254,255,256,257,258,6,
+6,260,261,262,263,264,265,266,267,268,269,270,271,272,6,
+6,274,275,276,277,278,279,280,281,282,283,284,285,286,6,
+6,288,289,290,291,292,293,294,295,296,297,298,299,300,6,
+6,302,303,304,305,306,307,308,309,310,311,312,313,314,6,
+6,316,317,318,319,320,321,322,323,324,325,326,327,328,6,
+6,330,331,332,333,334,335,336,337,338,339,340,341,342,6,
+6,344,345,346,347,348,349,350,351,352,353,354,355,356,6,
+6,358,359,360,361,362,363,364,365,366,367,368,369,370,6,
+6,372,373,374,375,376,377,378,379,380,381,382,383,384,6,
+2,5,5,5,5,5,5,5,5,5,5,5,5,5,4
+</data>
+ </layer>
+</map>

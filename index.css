@@ -1,0 +1,397 @@
+canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+a {
+  background-repeat: no-repeat !important;
+}
+
+p {
+  font-family: "Berlin Sans FB";
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: grey;
+  color: #ffffff;
+}
+#canvasBack {
+  position: absolute;
+  top: 0px;
+  left: 400px;
+  z-index: 10;
+}
+#canvasComp {
+  position: absolute;
+  top: 0px;
+  left: 400px;
+  z-index: 20;
+}
+#canvasTiles {
+  position: absolute;
+  top: 0px;
+  left: 400px;
+  z-index: 30;
+}
+#canvasEnt {
+  position: absolute;
+  top: 0px;
+  left: 400px;
+  z-index: 40;
+}
+
+.visible {
+  display: inline;
+}
+.hidden {
+  display: none;
+}
+
+#overlay {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+#loader {
+  z-index: 800;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -128px;
+  margin-top: -25px;
+}
+
+#assetLoaded {
+  z-index: 800;
+  display: block;
+  position: absolute;
+  top: 60%;
+  width: 100%;
+  color: white;
+  font-family: "arial";
+  font-weight: bold;
+  text-align: center;
+}
+
+/*  STYLE PARA O MAIN MENU  */
+
+#mainMenu {
+  background: url(assets/menu/background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 1600px;
+  height: 785px;
+  /*width: 1349px;
+    height: 690px; */
+}
+
+#title {
+  display: block;
+  margin-left: auto;
+  margin: auto;
+  left: 200px;
+}
+
+#botaoStart {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 43%;
+  /*webkit-border-radius: 28;
+    moz-border-radius: 28;*/
+  border-radius: 28px;
+  font-family: Arial;
+  color: #a1a93a;
+  font-size: 22px;
+  background: #003d60;
+  padding: 10px 20px 10px 20px;
+  border: solid #d8c332 3px;
+  text-decoration: none;
+  margin-top: 10px;
+  margin: auto;
+}
+
+#botaoStart:hover {
+  background: #ffffff;
+  text-decoration: none;
+}
+
+#botaoInstrucoes {
+  position: absolute;
+  display: block;
+  top: 58%;
+  left: 43%;
+  /*webkit-border-radius: 28;
+    //moz-border-radius: 28;*/
+  border-radius: 28px;
+  font-family: Arial;
+  color: #a1a93a;
+  font-size: 22px;
+  background: #003d60;
+  padding: 10px 20px 10px 20px;
+  border: solid #d8c332 3px;
+  text-decoration: none;
+  /*margin:auto;*/
+  margin-top: 20px;
+}
+
+.textoInstrucoes {
+  margin: auto;
+  font-size: 24px;
+  text-align: justify;
+  letter-spacing: 3px;
+  color: deepskyblue;
+  width: 800px;
+  margin-top: 150px;
+  text-align: center;
+  font-family: arial;
+}
+
+#botaoInstrucoes:hover {
+  background: #ffffff;
+  text-decoration: none;
+}
+
+#botaoCreditos {
+  position: absolute;
+  display: block;
+  width: 158.5px;
+  height: 58px;
+  top: 69%;
+  left: 43%;
+  /*webkit-border-radius: 28;
+    //moz-border-radius: 28;
+    //margin:auto;*/
+  border-radius: 28px;
+  font-family: Arial;
+  color: #a1a93a;
+  font-size: 22px;
+  background: #003d60;
+  padding: 10px 20px 10px 20px;
+  border: solid #d8c332 3px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.textoCreditos {
+  margin: auto;
+  font-size: 24px;
+  text-align: justify;
+  letter-spacing: 3px;
+  color: deepskyblue;
+  width: 800px;
+  margin-top: 150px;
+  text-align: center;
+  font-family: arial;
+}
+
+#botaoCreditos:hover {
+  background: #ffffff;
+  text-decoration: none;
+}
+
+#menuOverlay {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+#backButton {
+  border-radius: 28px;
+  font-family: Arial;
+  color: #a1a93a;
+  font-size: 22px;
+  background: #003d60;
+  padding: 10px 20px 10px 20px;
+  border: solid #d8c332 3px;
+  text-decoration: none;
+}
+
+#sideMenu {
+  display: flex;
+}
+#shopMenu {
+  flex-direction: column;
+  display: flex;
+}
+
+#infoDinheiro {
+  background-image: url(samples/dinheiro.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0px;
+  /*vertical-align: top;*/
+}
+#outputDinheiro {
+  margin-left: 75px;
+}
+
+#outputVida {
+  margin-left: 75px;
+}
+
+#infoPreco {
+  float: left;
+}
+
+#comecarJogo {
+  margin-left: 75px;
+  width: 60px;
+  height: 30px;
+  margin-top: 20px;
+}
+
+#infoVida {
+  background-image: url(samples/vida.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  /*vertical-align: top;*/
+}
+
+#btnBase {
+  background-image: url(samples/base.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnBase:hover {
+  background-color: rgba(192, 192, 192);
+  color: white;
+}
+
+.selected {
+  background-color: rgba(192, 192, 192);
+  color: white;
+}
+
+#btnTurret1 {
+  background-image: url(samples/tower-defense-turrets/turret-1-1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnTurret1:hover,
+.permahover {
+  background-color: rgb(5, 174, 199);
+  color: black;
+}
+
+#btnTurret2 {
+  background-image: url(samples/tower-defense-turrets/turret-2-1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnTurret2:hover {
+  background-color: rgb(255, 135, 15);
+  color: white;
+}
+
+#btnTurret6 {
+  background-image: url(samples/tower-defense-turrets/turret-6-1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnTurret6:hover {
+  background-color: rgb(245, 24, 235);
+  color: white;
+}
+
+#btnTurret7 {
+  background-image: url(samples/tower-defense-turrets/turret-7-1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnTurret7:hover {
+  background-color: rgba(255, 51, 0);
+  color: white;
+}
+
+#btnUpgrade {
+  background-image: url(samples/next.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#btnUpgrade:hover {
+  background-color: rgb(255, 238, 0);
+  color: white;
+}
+
+#precoBase,
+#precoIceTower,
+#precoSniperTower,
+#precoCannonTower,
+#precoFlameTower {
+  margin-left: 75px;
+}

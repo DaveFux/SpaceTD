@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jogo Final</title>
+    <script src="lib/extendjs/extend.min.js"></script>
+    <script src="lib/animation/requestAnimationFramePolyfill.js"></script>
+    <script src="lib/input/keyboard.js"></script>
+    <script src="lib/net/AJAX.js"></script>
+    <script src="lib/tiledMap/TiledMap.js"></script>
+    <script src="lib/spriteSheet/SpriteSheet.js"></script>
+    <script src="lib/entity/Entity.js"></script>
+    <script src="towers/Base.js"></script>
+    <script src="towers/Torre.js"></script>
+    <script src="towers/Bala.js"></script>
+    <script src="towers/Upgrade.js"></script>
+    <script src="minions/Minion.js"></script>
+    <script src="minions/Pathfinder.js"></script>
+    <script src="tiles/refTile.js"></script>
+    <script src="tiles/Tile.js"></script>
+    <script src="tiles/Background.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <!-- Framework w3schools -->
+    <link href="index.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Janela Loading -->
+    <div id="loadInfo" class="visible">
+      <div id="overlay"></div>
+      <img id="loader" src="assets/loading/loading.gif" />
+      <div id="assetLoaded"></div>
+    </div>
+
+    <!-- Main Menu do Jogo -->
+
+    <div id="mainMenu" class="hidden">
+      <img id="title" src="assets/menu/Title.png" />
+
+      <button id="botaoStart" type="button">Start Game</button>
+      <button id="botaoInstrucoes" type="button">Instructions</button>
+      <button id="botaoCreditos" type="button">Credits</button>
+    </div>
+
+    <!-- Canvas do Jogo -->
+  </body>
+</html>
